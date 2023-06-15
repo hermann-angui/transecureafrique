@@ -18,10 +18,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 class WebSiteController extends AbstractController
 {
+    private const WEBSITE_URL = "http://sfp-macaron.develop/check/";
+
+    private const MEDIA_DIR = "/var/www/html/public/media/" ;
+
     #[Route(path: '/', name: 'home')]
     public function home(Request $request): Response
     {
@@ -31,7 +34,7 @@ class WebSiteController extends AbstractController
     #[Route(path: '/formulaire', name: 'formulaire', methods: ['POST', 'GET'])]
     public function demande(Request $request, DemandeRepository $demandeRepository, OtpCodeRepository $otpCodeRepository): Response
     {
-        if($request->getMethod()==="GET") {
+        if($request->getMethod() === "GET") {
             $document = $request->get("document");
             $authid   = $request->get("authid");
             return $this->render('frontend/pages/formulaire_demande.html.twig', [
@@ -96,7 +99,7 @@ class WebSiteController extends AbstractController
                                           DemandeRepository $demandeRepository,
                                           ImageGenerator $imageGenerator): Response
     {
-        if($request->getMethod()==="GET"){
+        if($request->getMethod() === "GET"){
             $demande = $demandeRepository->find($request->get("id"));
             return $this->render('frontend/pages/formulaire_edit_demande.html.twig', ['demande' => $demande]);
         }
@@ -128,8 +131,8 @@ class WebSiteController extends AbstractController
                 $demande->setTypeTechnique($data["type_technique"]);
                 $demande->setNumeroDImmatriculationPrecedent($data["numero_d_immatriculation_precedent"]);
 
-                $qrCodeData = "http://sfp-macaron.develop/check/" . $data["macaron_qrcode_number"];
-                $imageGenerator->generateBarCode($qrCodeData, "/var/www/html/public/media/" . $data["macaron_qrcode_number"] . "_barcode.png", 50, 50);
+                $qrCodeData = self::WEBSITE_URL . $data["macaron_qrcode_number"];
+                $imageGenerator->generateBarCode($qrCodeData, self::MEDIA_DIR. $data["macaron_qrcode_number"] . "_barcode.png", 50, 50);
 
                 $demande->setMacaronQrcodeImage($data["macaron_qrcode_number"] . "_barcode.png");
                 $demandeRepository->add($demande, true);
@@ -160,7 +163,7 @@ class WebSiteController extends AbstractController
                                    Pdf $knpSnappyPdf): Response
     {
         $qrCodeData = "http://sfp-macaron.develop/carte-check/" . $demande->getNumeroVinChassis();
-        $imageGenerator->generateBarCode($qrCodeData, "/var/www/html/public/media/" . $demande->getNumeroVinChassis() . "_barcode.png", 50, 50);
+        $imageGenerator->generateBarCode($qrCodeData, self::MEDIA_DIR. $demande->getNumeroVinChassis() . "_barcode.png", 50, 50);
 
         $demande->setQrcode($demande->getNumeroVinChassis() . "_barcode.png");
 
@@ -168,12 +171,11 @@ class WebSiteController extends AbstractController
             'demande'  => $demande
         ));
         $content = $knpSnappyPdf->getOutputFromHtml($html);
-        file_put_contents("/var/www/html/public/media/" . $demande->getNumeroVinChassis() . "_receipt.pdf", $content);
+        file_put_contents(self::MEDIA_DIR. $demande->getNumeroVinChassis() . "_receipt.pdf", $content);
 
         $demandeRepository->add($demande, true);
         return $this->render('frontend/pages/display-receipt.html.twig', ['demande' => $demande]);
     }
-
 
     #[Route(path: '/carte-grise/{numero_carte_grise}', name: 'carte_grise_show', methods: ['POST', 'GET'])]
     public function carteGriseShow(Request $request, DemandeRepository $demandeRepository): Response
@@ -182,7 +184,8 @@ class WebSiteController extends AbstractController
       //  return $this->render('frontend/pages/carte-grise-show.html.twig', ['demande' => $demande]);
         return $this->render('frontend/pages/carte-grise-show.html.twig');
     }
-    #[Route(path: '/demande/paiement/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
+
+    #[Route(path: '/demande/payment/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
     public function demandePaiement(Demande $demande, Request $request, DemandeRepository $demandeRepository): Response
     {
         $paiementType = $request->get('type');
@@ -201,7 +204,7 @@ class WebSiteController extends AbstractController
         }
 
         $demandeRepository->add($demande, true);
-        return $this->render('frontend/pages/paiement.html.twig', ['demande' => $demande]);
+        return $this->render('frontend/pages/payment.html.twig', ['demande' => $demande]);
     }
 
     #[Route(path: '/auth', name: 'auth')]
@@ -253,6 +256,7 @@ class WebSiteController extends AbstractController
 
         return $this->render('frontend/pages/otp.html.twig');
     }
+
     #[Route(path: '/search-demande', name: 'search_demande')]
     public function searchDemande(Request $request, DemandeRepository $demandeRepository, ImageGenerator $imageGenerator): Response
     {
@@ -260,10 +264,10 @@ class WebSiteController extends AbstractController
             $demande = $demandeRepository->findOneBy(['reference' => $request->get('numero_recu')]);
             if($demande && $demande->getMacaronQrcodeNumber() ){
                 $data['twig_view'] = "frontend/pages/macaron.html.twig";
-                $data['view_data']["qrcode"] = "/var/www/html/public/media/" . $demande->getMacaronQrcodeImage();
-                $data['view_data']["cardpath"] = "/var/www/html/public/media/" . $demande->getMacaronQrcodeNumber() . "_macaron.png";
+                $data['view_data']["qrcode"] = self::MEDIA_DIR. $demande->getMacaronQrcodeImage();
+                $data['view_data']["cardpath"] = self::MEDIA_DIR. $demande->getMacaronQrcodeNumber() . "_macaron.png";
                 $file = $imageGenerator->generate($data);
-                $macaron = $demande->getMacaronQrcodeNumber() . "_macaron.png";;
+                $macaron = $demande->getMacaronQrcodeNumber() . "_macaron.png";
                 return $this->render('frontend/pages/search-demande.html.twig', ['macaron' => $macaron]);
             }else{
                 $message = "Votre macaron n'est pas encore près";
@@ -271,31 +275,6 @@ class WebSiteController extends AbstractController
             }
         }
         return $this->render('frontend/pages/search-demande.html.twig');
-    }
-
-    #[Route(path: '/success', name: 'success')]
-    public function success(Request $request): Response
-    {
-        return $this->render('frontend/pages/success.html.twig');
-    }
-
-    #[Route(path: '/register', name: 'register')]
-    public function registerMember (Request $request, DemandeService $macaronService): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserFormType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-            $user->setPhoto($form->get('photo')->getData());
-            $user->setStatus("PENDING");
-
-            return $this->redirectToRoute('success',[], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('frontend/pages/register.html.twig', [
-            'form' => $form,
-        ]);
     }
 
     #[Route(path: '/check/{macaron_qrcode_number}', name: 'macaron_check')]

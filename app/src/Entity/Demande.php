@@ -118,7 +118,7 @@ class Demande
     private DateTime $modified_at;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
-    private ?Paiement $paiement = null;
+    private ?Payment $paiement = null;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
@@ -660,19 +660,19 @@ class Demande
         return $this;
     }
 
-    public function getPaiement(): ?Paiement
+    public function getPaiement(): ?Payment
     {
-        return $this->paiement;
+        return $this->payment;
     }
 
-    public function setPaiement(Paiement $paiement): self
+    public function setPaiement(Payment $paiement): self
     {
         // set the owning side of the relation if necessary
         if ($paiement->getDemande() !== $this) {
             $paiement->setDemande($this);
         }
 
-        $this->paiement = $paiement;
+        $this->payment = $paiement;
 
         return $this;
     }

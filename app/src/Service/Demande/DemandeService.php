@@ -219,51 +219,6 @@ class DemandeService
         }
     }
 
-    /**
-     * @param string $amount
-     * @param UserInterface|null $user
-     * @return string|void
-     */
-    public function payForDemande(string $amount, Demande $demande) : ?string
-    {
-        try{
-            $waveCheckoutRequest = new WaveCheckoutRequest();
-            $waveCheckoutRequest->setCurrency("XOF")
-                ->setAmount($amount)
-                ->setClientReference(Uuid::v4()->toRfc4122())
-                ->setSuccessUrl($this->getParameter("wave_success_url"));
-
-            $waveResponse = $this->waveService->checkOutRequest($waveCheckoutRequest);
-
-            if ($waveResponse) {
-                $subscription = new Subscription();
-
-                $now = new \DateTime();
-                $endDate = $now->add(new \DateInterval('P1Y'));
-                $subscription->setAmount($waveResponse->getAmount())
-                    ->setCurrency($waveResponse->getCurrency())
-                    ->setPaymentReference($waveResponse->getClientReference())
-                    ->setCheckoutSessionId($waveResponse->getCheckoutSessionId())
-                    ->setSubscriber($user)
-                    ->setOperator("WAVE")
-                    ->setPaymentMode("WEBSITE")
-                    ->setPaymentType("MOBILE_MONEY")
-                    ->setPaymentDate($waveResponse->getWhenCreated())
-                    ->setSubscriptionStartDate($now)
-                    ->setSubscriptionExpireDate($endDate)
-                    ->setCreatedAt(new \DateTime())
-                    ->setModifiedAt(new \DateTime())
-                    ->setPaymentStatus(strtoupper($waveResponse->getPaymentStatus()));
-
-                $this->subscriptionRepository->add($subscription, true);
-
-
-                return $waveResponse->getWaveLaunchUrl();
-            }
-        }catch(\Exception $e){
-            return null;
-        }
-    }
 
 
 }

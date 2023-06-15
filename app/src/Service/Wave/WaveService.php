@@ -3,6 +3,11 @@
 namespace App\Service\Wave;
 
 
+use App\Entity\Demande;
+use App\Entity\Payment;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
+
 class WaveService
 {
     const API_KEY = 'wave_ci_prod_4XND3J1y63CypaAeQqqWSMkK8foUdvw8mMbDZEyH0gmi5KfzERABL8RZaTgjaG-mH3K9-whXTQWE7f-vyk3AqPV04dq1JTPGdw';
@@ -66,6 +71,30 @@ class WaveService
             return null;
         }
 
+    }
+
+    /**
+     * @param string $amount
+     * @param UserInterface|null $user
+     * @return string|void
+     */
+    public function makePayment(Payment $paiement) : ?WaveCheckoutResponse
+    {
+        try{
+            $waveCheckoutRequest = new WaveCheckoutRequest();
+            $waveCheckoutRequest->setCurrency("XOF")
+                ->setAmount($paiement->getMontant())
+                ->setClientReference(Uuid::v4()->toRfc4122())
+                ->setSuccessUrl(self::SUCCESS_URL);
+
+            $waveResponse = $this->checkOutRequest($waveCheckoutRequest);
+
+            if($waveResponse)  return $waveResponse;
+            else return null;
+
+        }catch(\Exception $e){
+            return null;
+        }
     }
 
 }

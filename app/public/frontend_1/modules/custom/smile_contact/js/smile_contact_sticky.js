@@ -1,2 +1,0 @@
-(function($,Drupal,drupalSettings){Drupal.behaviors.btn_sticky={attach:function(context,settings){$('#contact-btn-sticky, #contact-btn-sticky-1, #contact-btn-sticky-2').once('#contact-btn-sticky').each(function(){function setCookie(name,value){var d=new Date;d.setTime(d.getTime()+3600*1000);document.cookie=name+"="+value+";path=/;expires="+d.toGMTString();}
-setCookie('Drupal.visitor.contact_source_page',document.title);});}}}(jQuery,Drupal,drupalSettings));

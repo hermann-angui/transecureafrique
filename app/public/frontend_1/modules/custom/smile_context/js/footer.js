@@ -1,1 +1,0 @@
-(function($,Drupal,drupalSettings){Drupal.behaviors.footer={attach:function(context,settings){$("footer",context).once('footer').each(function(){$('footer').on('click',".dropdown-toggle",function(){$(this).parent().toggleClass('active');});});}};})(jQuery,Drupal,drupalSettings);
