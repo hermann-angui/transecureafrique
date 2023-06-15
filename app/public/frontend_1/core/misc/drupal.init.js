@@ -1,0 +1,2 @@
+if(window.jQuery){jQuery.noConflict();}
+document.documentElement.className+=' js';(function(Drupal,drupalSettings){var domReady=function domReady(callback){var listener=function listener(){callback();document.removeEventListener('DOMContentLoaded',listener);};if(document.readyState!=='loading'){setTimeout(callback,0);}else{document.addEventListener('DOMContentLoaded',listener);}};domReady(function(){Drupal.attachBehaviors(document,drupalSettings);});})(Drupal,window.drupalSettings);

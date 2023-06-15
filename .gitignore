@@ -1,0 +1,10 @@
+.idea
+.vscode
+res
+db
+app/var
+app/vendor
+
+/app/public/users/
+/apppublic/uploads/
+/app/public/members

@@ -1,0 +1,66 @@
+<div style="display: flex; justify-content: center">
+    <table>
+        <tr style="border-bottom: 2px solid #211f1f; ">
+            <td style="padding: 15px 15px;">
+                <img src="/var/www/html/public/frontend_2/images/logo_district.png" width="150">
+            </td>
+            <td style="padding: 15px 15px;">
+                <p style="font-weight: bolder; font-size: 25px">RECU DE PAIEMENT MACARON - VTC</p>
+                <p style="font-weight: bolder">Re&ccedil;u num:  {{ demande.reference }}</p>
+                <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d-m-Y-H-i-s')}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 15px 15px; font-weight: bolder">
+                Date: {{ demande.CreatedAt | date('d-m-Y')}}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Num&eacute;ro vin/chassis</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.NumeroVinChassis }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Marque du v&eacute;hicule</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.MarqueDuVehicule }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Type commercial</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.TypeCommercial }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Montant (CFA)</td>
+            <td style="padding: 15px 15px; font-weight: bolder">10000</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Montant en lettres</td>
+            <td style="padding: 15px 15px; font-weight: bolder">Dix milles francs</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Moyen de paiement</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.paiementType }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 15px 15px;text-align: center">
+                <img src="/var/www/html/public/media/{{ demande.NumeroVinChassis }}_barcode.png" width="150" height="150">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 15px 15px; text-align: center">
+                <p>Veuillez consulter votre attestation de prise de RDV, pour votre enrolement SFP
+                met &aacute; votre disposition les services de:</p>
+                <p>Prise de RDV pour l'enrolement;</p>
+                <p>Pour plus d'informations, contactez le service d'assistance au:</p>
+                <div>
+                    <ul style="text-align: center; list-style: none">
+                        <li>T&eacute;l&eacute;phone: </li>
+                        <li>Fixe: 07 07 55 51 20</li>
+                        <li>Email: info@sfp.com</li>
+                    </ul>
+                </div>
+
+
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
