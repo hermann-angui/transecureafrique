@@ -21,7 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebSiteController extends AbstractController
 {
-    private const WEBSITE_URL = "http://sfp-macaron.develop/check/";
+    // private const WEBSITE_URL = "http://sfp-macaron.develop";
+    private const WEBSITE_URL = "http://transecureafrica.com";
 
     private const MEDIA_DIR = "/var/www/html/public/media/" ;
 
@@ -131,7 +132,7 @@ class WebSiteController extends AbstractController
                 $demande->setTypeTechnique($data["type_technique"]);
                 $demande->setNumeroDImmatriculationPrecedent($data["numero_d_immatriculation_precedent"]);
 
-                $qrCodeData = self::WEBSITE_URL . $data["macaron_qrcode_number"];
+                $qrCodeData = self::WEBSITE_URL . '/check/' . $data["macaron_qrcode_number"];
                 $imageGenerator->generateBarCode($qrCodeData, self::MEDIA_DIR. $data["macaron_qrcode_number"] . "_barcode.png", 50, 50);
 
                 $demande->setMacaronQrcodeImage($data["macaron_qrcode_number"] . "_barcode.png");
@@ -162,7 +163,7 @@ class WebSiteController extends AbstractController
                                    ImageGenerator $imageGenerator,
                                    Pdf $knpSnappyPdf): Response
     {
-        $qrCodeData = "http://sfp-macaron.develop/carte-check/" . $demande->getNumeroVinChassis();
+        $qrCodeData = self::WEBSITE_URL . "/carte-check/" . $demande->getNumeroVinChassis();
         $imageGenerator->generateBarCode($qrCodeData, self::MEDIA_DIR. $demande->getNumeroVinChassis() . "_barcode.png", 50, 50);
 
         $demande->setQrcode($demande->getNumeroVinChassis() . "_barcode.png");
