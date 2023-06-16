@@ -111,13 +111,13 @@ class Demande
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['remove'])]
     private ?Payment $payment = null;
 
-    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['remove'])]
     private ?Macaron $macaron = null;
 
-    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['remove'])]
     private ?OtpCode $otpcode = null;
 
 

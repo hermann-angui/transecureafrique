@@ -46,7 +46,7 @@ class Macaron
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $modified_at;
 
-    #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['remove'])]
     private ?Demande $demande = null;
 
     public function __construct()
