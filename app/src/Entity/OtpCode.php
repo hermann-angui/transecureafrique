@@ -39,7 +39,7 @@ class OtpCode
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $expired_at;
 
-    #[ORM\OneToOne(mappedBy: 'otpcode', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'otpcode', cascade: ['remove'])]
     private ?Demande $demande = null;
 
     public function __construct()

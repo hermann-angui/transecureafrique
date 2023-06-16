@@ -41,7 +41,7 @@ class Payment
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(inversedBy: 'payment', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'payment', cascade: ['remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Demande $demande = null;
 
