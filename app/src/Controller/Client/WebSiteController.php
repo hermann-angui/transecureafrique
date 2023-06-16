@@ -75,7 +75,7 @@ class WebSiteController extends AbstractController
 
             if (array_key_exists("authid", $data)) {
                 $otpCode = $otpCodeRepository->find($data["authid"]);
-                if ($otpCode) {
+                if ($otpCode && !$demande->getOtpcode()) {
                     $demande->setOtpcode($otpCode);
                 }
             }
@@ -263,7 +263,6 @@ class WebSiteController extends AbstractController
                 $otpCode = new OtpCode();
                 $otpCode->setCode($generatedCode);
                 $otpCode->setWebserviceReference($result["messageId"]);
-                $otpCode->setWebserviceReference("123456789");
                 $otpCode->setPhone($request->get('numerotelInput'));
                 $otpCode->setIsExpired(false);
                 $otpCode->setCreatedAt(new \DateTime('now'));
