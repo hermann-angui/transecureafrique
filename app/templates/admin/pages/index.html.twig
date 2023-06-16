@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     {{ parent() }}
-    <script src="{{ asset('assets/admin/js/pages/dashboard-blog.init.js') }}"></script>
+    <script src="{{ asset('backend/js/pages/dashboard-blog.init.js') }}"></script>
 {% endblock %}
 
 
@@ -49,7 +49,7 @@
                                             <div class="d-flex flex-wrap">
                                                 <div class="me-3">
                                                     <p class="text-muted mb-2">Total membres</p>
-                                                    <h5 class="mb-0">{{ members|length }}</h5>
+                                                    <h5 class="mb-0"></h5>
                                                 </div>
 
                                                 <div class="avatar-sm ms-auto">
@@ -169,8 +169,8 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
                                                     <div class="text-muted">
-                                                        <h5 class="mb-1">Boka</h5>
-                                                        <p class="mb-0">Secrétaire Général</p>
+                                                        <h5 class="mb-1"></h5>
+                                                        <p class="mb-0"></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -201,7 +201,7 @@
                                     <div class="d-flex flex-wrap">
                                         <div>
                                             <p class="text-muted mb-1">Total Souscription</p>
-                                            <h4 class="mb-3">{{ members|length }}</h4>
+                                            <h4 class="mb-3"></h4>
                                             <p class="text-success mb-0"><span>0.6 % <i class="mdi mdi-arrow-top-right ms-1"></i></span></p>
                                         </div>
                                         <div class="ms-auto align-self-end">
@@ -852,10 +852,10 @@
     {{ parent() }}
 
 <!-- apexcharts -->
-<script src="{{ asset('assets/admin/libs/apexcharts/apexcharts.min.js') }}"></script>
+<script src="{{ asset('backend/libs/apexcharts/apexcharts.min.js') }}"></script>
 
 <!-- dashboard init -->
-<script src="{{ asset('assets/admin/js/pages/dashboard.init.js') }}"></script>
+<script src="{{ asset('backend/js/pages/dashboard.init.js') }}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
         });

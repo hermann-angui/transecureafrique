@@ -38,17 +38,13 @@ class DemandeService
         DemandeGeneratorService     $demandeGeneratorService,
         ReceiptGeneratorService     $demandeReceiptGeneratorService,
         DemandeAssetHelper          $demandeAssetHelper,
-        DemandeRepository           $demandeRepository,
-        UserPasswordHasherInterface $userPasswordHasher,
-        CsvReaderHelper             $csvReaderHelper)
+        DemandeRepository           $demandeRepository)
     {
         $this->demandeGeneratorService = $demandeGeneratorService;
         $this->demandeReceiptGeneratorService = $demandeReceiptGeneratorService;
         $this->demandeAssetHelper = $demandeAssetHelper;
         $this->demandeRepository = $demandeRepository;
         $this->container = $container;
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->csvReaderHelper = $csvReaderHelper;
     }
 
     /**

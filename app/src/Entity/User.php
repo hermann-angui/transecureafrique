@@ -36,27 +36,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $lastname;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $cni;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $numero_permis;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $phone_number;
-
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $type;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $status;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $created_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DatetTime $created_at;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DatetTime $modified_at;
+    private ?\DateTime $modified_at;
 
     public function __construct()
     {
@@ -151,31 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(?string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(?string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
@@ -212,71 +171,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phone_number;
-    }
-
-    public function setPhoneNumber(?string $phonenumber): self
-    {
-        $this->phone_number = $phonenumber;
-
-        return $this;
-    }
-
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCni()
+    public function getFirstname(): ?string
     {
-        return $this->cni;
+        return $this->firstname;
     }
 
     /**
-     * @param mixed $cni
+     * @param string|null $firstname
      * @return User
      */
-    public function setCni($cni)
+    public function setFirstname(?string $firstname): User
     {
-        $this->cni = $cni;
+        $this->firstname = $firstname;
         return $this;
     }
 
-
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getType()
+    public function getLastname(): ?string
     {
-        return $this->type;
+        return $this->lastname;
     }
 
     /**
-     * @param mixed $type
+     * @param string|null $lastname
      * @return User
      */
-    public function setType($type)
+    public function setLastname(?string $lastname): User
     {
-        $this->type = $type;
+        $this->lastname = $lastname;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param mixed $status
-     * @return User
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
 
 }

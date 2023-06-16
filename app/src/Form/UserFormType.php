@@ -38,16 +38,7 @@ class UserFormType extends AbstractType
         $countries = array_combine(array_values(Countries::getNames()), array_values(Countries::getNames()));
 
         $builder
-            ->add('sex', ChoiceType::class, [
-                'required' => false,
-                'mapped' => true,
-                'choices' => [
-                    'monsieur' => 'Homme',
-                    'madame' => 'Femme',
-                ],
-                'empty_data' => 'Homme',
-                'data' => 'Homme',
-            ])
+
             ->add('firstname', TextType::class, [
                 'label' => 'Prénoms',
                 'mapped' => true,
@@ -57,16 +48,6 @@ class UserFormType extends AbstractType
                 'label' => 'Nom',
                 'mapped' => true,
                 'required' => true
-            ])
-            ->add('phoneNumber', TextType::class, [
-                'label' => 'Téléphone',
-                'mapped' => true,
-                'required' => true
-            ])
-            ->add('dateofBirth', DateType::class, [
-                'label' => 'Date de naissance',
-                'mapped' => true,
-                'years' => range($past->format('Y'), $end->format('Y')),
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
@@ -92,19 +73,6 @@ class UserFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-
-            ->add('nationality', CountryType::class, [
-                'label' => 'Votre nationalité',
-                'mapped' => true,
-                'required' => true,
-                'choices' => $countries,
-                'choice_loader' => null
-            ])
-            ->add('photo', FileType::class, [
-                'label' => 'Photo',
-                'mapped' => true,
-                'required' => false
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => $this->translator->trans('general_term_gdpr'),

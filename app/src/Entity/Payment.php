@@ -6,7 +6,6 @@ namespace App\Entity;
 use App\Repository\PaymentRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 #[ORM\Table(name: '`payment`')]
@@ -25,7 +24,7 @@ class Payment
     private ?int $montant;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $paiement_type = null;
+    private ?string $payment_type = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $status;
@@ -34,7 +33,7 @@ class Payment
     private $operateur;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $code_paiement_operateur;
+    private $code_payment_operateur;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $created_at;
@@ -132,18 +131,18 @@ class Payment
     /**
      * @return string|null
      */
-    public function getPaiementType(): ?string
+    public function getPaymentType(): ?string
     {
-        return $this->paiement_type;
+        return $this->payment_type;
     }
 
     /**
-     * @param string|null $paiement_type
+     * @param string|null $payment_type
      * @return Payment
      */
-    public function setPaiementType(?string $paiement_type): Payment
+    public function setPaymentType(?string $payment_type): Payment
     {
-        $this->paiement_type = $paiement_type;
+        $this->payment_type = $payment_type;
         return $this;
     }
 
@@ -198,18 +197,18 @@ class Payment
     /**
      * @return mixed
      */
-    public function getCodePaiementOperateur()
+    public function getCodePaymentOperateur()
     {
-        return $this->code_paiement_operateur;
+        return $this->code_payment_operateur;
     }
 
     /**
-     * @param mixed $code_paiement_operateur
+     * @param mixed $code_payment_operateur
      * @return Payment
      */
-    public function setCodePaiementOperateur($code_paiement_operateur)
+    public function setCodePaymentOperateur($code_payment_operateur)
     {
-        $this->code_paiement_operateur = $code_paiement_operateur;
+        $this->code_payment_operateur = $code_payment_operateur;
         return $this;
     }
 

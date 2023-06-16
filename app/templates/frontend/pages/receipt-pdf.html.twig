@@ -2,12 +2,12 @@
     <table>
         <tr style="border-bottom: 2px solid #211f1f; ">
             <td style="padding: 15px 15px;">
-                <img src="/var/www/html/public/frontend_2/images/logo_district.png" width="150">
+                <img src="/var/www/html/public/frontend/images/sfp-logo.png" width="150">
             </td>
             <td style="padding: 15px 15px;">
-                <p style="font-weight: bolder; font-size: 25px">RECU DE PAIEMENT MACARON - VTC</p>
-                <p style="font-weight: bolder">Re&ccedil;u num:  {{ demande.reference }}</p>
-                <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d-m-Y-H-i-s')}}</p>
+                <p style="font-weight: bolder; font-size: 25px; text-transform: capitalize">reçu DE PAIEMENT MACARON - VTC</p>
+                <p style="font-weight: bolder">Re&ccedil;u:  {{ demande.reference }}</p>
+                <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d/m/Y H-i-s')}}</p>
             </td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td style="padding: 15px 15px;">Montant (CFA)</td>
-            <td style="padding: 15px 15px; font-weight: bolder">10000</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.Montant }}</td>
         </tr>
         <tr>
             <td style="padding: 15px 15px;">Montant en lettres</td>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td style="padding: 15px 15px;">Moyen de paiement</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.paiementType }}</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.paymentType }}</td>
         </tr>
         <tr>
             <td colspan="2" style="padding: 15px 15px;text-align: center">

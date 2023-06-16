@@ -2,8 +2,6 @@
 
 namespace App\Service\Wave;
 
-
-use App\Entity\Demande;
 use App\Entity\Payment;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
@@ -12,10 +10,8 @@ class WaveService
 {
     const API_KEY = 'wave_ci_prod_4XND3J1y63CypaAeQqqWSMkK8foUdvw8mMbDZEyH0gmi5KfzERABL8RZaTgjaG-mH3K9-whXTQWE7f-vyk3AqPV04dq1JTPGdw';
     const CHECKOUT_URL = "https://api.wave.com/v1/checkout/sessions";
-
-    const SUCCESS_URL = "https://transecure.ci/wave/checkout/success";
-
-    const ERROR_URL = "https://transecure.ci/wave/checkout/error";
+    const SUCCESS_URL = "https://pay.transecureafrica.com/wave/checkout/success?id=";
+    const ERROR_URL = "https://pay.transecureafrica.com/wave/checkout/error";
 
     public function checkOutRequest(?WaveCheckoutRequest $request) : ?WaveCheckoutResponse
     {
@@ -24,7 +20,7 @@ class WaveService
                 'amount' => $request->getAmount(),
                 'currency' => $request->getCurrency(),
                 'client_reference' => $request->getClientReference(),
-                'success_url' => self::SUCCESS_URL,
+                'success_url' => self::SUCCESS_URL . $request->getClientReference(),
                 'error_url' => self::ERROR_URL
             ]);
 
@@ -63,14 +59,11 @@ class WaveService
                             ->setWhenCompleted(new \DateTime($checkout_session["when_completed"]))
                             ->setWhenExpires(new \DateTime($checkout_session["when_expires"]))
                             ->setWaveLaunchUrl($checkout_session["wave_launch_url"]);
-
                 return $waveResponse;
            }
-
         }catch(\Exception $e){
             return null;
         }
-
     }
 
     /**
@@ -78,18 +71,17 @@ class WaveService
      * @param UserInterface|null $user
      * @return string|void
      */
-    public function makePayment(Payment $paiement) : ?WaveCheckoutResponse
+    public function makePayment(Payment $payment) : ?WaveCheckoutResponse
     {
         try{
             $waveCheckoutRequest = new WaveCheckoutRequest();
             $waveCheckoutRequest->setCurrency("XOF")
-                ->setAmount($paiement->getMontant())
-                ->setClientReference(Uuid::v4()->toRfc4122())
+                ->setAmount($payment->getMontant())
+                ->setClientReference( Uuid::v4()->toRfc4122())
                 ->setSuccessUrl(self::SUCCESS_URL);
 
             $waveResponse = $this->checkOutRequest($waveCheckoutRequest);
-
-            if($waveResponse)  return $waveResponse;
+            if($waveResponse) return $waveResponse;
             else return null;
 
         }catch(\Exception $e){

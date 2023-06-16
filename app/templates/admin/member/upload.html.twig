@@ -2,7 +2,7 @@
 
 {% block stylesheet %}
     {{ parent() }}
-    <link href="{{ asset('assets/admin/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
@@ -94,7 +94,7 @@
 
 {% block javascript %}
 {{ parent() }}
-<script src="{{ asset('assets/admin/libs/dropzone/min/dropzone.min.js') }}"></script>
+<script src="{{ asset('backend/libs/dropzone/min/dropzone.min.js') }}"></script>
 
 <script type="text/javascript">
     jQuery(document).ready(function ($) {

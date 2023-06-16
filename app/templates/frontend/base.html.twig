@@ -8,8 +8,8 @@
         <title>{% block title %}Accueil{% endblock %}</title>
         <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
         {% block stylesheet %}
-        <link  href="{{ asset('frontend_2/css/style.css') }}" rel="stylesheet" type="text/css">
-        <link  href="{{ asset('frontend_2/css/main.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/css/style.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" type="text/css">
         {% endblock %}
 </head>
 
@@ -29,12 +29,10 @@
 
 
 {% block javascript %}
-        <script src="{{ asset('frontend_2/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
-        <script src="{{ asset('frontend_2/_next/static/chunks/webpack-bc0a8e12a52f09d4.js') }}"></script>
-        <script src="{{ asset('frontend_2/_next/static/chunks/framework-4fadf02ee0c3c13f.js') }}"></script>
-        <script src="{{ asset('frontend_2/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
-        <script src="{{ asset('frontend_2/_next/static/chunks/main-645c827b9670f41d.js') }}"></script>
-        <script src="{{ asset('frontend_2/_next/static/chunks/pages/_app-8f386265484aabe2.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/webpack-bc0a8e12a52f09d4.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/framework-4fadf02ee0c3c13f.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
 {% endblock %}
 
 </body>

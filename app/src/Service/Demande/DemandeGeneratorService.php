@@ -38,7 +38,7 @@ class DemandeGeneratorService
      */
     public function mapToCardViewModel(?Demande $demande): ?array
     {
-        $data['outputdir'] = "/var/www/html/public/members/" . $demande->getMatricule() . "/";
+        $data['outputdir'] = "/var/www/html/public/media/" . $demande->getId() . "/";
         if(!file_exists($data['outputdir'])) mkdir($data['outputdir'], 0777, true);
         return $data;
     }

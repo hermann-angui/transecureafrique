@@ -36,7 +36,7 @@ class SecurityController extends AbstractController
     }
 
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'admin_register')]
     public function register(Request $request,
                              UserPasswordHasherInterface $userPasswordHasher,
                              UserAuthenticatorInterface $userAuthenticator,
@@ -57,24 +57,14 @@ class SecurityController extends AbstractController
                 )
             );
             $user->setRoles(['ROLE_USER']);
-            $user->setStatus('WAITING_FOR_PAYMENT');
             $user->setCreatedAt(new \DateTime());
             $user->setModifiedAt(new \DateTime());
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $photo = $form->get('photo')->getData();
-            if($photo){
-                $fileName = $userHelper->uploadAsset($photo, $user->getId());
-                if($fileName) $user->setPhoto($fileName);
-            }
-
             $entityManager->persist($user);
             $entityManager->flush();
-
-            $request->request->set("registration", true);
-            // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
                 $user,

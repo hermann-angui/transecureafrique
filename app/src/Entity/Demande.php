@@ -72,7 +72,7 @@ class Demande
     #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private ?string $cylindree;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $numero_vin_chassis;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -81,7 +81,7 @@ class Demande
     #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private ?string $type_technique;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $numero_d_immatriculation_precedent;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -91,19 +91,13 @@ class Demande
     private ?int $montant;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $macaron_qrcode_image;
-
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $macaron_qrcode_number;
-
-    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $qrcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private string $type;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $paiement_type = null;
+    private ?string $payment_type = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $status;
@@ -118,7 +112,7 @@ class Demande
     private DateTime $modified_at;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
-    private ?Payment $paiement = null;
+    private ?Payment $payment = null;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
@@ -645,34 +639,34 @@ class Demande
     /**
      * @return string
      */
-    public function getPaiementType(): ?string
+    public function getPaymentType(): ?string
     {
-        return $this->paiement_type;
+        return $this->payment_type;
     }
 
     /**
-     * @param string $paiement_type
+     * @param string $payment_type
      * @return Demande
      */
-    public function setPaiementType(?string $paiement_type): Demande
+    public function setPaymentType(?string $payment_type): Demande
     {
-        $this->paiement_type = $paiement_type;
+        $this->payment_type = $payment_type;
         return $this;
     }
 
-    public function getPaiement(): ?Payment
+    public function getPayment(): ?Payment
     {
         return $this->payment;
     }
 
-    public function setPaiement(Payment $paiement): self
+    public function setPayment(Payment $payment): self
     {
         // set the owning side of the relation if necessary
-        if ($paiement->getDemande() !== $this) {
-            $paiement->setDemande($this);
+        if ($payment->getDemande() !== $this) {
+            $payment->setDemande($this);
         }
 
-        $this->payment = $paiement;
+        $this->payment = $payment;
 
         return $this;
     }
@@ -746,43 +740,5 @@ class Demande
         $this->date_rendez_vous = $date_rendez_vous;
         return $this;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getMacaronQrcodeImage(): ?string
-    {
-        return $this->macaron_qrcode_image;
-    }
-
-    /**
-     * @param string|null $macaron_qrcode_image
-     * @return Demande
-     */
-    public function setMacaronQrcodeImage(?string $macaron_qrcode_image): Demande
-    {
-        $this->macaron_qrcode_image = $macaron_qrcode_image;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMacaronQrcodeNumber(): ?string
-    {
-        return $this->macaron_qrcode_number;
-    }
-
-    /**
-     * @param string|null $macaron_qrcode_number
-     * @return Demande
-     */
-    public function setMacaronQrcodeNumber(?string $macaron_qrcode_number): Demande
-    {
-        $this->macaron_qrcode_number = $macaron_qrcode_number;
-        return $this;
-    }
-
-
 
 }

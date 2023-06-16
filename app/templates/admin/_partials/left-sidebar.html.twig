@@ -15,13 +15,62 @@
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bx-calendar"></i>
-                        <span>Le syndicat</span>
+                        <i class="bx bx-file-blank"></i>
+                        <span key="t-dashboards">Plateforme VTC</span>
                     </a>
-                    <ul class="sub-menu mm-collapse mm-show" aria-expanded="false">
-                        <li><a href="{{ path('admin_member_new_subscription') }}" key="t1">Nouvelles inscriptions</a></li>
-                        <li><a href="{{ path('admin_member_index') }}" key="t2">Membres</a></li>
-                        <li><a href="{{ path('admin_cards_list') }}" key="t3">Cartes</a></li>
+                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="{{ path('admin_index') }}" key="t-u">Yango</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-t">Heetch</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Uber</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Ivoire Taxi</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">SB Drive</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Taxi Jet</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Treiize Taxi</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-file-blank"></i>
+                        <span key="t-dashboards">District</span>
+                    </a>
+                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="{{ path('admin_index') }}" key="t-u">Comptabilité</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-t">Macarons</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-file-blank"></i>
+                        <span key="t-dashboards">Demandes</span>
+                    </a>
+                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="{{ path('admin_index') }}" key="t-u">En attente</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-t">Traitées</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Réclamations</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bx-money"></i>
+                        <span key="t-dashboards">Paiement</span>
+                    </a>
+                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="{{ path('admin_index') }}" key="t-u">Validée</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Réclamations</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="bx bxs-file-doc"></i>
+                        <span key="t-dashboards">Macaron</span>
+                    </a>
+                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="{{ path('admin_index') }}" key="t-u">Validée</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Réclamations</a></li>
+                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
                     </ul>
                 </li>
                 <li class="menu-title">Paramètres</li>
@@ -34,18 +83,6 @@
                         <li><a href="{{ path('admin_index') }}" key="t-u">Utilisateurs</a></li>
                         <li><a href="{{ path('admin_index') }}" key="t-t">Roles</a></li>
                         <li><a href="{{ path('admin_index') }}" key="t-a">API</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bx-home-circle"></i>
-                        <span key="t-dashboards">Activités</span>
-                    </a>
-                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Flash infos</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Activités en images</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Activités en vidéos</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-t">Galerie</a></li>
                     </ul>
                 </li>
             </ul>

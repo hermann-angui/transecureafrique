@@ -7,15 +7,15 @@
 
     <title>Demande de macaron</title>
 
-    <script data-n-head="ssr" src="{{ asset('frontend_2/demande/js/adobe-target.js') }}"></script>
-    <link rel="preload" href="{{ asset('frontend_2/demande/js/10438cb.js') }}" as="script">
-    <link rel="preload" href="{{ asset('frontend_2/demande/js/45cae59.js') }}" as="script">
-    <link rel="preload" href="{{ asset('frontend_2/demande/js/862f398.js') }}" as="script">
-    <link rel="preload" href="{{ asset('frontend_2/demande/js/8ca40b4.js')  }}" as="script">
-    <link rel="preload" href="{{ asset('frontend_2/demande/js/749bbf4.js') }}" as="script">
+    <script data-n-head="ssr" src="{{ asset('frontend/demande/js/adobe-target.js') }}"></script>
+    <link rel="preload" href="{{ asset('frontend/demande/js/10438cb.js') }}" as="script">
+    <link rel="preload" href="{{ asset('frontend/demande/js/45cae59.js') }}" as="script">
+    <link rel="preload" href="{{ asset('frontend/demande/js/862f398.js') }}" as="script">
+    <link rel="preload" href="{{ asset('frontend/demande/js/8ca40b4.js')  }}" as="script">
+    <link rel="preload" href="{{ asset('frontend/demande/js/749bbf4.js') }}" as="script">
 
-    <link  href="{{ asset('frontend_2/css/style.css') }}" rel="stylesheet" type="text/css">
-    <link  href="{{ asset('frontend_2/css/main.css') }}" rel="stylesheet" type="text/css">
+    <link  href="{{ asset('frontend/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link  href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" type="text/css">
     <style data-vue-ssr-id="5bc558aa:0 5bc558aa:1 df4621fa:0 7e56e4e3:0">
         @-webkit-keyframes spinAround {
             0% {
@@ -9423,7 +9423,7 @@
         }
 
         .container .notification {
-            background-color: #fff;
+            /*background-color: #fff;*/
             border-radius: 5px;
             margin-top: 32px;
             padding: 3rem 5rem
@@ -20267,9 +20267,9 @@
             z-index: -1
         }
     </style>
-    <link type="text/css" href="{{ asset('frontend_2/demande/css/mfb-jquery-ui.min.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('frontend_2/demande/css/font.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('frontend_2/demande/css/5voiuwezbRTcy2tyU.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('frontend/demande/css/mfb-jquery-ui.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('frontend/demande/css/font.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('frontend/demande/css/5voiuwezbRTcy2tyU.css') }}" rel="stylesheet">
 
 </head>
 
@@ -20281,7 +20281,7 @@
                 <div class="header-container">
                     <div class="header-logo">
                         <a tabindex="0" href="{{ path('home') }}" class="logo logoDesktop" rel="follow">
-                            <img src="{{ asset('/frontend_2/images/logo_district.png') }}" alt="amoirie" height="50" />
+                            <img src="{{ asset('/frontend/images/logo_district.png') }}" alt="amoirie" height="50" />
                         </a>
                     </div>
                     <h1>Demande de macaron</h1>
@@ -20327,10 +20327,11 @@
                         </div>
                     </div>
                     <div class="notification">
-                        <h2>Paiement </h2>
+
                         <ul width="calc(100% + 24px)" class="sc-283c6453-0 cexWYZ">
 
                             <li id="46rhjYuf5ctVfRwlM4gTXj" class="sc-fdb78d1b-0 fxcFUx">
+                                <div class="sc-283c6453-0 fDGnLX"><h2>Paiement </h2></div>
                                 <div class="sc-283c6453-0 fDGnLX">
                                     <div style="display:contents">
                                         <p class="sc-afcf0985-0 fgGzvr">
@@ -20339,18 +20340,20 @@
                                     <div style="display:contents">
                                         <h3 class="sc-afcf0985-0 diOvZF"></h3>
                                     </div>
-                                    <div style="display:contents">
-                                        <img src="{{ asset('frontend_2/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
+                                    <div style="display:flex;">
+                                        <img src="{{ asset('frontend/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
                                         <p class="sc-ff3d7efc-0 eqASmT">
                                             Faites votre paiement via wave money.
                                         </p>
                                     </div>
-                                    <a tabindex="0" href="{{ path('demande_display_receipt', {id: demande.Id, type: "wave_money"}) }}" class="sc-29f394f2-0 gmKwVk" rel="follow">
+                                    <div>
+                                        <a tabindex="0" href="{{ path('do_payment', {id: demande.payment.Id, type: "wave_money"}) }}" class="sc-29f394f2-0 gmKwVk" rel="follow">
                                         <span class="sc-440a794-0 hrlawX">
                                             <span>Payer</span>
                                         </span>
-                                        <svg viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg" name="common/ArrowRight" aria-hidden="true" focusable="false" ml="2" class="sc-3e8a2c25-0 flYPBY"><path d="m1.178 15.057-.08-.147c-.289-.6-.256-1.349.164-1.818l4.851-5.061L1.3 3.007l-.047-.04c-.565-.54-.565-1.537 0-2.077l.06-.05-.05.048A1.523 1.523 0 0 1 2.357.4c.395 0 .631.125.878.372l5.188 5.415c.473.526.748 1.185.748 1.843 0 .658-.275 1.317-.732 1.825L3.327 15.19l-.093.082c-.61.454-1.475.454-1.972-.1l-.084-.115z"></path></svg>
-                                    </a>
+                                            <svg viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg" name="common/ArrowRight" aria-hidden="true" focusable="false" ml="2" class="sc-3e8a2c25-0 flYPBY"><path d="m1.178 15.057-.08-.147c-.289-.6-.256-1.349.164-1.818l4.851-5.061L1.3 3.007l-.047-.04c-.565-.54-.565-1.537 0-2.077l.06-.05-.05.048A1.523 1.523 0 0 1 2.357.4c.395 0 .631.125.878.372l5.188 5.415c.473.526.748 1.185.748 1.843 0 .658-.275 1.317-.732 1.825L3.327 15.19l-.093.082c-.61.454-1.475.454-1.972-.1l-.084-.115z"></path></svg>
+                                        </a>
+                                    </div>
                                 </div>
                             </li>
                         </ul>

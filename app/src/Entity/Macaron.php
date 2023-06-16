@@ -31,6 +31,15 @@ class Macaron
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $macaron_qrcode_number;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $status;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $validity_from;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $validity_to;
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $created_at;
 
@@ -150,6 +159,60 @@ class Macaron
     public function setMacaronQrcodeNumber(?string $macaron_qrcode_number): Macaron
     {
         $this->macaron_qrcode_number = $macaron_qrcode_number;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getValidityFrom(): ?\DateTimeInterface
+    {
+        return $this->validity_from;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $validity_from
+     * @return Macaron
+     */
+    public function setValidityFrom(?\DateTimeInterface $validity_from): Macaron
+    {
+        $this->validity_from = $validity_from;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getValidityTo(): ?\DateTimeInterface
+    {
+        return $this->validity_to;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $validity_to
+     * @return Macaron
+     */
+    public function setValidityTo(?\DateTimeInterface $validity_to): Macaron
+    {
+        $this->validity_to = $validity_to;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     * @return Macaron
+     */
+    public function setStatus(?string $status): Macaron
+    {
+        $this->status = $status;
         return $this;
     }
 
