@@ -209,7 +209,7 @@ class WebSiteController extends AbstractController
         }
 
         $demandeRepository->add($demande, true);
-        return $this->render('frontend/pages/payment.html.twig', ['demande' => $demande]);
+        return $this->render('frontend/pages/payment.html.twig', ['demande' => $demande, "payment" => $demande->getPayment()]);
     }
 
     #[Route(path: '/auth', name: 'auth')]
