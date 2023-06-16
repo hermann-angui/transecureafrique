@@ -4,10 +4,8 @@ namespace App\Controller\Client;
 
 use App\Entity\Macaron;
 use App\Entity\Payment;
-use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
 use App\Repository\PaymentRepository;
-use App\Service\Macaron\MacaronService;
 use App\Service\Wave\WaveService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

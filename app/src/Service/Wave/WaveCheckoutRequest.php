@@ -81,5 +81,4 @@ final class WaveCheckoutRequest
         return $this;
     }
 
-
 }
