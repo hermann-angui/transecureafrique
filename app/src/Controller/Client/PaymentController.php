@@ -60,7 +60,7 @@ class PaymentController extends AbstractController
         $payment = $paymentRepository->findOneBy(["reference" => $request->get("id")]);
         if ($payment) {
             $macaron  = new Macaron();
-            $macaron->setDemande($payment->getDemande());
+         //   $macaron->setDemande($payment->getDemande());
             $macaron->setStatus("WAITING_FOR_REVIEW");
             $macaron->setCreatedAt(new \DateTime('now'));
             $macaronRepository->add($macaron, true);
