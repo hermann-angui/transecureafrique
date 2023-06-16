@@ -6,7 +6,7 @@
             </td>
             <td style="padding: 15px 15px;">
                 <p style="font-weight: bolder; font-size: 25px; text-transform: capitalize">RECU DE PAIEMENT MACARON - VTC</p>
-                <p style="font-weight: bolder">Re&ccedil;u:  {{ demande.reference }}</p>
+                <p style="font-weight: bolder">N° du Re&ccedil;u:   {{ demande.reference }}</p>
                 <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d/m/Y H-i-s')}}</p>
             </td>
         </tr>
@@ -57,10 +57,23 @@
                         <li>Email: info@sfp.com</li>
                     </ul>
                 </div>
-
-
                 </p>
             </td>
+        </tr>
+        <tr>
+            <div style="margin-top:20px; border:1px solid #000000">
+                <div>Nous vous prions de vous rendre à notre agence pour le retrait de votre macaron à la date indiqué sur votre reçu de paiement.</div>
+                <div style="font-weight: bold;margin-top:20px;">
+                    NB: Documents obligatoires pour le retrait de votre macaron:
+                </div>
+                <div style="padding: 20px 20px;">
+                    <ul style="list-style: disc">
+                        <li>Une copie de votre reçu de paiement</li>
+                        <li>L'original de votre carte grise ou du récépissé d'immatriculation</li>
+                        <li>Le numéro de téléphone du propriétaire du véhicule </li>
+                    </ul>
+                </div>
+            </div>
         </tr>
     </table>
 </div>
