@@ -64,8 +64,6 @@ class PaymentController extends AbstractController
             $macaron->setStatus("WAITING_FOR_REVIEW");
             $macaron->setCreatedAt(new \DateTime('now'));
             $macaronRepository->add($macaron, true);
-            $payment->setModifiedAt(new \DateTime());
-            $paymentRepository->add($payment, true);
         }
        return $this->redirectToRoute('demande_display_receipt', ["id" => 1, "status" => $status]);
     }
