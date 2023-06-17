@@ -68,9 +68,4 @@ class PaymentController extends AbstractController
        return $this->redirectToRoute('demande_display_receipt', ["id" => 1, "status" => $status]);
     }
 
-    private function updatePaymentStatus(array $data,): void
-    {
-
-    }
-
 }

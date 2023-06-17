@@ -39,9 +39,6 @@ class OtpCode
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $expired_at;
 
-    #[ORM\OneToOne(mappedBy: 'otpcode', cascade: ['remove'])]
-    private ?Demande $demande = null;
-
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -158,28 +155,6 @@ class OtpCode
     public function setExpiredAt(DateTime $expired_at): OtpCode
     {
         $this->expired_at = $expired_at;
-        return $this;
-    }
-
-    public function getDemande(): ?Demande
-    {
-        return $this->demande;
-    }
-
-    public function setDemande(?Demande $demande): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($demande === null && $this->demande !== null) {
-            $this->demande->setOtpcode(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($demande !== null && $demande->getOtpcode() !== $this) {
-            $demande->setOtpcode($this);
-        }
-
-        $this->demande = $demande;
-
         return $this;
     }
 

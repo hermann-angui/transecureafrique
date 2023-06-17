@@ -2,17 +2,12 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Demande;
 use App\Entity\Macaron;
-use App\Form\DemandeType;
 use App\Form\MacaronType;
 use App\Helper\DataTableHelper;
-use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
-use App\Service\Demande\DemandeService;
+use App\Service\Macaron\MacaronService;
 use Doctrine\DBAL\Connection;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,44 +15,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('admin/demande')]
-class DemandeController extends AbstractController
+#[Route('admin/macaron')]
+class MacaronController extends AbstractController
 {
 
-    #[Route('', name: 'admin_demande_index', methods: ['GET'])]
-    public function index(Request $request): Response
+    #[Route('', name: 'admin_macaron_index', methods: ['GET'])]
+    public function index(Request $request, MacaronRepository $macaronRepository): Response
     {
-        return $this->render('admin/demande/index.html.twig');
+        return $this->render('admin/macaron/index.html.twig');
     }
 
-    #[Route('/new', name: 'admin_demande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DemandeService $demandeService): Response
+    #[Route('/new', name: 'admin_macaron_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, MacaronService $macaronService): Response
     {
-        $demande = new Demande();
-        $form = $this->createForm(DemandeType::class, $demande);
+        $macaron = new Macaron();
+        $form = $this->createForm(MacaronType::class, $macaron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
             $data = $request->request->all();
-            $demandeService->createDemande($demande);
-            return $this->redirectToRoute('admin_demande_index');
+            $macaronService->createMacaron($macaron);
+            return $this->redirectToRoute('admin_macaron_index');
 
         }
-        return $this->renderForm('admin/demande/new.html.twig', [
-            'demande' => $demande,
+        return $this->renderForm('admin/macaron/new.html.twig', [
+            'macaron' => $macaron,
             'form' => $form,
         ]);
     }
 
-    #[Route('/demande/dt', name: 'admin_demande_dt', methods: ['GET'])]
-    public function datatable(Request $request, Connection $connection, DemandeRepository $demandeRepository)
+    #[Route('/macaron/dt', name: 'admin_macaron_dt', methods: ['GET'])]
+    public function datatable(Request $request, Connection $connection, MacaronRepository $macaronRepository)
     {
         date_default_timezone_set("Africa/Abidjan");
         $params = $request->query->all();
         $paramDB = $connection->getParams();
-        $table = 'demande';
+        $table = 'macaron';
         $primaryKey = 'id';
-        $demande = null;
+        $macaron = null;
         $columns = [
             [
                 'db' => 'id',
@@ -174,13 +169,13 @@ class DemandeController extends AbstractController
                     $id = $row['id'];
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
-                                          <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
+                                          <a href='/admin/macaron/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
                                       </li>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Edit'>
-                                         <a href='/admin/demande/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
+                                         <a href='/admin/macaron/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
                                       </li>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Supprimer'>
-                                         <a href='/admin/demande/$id/supprimer' class='btn btn-sm btn-soft-danger'><i class='mdi mdi-delete-alert-outline'></i></a>
+                                         <a href='/admin/macaron/$id/supprimer' class='btn btn-sm btn-soft-danger'><i class='mdi mdi-delete-alert-outline'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -211,48 +206,48 @@ class DemandeController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
-    public function show(Demande $demande): Response
+    #[Route('/{id}', name: 'admin_macaron_show', methods: ['GET'])]
+    public function show(Macaron $macaron): Response
     {
-        return $this->render('admin/demande/show.html.twig', [
-            'demande' => $demande,
+        return $this->render('admin/macaron/show.html.twig', [
+            'macaron' => $macaron,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_demande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Demande $demande, DemandeService $demandeService): Response
+    #[Route('/{id}/edit', name: 'admin_macaron_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Macaron $macaron, MacaronService $macaronService): Response
     {
         date_default_timezone_set("Africa/Abidjan");
-        $form = $this->createForm(DemandeType::class, $demande);
+        $form = $this->createForm(MacaronType::class, $macaron);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $demande->setStatus( $demande->getStatus());
-            $demande->setReference( $demande->getCompany());
-            $demande->setMontant( $demande->getTitre());
-            $demandeService->storeDemande($demande);
+            $macaron->setStatus( $macaron->getStatus());
+            $macaron->setReference( $macaron->getCompany());
+            $macaron->setMontant( $macaron->getTitre());
+            $macaronService->storeMacaron($macaron);
 
-            return $this->redirectToRoute('admin_demande_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_macaron_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/demande/edit.html.twig', [
-            'demande' => $demande,
+        return $this->renderForm('admin/macaron/edit.html.twig', [
+            'macaron' => $macaron,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}/supprimer', name: 'admin_demande_delete', methods: ['GET','POST'])]
-    public function delete(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
+    #[Route('/{id}/supprimer', name: 'admin_macaron_delete', methods: ['GET','POST'])]
+    public function delete(Request $request, Macaron $macaron, MacaronRepository $macaronRepository): Response
     {
-        if ( true /* $this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token')) */ ) {
-            $demandeRepository->remove($demande, true);
-            $fileName = "/var/www/html/public/demande/" . $demande->getNumeroVinChassis() . "/";
+        if ( true /* $this->isCsrfTokenValid('delete'.$macaron->getId(), $request->request->get('_token')) */ ) {
+            $macaronRepository->remove($macaron, true);
+            $fileName = "/var/www/html/public/macaron/" . $macaron->getNumeroVinChassis() . "/";
             if(file_exists($fileName)) {
                 $fs =  new Filesystem();
                 $fs->remove($fileName);
             }
         }
-        return $this->redirectToRoute('admin_demande_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_macaron_index', [], Response::HTTP_SEE_OTHER);
     }
 
 }

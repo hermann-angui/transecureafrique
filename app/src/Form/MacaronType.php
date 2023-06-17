@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DemandeMacaronType extends AbstractType
+class MacaronType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

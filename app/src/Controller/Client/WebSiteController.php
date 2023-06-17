@@ -32,7 +32,8 @@ class WebSiteController extends AbstractController
     }
 
     #[Route(path: '/formulaire', name: 'formulaire', methods: ['POST', 'GET'])]
-    public function demande(Request $request, DemandeRepository $demandeRepository, OtpCodeRepository $otpCodeRepository): Response
+    public function demande(Request $request, DemandeRepository $demandeRepository,
+                            OtpCodeRepository $otpCodeRepository): Response
     {
         if ($request->getMethod() === "GET") {
             $document = $request->get("document");
@@ -209,7 +210,10 @@ class WebSiteController extends AbstractController
         }
 
         $demandeRepository->add($demande, true);
-        return $this->render('frontend/pages/payment.html.twig', ['demande' => $demande, "payment" => $demande->getPayment()]);
+        return $this->render('frontend/pages/payment.html.twig', [
+            'demande' => $demande,
+            "payment" => $demande->getPayment()
+        ]);
     }
 
     #[Route(path: '/auth', name: 'auth')]

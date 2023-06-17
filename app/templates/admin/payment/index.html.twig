@@ -48,9 +48,7 @@
                                     <div class="d-flex align-items-center">
                                         <h5 class="mb-0 card-title flex-grow-1"></h5>
                                         <div class="flex-shrink-0">
-                                            <a href="{{ path('admin_member_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Nouveau membre</a>
-                                            <a href="{{ path('admin_member_upload') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-upload fa-1x"></span> Importer</a>
-                                            {# <a href="{{ path('admin_member_download_cards') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-download fa-1x"></span> Télécharger toutes cartes</a> #}
+                                            <a href="{{ path('admin_demande_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Nouveau membre</a>
                                             <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".bs-downloadcards"><span class="fa fa-download fa-1x"></span>Télécharger des cartes</button>
                                         </div>
                                     </div>
@@ -61,39 +59,26 @@
                                             <button id="refresh-btn" type="button" class="btn btn-soft-secondary w-100">Filtre<i class="mdi mdi-filter-outline align-middle"></i></button>
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="matricule" placeholder="matricule">
+                                            <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="last_name" placeholder="Nom">
+                                            <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="driving_license_number" placeholder="Numéro du permis">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="id_number" placeholder="Pièce d'identité">
+                                            <input type="search" class="form-control" id="numero_chassis" placeholder="Numéro de chassis">
                                         </div>
 
                                         <div class="col-xxl-2 col-lg-4">
                                             <select id="title" class="form-control select2"  title="Catégorie">
                                                 <option>--Type--</option>
                                                 <option value="Chauffeur">Chauffeur</option>
-                                                <option value="Secrétaire général">Secrétaire général</option>
-                                                <option value="SN au contrôle informatique">SN au contrôle informatique</option>
-                                                <option value="SN aux finances">SN aux finances</option>
-                                                <option value="SN à l’administration">SN à l’administration</option>
-                                                <option value="Secrétaire général adjoint">Secrétaire général adjoint</option>
-                                                <option value="SN à l’organisation">SN à l’organisation</option>
-                                                <option value="SN à la communication">SN à la communication</option>
-                                                <option value="SN à la formation">SN à la formation</option>
-                                                <option value="SN chargé  des applications">SN chargé des applications</option>
-                                                <option value="SN Adjointe aux finances">SN Adjointe aux finances</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        {{ include('admin/member/_member_datatable.html.twig') }}
+                                        {{ include('admin/demande/_demande_datatable.html.twig') }}
                                     </div>
                                     <!--end row-->
                                 </div>
@@ -114,48 +99,6 @@
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
-
-    <div class="modal fade bs-downloadcards" tabindex="-1" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Matricules à télécharger</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="{{ path('admin_member_download_cards') }}">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="selection_type" class="form-label">Interval:</label>
-                                <input type="radio" name="selection_type" class="form-check" value="1" checked />  &nbsp;&nbsp;
-                            </div>
-                            <div class="col-md-6">
-                                <label for="selection_type" class="form-label">Tous:</label>
-                                <input type="radio" name="selection_type" class="form-check" value="0"/>
-                            </div>
-                        </div>
-                        <div class="row" id="interval-row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="from_matricule" class="form-label">Du Matricule:</label>
-                                    <input type="text" class="form-control" name="from_matricule" placeholder="Entrez matricule initial">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="to_matricule" class="form-label">Au Matricule:</label>
-                                    <input type="text" class="form-control" name="to_matricule" placeholder="Entrez matricule final">
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary w-md" data-bs-dismiss="modal">Valider</button>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
 {% endblock %}
 
 {% block javascript %}
@@ -168,7 +111,7 @@
 
         var datatable = initDatatable();
 
-        $("#matricule,#last_name,#driving_license_number,#id_number,#sex").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#numero_chassis").change(function (e) {
                 datatable.draw();
         });
 
@@ -191,27 +134,41 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{ path('admin_member_datatable') }}',
+                    "url": '{{ path('admin_demande_dt') }}',
                     "data": function (d) {
-                        d.matricule = $("#matricule").val();
-                        d.last_name = $("#last_name").val();
-                        d.driving_license_number = $("#driving_license_number").val();
-                        d.id_number = $("#id_number").val();
-                        d.title = $("#title").val();
+                        d.numero_chassis = $("#numero_chassis").val();
+                        d.numero_recepisse = $("#numero_recepisse").val();
+                        d.numero_chassis = $("#numero_chassis").val();
                     }
                 },
                 "columns": [
                     {"data":  "id"},
-                    {"data":  "matricule"},
-                    {"data":  "last_name"},
-                    {"data":  "first_name"},
-                    { "data": "subscription_date" },
-                    { "data": "subscription_expire_date" },
-                    { "data": "driving_license_number" },
-                    { "data": "id_number" },
-                    { "data": "id_type" },
-                    { "data": "mobile" },
-                    { "data": "email" }
+                    {"data":  "numero_carte_grise"},
+                    {"data":  "numero_recepisse"},
+                    {"data":  "numero_immatriculation"},
+                    { "data": "date_de_premiere_mise_en_cirulation" },
+                    { "data": "date_d_edition" },
+                    { "data": "identite_proprietaire" },
+                    { "data": "marque_du_vehicule" },
+                    { "data": "genre_vehicule" },
+                    { "data": "type_commercial" },
+                    { "data": "couleur_vehicule" },
+                    { "data": "carroserie_vehicule" },
+                    { "data": "energie_vehicule" },
+                    { "data": "places_assises" },
+                    { "data": "usage_vehicule" },
+                    { "data": "puissance_fiscale" },
+                    { "data": "nombre_d_essieux" },
+                    { "data": "cylindree" },
+                    { "data": "numero_vin_chassis" },
+                    { "data": "societe_de_credit" },
+                    { "data": "type_technique" },
+                    { "data": "montant" },
+                    { "data": "numero_d_immatriculation_precedent" },
+                    { "data": "type" },
+                    { "data": "payment_type" },
+                    { "data": "status" },
+                    { "data": "id" },
                 ],
                 "order": [[1, 'asc']]
             } );

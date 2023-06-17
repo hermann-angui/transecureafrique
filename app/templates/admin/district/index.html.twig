@@ -16,7 +16,6 @@
         {{ include('admin/_partials/header.html.twig') }}
 
         <!-- ========== Left Sidebar Start ========== -->
-        {{ include('admin/_partials/left-sidebar.html.twig')}}
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -27,6 +26,26 @@
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-md-3">
+                            <div class="card mini-stats-wid">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium">Total vehicules inscrits</p>
+                                            <h4 class="mb-0">36958</h4>
+                                        </div>
+
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                            <span class="avatar-title">
+                                                                <i class="bx bx-copy-alt font-size-24"></i>
+                                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
@@ -47,12 +66,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total des demandes</p>
+                                            <p class="text-muted fw-medium">Total macarons non délivrés</p>
                                             <h4 class="mb-0">35723</h4>
                                         </div>
 
@@ -67,12 +86,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Demandes du jour</p>
+                                            <p class="text-muted fw-medium">Demandes journalières</p>
                                             <h4 class="mb-0">162</h4>
                                         </div>
 
@@ -87,12 +106,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Demandes du jour</p>
+                                            <p class="text-muted fw-medium">Demandes hebdomadaires</p>
                                             <h4 class="mb-0">162</h4>
                                         </div>
 
@@ -173,9 +192,6 @@
                                 </div>
                                 <div class="card-body border-bottom">
                                     <div class="row g-3">
-                                        <div class="col-xxl-1 col-lg-1">
-                                            <button id="refresh-btn" type="button" class="btn btn-soft-secondary w-100">Filtre<i class="mdi mdi-filter-outline align-middle"></i></button>
-                                        </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
                                         </div>
@@ -183,20 +199,19 @@
                                             <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_chassis" placeholder="Numéro de chassis">
+                                            <input type="search" class="form-control" id="marque_du_vehicule" placeholder="Marque">
                                         </div>
-
-                                        <div class="col-xxl-2 col-lg-4">
-                                            <select id="title" class="form-control select2"  title="Catégorie">
-                                                <option>--Type--</option>
-                                                <option value="Chauffeur">Chauffeur</option>
-                                            </select>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="genre_vehicule" placeholder="Genre">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="energie_vehicule" placeholder="Type energie">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        {{ include('admin/demande/_demande_datatable.html.twig') }}
+                                        {{ include('admin/district/_demande_datatable.html.twig') }}
                                     </div>
                                     <!--end row-->
                                 </div>
@@ -234,7 +249,7 @@
 
         var datatable = initDatatable();
 
-        $("#numero_carte_grise,#numero_recepisse,#numero_chassis").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#marque_du_vehicule,#genre_vehicule,#energie_vehicule").change(function (e) {
                 datatable.draw();
         });
 
@@ -257,41 +272,22 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{ path('admin_demande_dt') }}',
+                    "url": '{{ path('admin_dstrict_dt') }}',
                     "data": function (d) {
-                        d.numero_chassis = $("#numero_chassis").val();
+                        d.numero_carte_grise = $("#numero_carte_grise").val();
                         d.numero_recepisse = $("#numero_recepisse").val();
-                        d.numero_chassis = $("#numero_chassis").val();
+                        d.marque_du_vehicule = $("#marque_du_vehicule").val();
+                        d.genre_vehicule = $("#genre_vehicule").val();
+                        d.energie_vehicule = $("#energie_vehicule").val();
                     }
                 },
                 "columns": [
                     {"data":  "id"},
                     {"data":  "numero_carte_grise"},
                     {"data":  "numero_recepisse"},
-                    {"data":  "numero_immatriculation"},
-                    { "data": "date_de_premiere_mise_en_cirulation" },
-                    { "data": "date_d_edition" },
-                    { "data": "identite_proprietaire" },
-                    { "data": "marque_du_vehicule" },
+                    {"data":  "marque_du_vehicule"},
                     { "data": "genre_vehicule" },
-                    { "data": "type_commercial" },
-                    { "data": "couleur_vehicule" },
-                    { "data": "carroserie_vehicule" },
                     { "data": "energie_vehicule" },
-                    { "data": "places_assises" },
-                    { "data": "usage_vehicule" },
-                    { "data": "puissance_fiscale" },
-                    { "data": "nombre_d_essieux" },
-                    { "data": "cylindree" },
-                    { "data": "numero_vin_chassis" },
-                    { "data": "societe_de_credit" },
-                    { "data": "type_technique" },
-                    { "data": "montant" },
-                    { "data": "numero_d_immatriculation_precedent" },
-                    { "data": "type" },
-                    { "data": "payment_type" },
-                    { "data": "status" },
-                    { "data": "id" },
                 ],
                 "order": [[1, 'asc']]
             } );

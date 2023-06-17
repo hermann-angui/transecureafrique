@@ -5,7 +5,6 @@ namespace App\Service\Macaron;
 use App\Entity\Macaron;
 use App\Helper\CsvReaderHelper;
 use App\Helper\MacaronAssetHelper;
-use App\Helper\PasswordHelper;
 use App\Repository\MacaronRepository;
 use App\Service\Demande\DemandeGeneratorService;
 use App\Service\Demande\ReceiptGeneratorService;

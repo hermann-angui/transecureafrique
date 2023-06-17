@@ -55,3 +55,8 @@ services:
     App\Helper\DemandeAssetHelper:
         arguments:
             $uploadDirectory: '%kernel.project_dir%'
+
+    App\Helper\MacaronAssetHelper:
+        arguments:
+            $uploadDirectory: '%kernel.project_dir%'
+
