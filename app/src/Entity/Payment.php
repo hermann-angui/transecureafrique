@@ -41,8 +41,7 @@ class Payment
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(inversedBy: 'payment', cascade: ['remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(mappedBy: 'payment', cascade: ['persist', 'remove'])]
     private ?Demande $demande = null;
 
     public function __construct()
@@ -182,18 +181,6 @@ class Payment
         return $this;
     }
 
-    public function getDemande(): ?Demande
-    {
-        return $this->demande;
-    }
-
-    public function setDemande(Demande $demande): self
-    {
-        $this->demande = $demande;
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
@@ -209,6 +196,28 @@ class Payment
     public function setCodePaymentOperateur($code_payment_operateur)
     {
         $this->code_payment_operateur = $code_payment_operateur;
+        return $this;
+    }
+
+    public function getDemande(): ?Demande
+    {
+        return $this->demande;
+    }
+
+    public function setDemande(?Demande $demande): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($demande === null && $this->demande !== null) {
+            $this->demande->setPayment(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($demande !== null && $demande->getPayment() !== $this) {
+            $demande->setPayment($this);
+        }
+
+        $this->demande = $demande;
+
         return $this;
     }
 

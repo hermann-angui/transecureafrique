@@ -76,8 +76,8 @@ class WebSiteController extends AbstractController
 
             if (array_key_exists("authid", $data)) {
                 $otpCode = $otpCodeRepository->find($data["authid"]);
-                if ($otpCode && !$demande->getOtpcode()) {
-                    $demande->setOtpcode($otpCode);
+                if ($otpCode && !$demande->getOtpCodes()->contains($otpCode)) {
+                    $demande->addOtpCode($otpCode);
                 }
             }
             $demandeRepository->add($demande, true);
@@ -263,7 +263,6 @@ class WebSiteController extends AbstractController
             $result = $infoBipService->sendMessageTo($message, $request->get('numerotelInput'));
 
             if (!in_array($result["status"], ["REJECTED", "FAILED", "ERROR", "EXPIRED"])) {
-
                 $otpCode = new OtpCode();
                 $otpCode->setCode($generatedCode);
                 $otpCode->setWebserviceReference($result["messageId"]);
@@ -278,7 +277,9 @@ class WebSiteController extends AbstractController
             }
         }
 
-        return $this->render('frontend/pages/otp.html.twig', ["otp" => $existingOtp ? $existingOtp->getCode(): null]);
+        return $this->render('frontend/pages/otp.html.twig', [
+            "otp" => $existingOtp ? $existingOtp->getCode(): null]
+        );
     }
 
     #[Route(path: '/search-demande', name: 'search_demande')]

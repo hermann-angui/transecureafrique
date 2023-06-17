@@ -135,24 +135,6 @@ class MediaAsset
     }
 
     /**
-     * @return Article|null
-     */
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    /**
-     * @param Article|null $article
-     * @return MediaAsset
-     */
-    public function setArticle(?Article $article): MediaAsset
-    {
-        $this->article = $article;
-        return $this;
-    }
-
-    /**
      * @return bool|null
      */
     public function getIsThumbnail(): ?bool

@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\DemandeRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -111,20 +113,20 @@ class Demande
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['remove'])]
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
+    private Collection $otpCodes;
+
+    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Payment $payment = null;
 
-    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['remove'])]
+    #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
-
-    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['remove'])]
-    private ?OtpCode $otpcode = null;
-
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->modified_at = new \DateTime();
+        $this->otpCodes = new ArrayCollection();
     }
 
     /**
@@ -654,57 +656,6 @@ class Demande
         return $this;
     }
 
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
-    public function setPayment(Payment $payment): self
-    {
-        // set the owning side of the relation if necessary
-        if ($payment->getDemande() !== $this) {
-            $payment->setDemande($this);
-        }
-
-        $this->payment = $payment;
-
-        return $this;
-    }
-
-    public function getMacaron(): ?Macaron
-    {
-        return $this->macaron;
-    }
-
-    public function setMacaron(?Macaron $macaron): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($macaron === null && $this->macaron !== null) {
-            $this->macaron->setDemande(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($macaron !== null && $macaron->getDemande() !== $this) {
-            $macaron->setDemande($this);
-        }
-
-        $this->macaron = $macaron;
-
-        return $this;
-    }
-
-    public function getOtpcode(): ?OtpCode
-    {
-        return $this->otpcode;
-    }
-
-    public function setOtpcode(?OtpCode $otpcode): self
-    {
-        $this->otpcode = $otpcode;
-
-        return $this;
-    }
-
     /**
      * @return string|null
      */
@@ -738,6 +689,70 @@ class Demande
     public function setDateRendezVous(DateTime $date_rendez_vous): Demande
     {
         $this->date_rendez_vous = $date_rendez_vous;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OtpCode>
+     */
+    public function getOtpCodes(): Collection
+    {
+        return $this->otpCodes;
+    }
+
+    public function addOtpCode(OtpCode $otpCode): self
+    {
+        if (!$this->otpCodes->contains($otpCode)) {
+            $this->otpCodes[] = $otpCode;
+            $otpCode->setDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOtpCode(OtpCode $otpCode): self
+    {
+        if ($this->otpCodes->removeElement($otpCode)) {
+            // set the owning side to null (unless already changed)
+            if ($otpCode->getDemande() === $this) {
+                $otpCode->setDemande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): self
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getMacaron(): ?Macaron
+    {
+        return $this->macaron;
+    }
+
+    public function setMacaron(?Macaron $macaron): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($macaron === null && $this->macaron !== null) {
+            $this->macaron->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($macaron !== null && $macaron->getDemande() !== $this) {
+            $macaron->setDemande($this);
+        }
+
+        $this->macaron = $macaron;
+
         return $this;
     }
 

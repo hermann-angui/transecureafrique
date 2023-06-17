@@ -46,7 +46,7 @@ class Macaron
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $modified_at;
 
-    #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['remove'])]
+    #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['persist', 'remove'])]
     private ?Demande $demande = null;
 
     public function __construct()
@@ -111,18 +111,6 @@ class Macaron
     public function setReference(?string $reference): Macaron
     {
         $this->reference = $reference;
-        return $this;
-    }
-
-    public function getDemande(): ?Demande
-    {
-        return $this->demande;
-    }
-
-    public function setDemande(?Demande $demande): self
-    {
-        $this->demande = $demande;
-
         return $this;
     }
 
@@ -216,5 +204,15 @@ class Macaron
         return $this;
     }
 
+    public function getDemande(): ?Demande
+    {
+        return $this->demande;
+    }
 
+    public function setDemande(?Demande $demande): self
+    {
+        $this->demande = $demande;
+
+        return $this;
+    }
 }

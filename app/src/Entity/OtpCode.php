@@ -39,6 +39,9 @@ class OtpCode
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $expired_at;
 
+    #[ORM\ManyToOne(inversedBy: 'otpCodes')]
+    private ?Demande $demande = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -176,5 +179,15 @@ class OtpCode
         return $this;
     }
 
+    public function getDemande(): ?Demande
+    {
+        return $this->demande;
+    }
 
+    public function setDemande(?Demande $demande): self
+    {
+        $this->demande = $demande;
+
+        return $this;
+    }
 }
