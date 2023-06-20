@@ -73,7 +73,7 @@ class DemandeService
         return $demande;
     }
 
-    public function update(Demande &$demande, array $data): Demande
+    public function update(?Demande &$demande, array $data): ?Demande
     {
         if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
         if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));

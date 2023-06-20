@@ -31,13 +31,13 @@ class OtpService
     }
 
 
-    public function checkOtpValidity(OtpCode $OtpCode): bool {
+    public function checkOtpValidity(?OtpCode $OtpCode): bool {
         if(!$OtpCode) return false;
         $now = new \DateTime('now');
         return !($OtpCode->getExpiredAt() > $now );
     }
 
-    public function create(OtpRequest $request): OtpCode {
+    public function create(?OtpRequest $request): OtpCode {
         $otpCode = new OtpCode();
         $otpCode->setCode($request->getCode());
         $otpCode->setWebserviceReference($request->getWebserviceref());

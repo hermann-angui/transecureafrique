@@ -71,7 +71,7 @@ class WaveService
      * @param UserInterface|null $user
      * @return string|void
      */
-    public function makePayment(Payment $payment) : ?WaveCheckoutResponse
+    public function makePayment(?Payment $payment) : ?WaveCheckoutResponse
     {
         try{
             $waveCheckoutRequest = new WaveCheckoutRequest();

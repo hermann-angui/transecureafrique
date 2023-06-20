@@ -23,7 +23,7 @@ class InfoBipService
      * @param $recipient
      * @return array|null
      */
-    public function sendMessageTo(string $message, string $recipient): ?array{
+    public function sendMessageTo(?string $message, ?string $recipient): ?array{
 
         $configuration = new Configuration(host: InfoBipService::BASE_URL, apiKey: InfoBipService::API_KEY);
 
