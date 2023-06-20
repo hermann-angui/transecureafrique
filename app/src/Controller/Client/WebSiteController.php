@@ -48,13 +48,11 @@ class WebSiteController extends AbstractController
         $phoneNumber = $request->get('numerotelInput');
         if (!$phoneNumber) return $this->redirectToRoute('auth');
         $existingOtp = $otpService->getByPhone($phoneNumber);
-
-        if ($otpService->checkOtpValidity($existingOtp)){
+       // $otpService->checkOtpValidity($existingOtp);
+        if (!$existingOtp){
             $generatedCode = OtpService::generate(6);
             $message = "Votre code de vérification transecure.ci : " . $generatedCode;
             $result = $infoBipService->sendMessageTo($message, $phoneNumber);
-           // $result = ["status" => "SUCCESS", "messageId" => "6635G4BDHHE3"];
-
             if (!in_array($result["status"], ["REJECTED", "FAILED", "ERROR", "EXPIRED"])) {
                 $otpService->create(new OtpRequest(
                         $generatedCode,
