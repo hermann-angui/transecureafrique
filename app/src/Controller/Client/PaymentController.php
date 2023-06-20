@@ -64,7 +64,7 @@ class PaymentController extends AbstractController
                                                       PaymentRepository $paymentRepository): Response
     {
         $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
-        if ($payment && $payment->getStatus()==="SUCCEDED") {
+        if ($payment && $payment->getStatus()==="SUCCEEDED") {
             return $this->redirectToRoute('demande_display_receipt', [
                 "id" => $payment->getId(),
                 "status" => $status]
