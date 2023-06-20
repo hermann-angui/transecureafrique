@@ -58,7 +58,7 @@ class WebSiteController extends AbstractController
             $generatedCode = OtpService::generate(6);
             $message = "Votre code de vérification transecure.ci : " . $generatedCode;
             $result = $infoBipService->sendMessageTo($message, $phoneNumber);
-            $result = ["status" => "SUCCESS", "messageId" => "6635G4BDHHE3"];
+           // $result = ["status" => "SUCCESS", "messageId" => "6635G4BDHHE3"];
 
             if (!in_array($result["status"], ["REJECTED", "FAILED", "ERROR", "EXPIRED"])) {
                 $otpService->create(new OtpRequest(
