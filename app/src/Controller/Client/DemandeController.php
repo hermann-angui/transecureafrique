@@ -94,6 +94,21 @@ class DemandeController extends AbstractController
     #[Route(path: '/search', name: 'demande_search')]
     public function searchDemande(Request $request, DemandeRepository $demandeRepository): Response
     {
+        $term = $request->get('search_receipt_term');
+        $criteria = $request->get('search_receipt_criteria');
+
+        if($term && $criteria){
+            if($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
+            if($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_chassis' => $criteria]);
+            if($demande->getMacaron()){
+                $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
+                return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
+            }else{
+                $this->redirectToRoute('demande_display_receipt' , ['id' => $demande->getPayment()]);
+            }
+            return $this->render('frontend/pages/search-demande.html.twig');
+
+        }
         return $this->render('frontend/pages/search-demande.html.twig');
     }
 

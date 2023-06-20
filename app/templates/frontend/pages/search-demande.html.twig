@@ -20116,13 +20116,17 @@
                             <div class="columns">
                                 <div class="g-field g-input form-input-siret column is-two-thirds" data-v-409567f4="" data-v-157972ad="">
                                     <div class="g-label" data-v-54540d92="" data-v-409567f4="">
-                                        <label for="numero_recu" data-v-54540d92=""> Numéro de reçu </label>
+                                        <label for="" data-v-54540d92=""> Recherche avec : </label>
                                         <div data-v-54540d92=""><!---->
                                         </div>
                                     </div>
-                                    <div class="input-wrapper" data-v-409567f4=""><!----><!----><!---->
-                                        <div class="input-loader-wrapper" data-v-409567f4=""><!---->
-                                            <input id="numero_recu"  name="numero_recu"   placeholder="Saisir le numero de reçu" type="text" class="touched pristine valid validated changed passed">
+                                    <div class="input-wrapper"><!----><!----><!---->
+                                        <div class="input-loader-wrapper" ><!---->
+                                            <select id="search_receipt_criteria"  name="search_receipt_criteria" style="margin-bottom:20px;">
+                                                <option value="numero_immatriculation" selected>Numéro d'immatriculation</option>
+                                                <option value="numero_chassis" >Numéro chassis</option>
+                                            </select>
+                                            <input id="search_receipt_term"  name="search_receipt_term"   placeholder="" type="text" class="touched pristine valid validated changed passed">
                                         </div><!---->
                                     </div><!---->
                                 </div>
