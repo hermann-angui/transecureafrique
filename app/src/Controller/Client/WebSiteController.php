@@ -3,6 +3,7 @@
 namespace App\Controller\Client;
 
 use App\Dtos\OtpRequest;
+use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
 use App\Service\InfoBip\InfoBipService;
 use App\Service\Otp\OtpService;
@@ -17,6 +18,16 @@ class WebSiteController extends AbstractController
     public function home(Request $request): Response
     {
         return $this->render('frontend/pages/index.html.twig');
+    }
+
+    #[Route(path: '/check/receipt/{chassis}', name: 'check_receipt')]
+    public function checkReceipt($chassis, DemandeRepository $demandeRepository, Request $request): Response
+    {
+        $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $chassis]);
+        if($demande) {
+            if($demande->getPayment()) return $this->render('frontend/pages/receipt-check.html.twig',["payment" => $demande->getPayment()]);
+        }
+        return new Response("<strong>ATTENTION!! Ce recu n'est pas authentitique</strong>");
     }
 
     #[Route(path: '/auth', name: 'auth')]
