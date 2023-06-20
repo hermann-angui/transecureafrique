@@ -20094,7 +20094,7 @@
                 </div>
                 <div id="page-1">
                     <div class="notification">
-                        <h2>Voir le statut de votre demande de macaron</h2>
+                        <h2>RETROUVER LES INFORMATIONS DE VOTRE DEMANDE.</h2>
                         {% if macaron is defined %}
                             <div class="gpm-alert__title"><!---->
                                 <div>
@@ -20102,12 +20102,12 @@
                                 </div>
                             </div>
                            <img src="media/{{ macaron }}" width="700" height="700" alt="macaron">
-                        {% elseif message is defined %}
+                        {% elseif warning is defined %}
                             <div class="gpm-alert gpm-alert--information gpm-alert--bgimg"
                                  style="background-image:url(/professionnels-devis/_nuxt/img/alert-pouce.10764fa.svg);">
                                 <div class="gpm-alert__title"><!---->
                                     <div>
-                                        {{ message }}
+                                        {{ warning }}
                                     </div>
                                 </div>--->
                             </div>
@@ -20129,11 +20129,6 @@
                                             <input id="search_receipt_term"  name="search_receipt_term"   placeholder="" type="text" class="touched pristine valid validated changed passed">
                                         </div><!---->
                                     </div><!---->
-                                </div>
-                                <div class="column">
-                                    <div class="v-popover g-popover" style="--max-width:unset;">
-                                        <div class="trigger" style="display:inline-block;"><i class="tooltip-target icon-info"></i></div>
-                                    </div>
                                 </div>
                             </div>
 

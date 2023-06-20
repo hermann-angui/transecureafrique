@@ -99,15 +99,19 @@ class DemandeController extends AbstractController
 
         if($term && $criteria){
             if($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
-            if($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_chassis' => $criteria]);
-            if($demande->getMacaron()){
-                $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
-                return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
+            if($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
+            if($demande){
+                if($demande->getMacaron()){
+                    $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
+                    return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
+                }else{
+                    $payment = $demande->getPayment();
+                    return $this->redirectToRoute('demande_display_receipt' , ['id' => $payment->getId()]);
+                }
             }else{
-                $this->redirectToRoute('demande_display_receipt' , ['id' => $demande->getPayment()]);
+                $warning = "Cette demande est introuvable!";
+                return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
             }
-            return $this->render('frontend/pages/search-demande.html.twig');
-
         }
         return $this->render('frontend/pages/search-demande.html.twig');
     }
