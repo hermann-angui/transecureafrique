@@ -32,7 +32,7 @@ class OtpService
 
 
     public function checkOtpValidity(?OtpCode $OtpCode): bool {
-        if(!$OtpCode) return false;
+        if(!$OtpCode) return true;
         $now = new \DateTime('now');
         return !($OtpCode->getExpiredAt() > $now );
     }
