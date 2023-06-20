@@ -41,7 +41,7 @@ class OtpService
         $otpCode = new OtpCode();
         $otpCode->setCode($request->getCode());
         $otpCode->setWebserviceReference($request->getWebserviceref());
-        $otpCode->setPhone($request->get('numerotelInput'));
+        $otpCode->setPhone($request->getNumber());
         $otpCode->setIsExpired(false);
         $otpCode->setCreatedAt(new \DateTime('now'));
         $otpCode->setModifiedAt(new \DateTime('now'));
