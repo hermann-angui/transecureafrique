@@ -2425,6 +2425,8 @@ data-styled.g19[id="sc-283c6453-0"] {
     position: relative;
     padding-left: 0;
     padding-right: 0;
+    margin-right: -649.8px;
+    margin-top: 50px;
 }
 
 /*!sc*/
@@ -5478,7 +5480,8 @@ data-styled.g125[id="sc-cd1ead75-0"] {
 @media (min-width: 38em) {
     .eoJIwW {
         position: relative;
-        margin-top: -114px;
+       /* margin-top: -114px; */
+        margin-top: -90px;
     }
 
     .eoJIwW::before {

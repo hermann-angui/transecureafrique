@@ -24,19 +24,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Service\Demande\DemandeGeneratorService:
-        arguments:
-            $container: '@service_container'
-
     App\Service\Demande\ReceiptGeneratorService:
         arguments:
             $container: '@service_container'
 
     App\Service\Demande\DemandeService:
-        arguments:
-            $container: '@service_container'
-
-    App\Service\Macaron\MacaronGeneratorService:
         arguments:
             $container: '@service_container'
 
@@ -49,14 +41,6 @@ services:
             $container: '@service_container'
 
     App\Helper\UserHelper:
-        arguments:
-            $uploadDirectory: '%kernel.project_dir%'
-
-    App\Helper\DemandeAssetHelper:
-        arguments:
-            $uploadDirectory: '%kernel.project_dir%'
-
-    App\Helper\MacaronAssetHelper:
         arguments:
             $uploadDirectory: '%kernel.project_dir%'
 

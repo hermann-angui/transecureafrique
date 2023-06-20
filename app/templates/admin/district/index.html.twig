@@ -26,20 +26,33 @@
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">Demande de macaron</h4>
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
+                                        <li class="breadcrumb-item active">Liste des demandes</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-3">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total vehicules inscrits</p>
-                                            <h4 class="mb-0">36958</h4>
+                                            <h4 class="mb-0">{{ total_demandes }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
-                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                                                            <span class="avatar-title">
-                                                                <i class="bx bx-copy-alt font-size-24"></i>
-                                                            </span>
+                                            <div class="mini-stat-icon avatar-sm rounded-circle">
+                                                <span class="avatar-title rounded-circle bg-warning">
+                                                    <i class="bx bx-data font-size-24"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -52,14 +65,14 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total Macarons en circulation</p>
-                                            <h4 class="mb-0">1235</h4>
+                                            <h4 class="mb-0">{{ total_macarons_en_circulation }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
-                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                                                            <span class="avatar-title">
-                                                                <i class="bx bx-copy-alt font-size-24"></i>
-                                                            </span>
+                                            <div class="mini-stat-icon avatar-sm rounded-circle">
+                                                <span class="avatar-title rounded-circle bg-success">
+                                                    <i class="bx bx-car font-size-24"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -72,14 +85,14 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total macarons non délivrés</p>
-                                            <h4 class="mb-0">35723</h4>
+                                            <h4 class="mb-0">{{ total_macarons_non_delivres }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
                                             <div class="avatar-sm rounded-circle bg-warning mini-stat-icon">
-                                                    <span class="avatar-title rounded-circle bg-warning">
-                                                        <i class="bx bx-archive-in font-size-24"></i>
-                                                    </span>
+                                                <span class="avatar-title rounded-circle bg-gradient">
+                                                    <i class="bx bx-certification font-size-24"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -92,14 +105,14 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Demandes journalières</p>
-                                            <h4 class="mb-0">162</h4>
+                                            <h4 class="mb-0">{{ total_demandes_journalieres }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
                                             <div class="avatar-sm rounded-circle bg-black mini-stat-icon">
-                                                    <span class="avatar-title rounded-circle bg-black">
-                                                        <i class="bx bx-purchase-tag-alt font-size-24"></i>
-                                                    </span>
+                                                <span class="avatar-title rounded-circle bg-black">
+                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -112,7 +125,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Demandes hebdomadaires</p>
-                                            <h4 class="mb-0">162</h4>
+                                            <h4 class="mb-0">{{ total_demandes_hebdomadaires }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -123,19 +136,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Demande de macaron</h4>
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
-                                        <li class="breadcrumb-item active">Liste des demandes</li>
-                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,8 @@
                                     </div>
                                 </div>
 
-                                <div id="stacked-column-chart" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' class="apex-charts" dir="ltr"></div>
+                                <div id="stacked-column-chart" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' style="min-height: 500px; width:100%" dir="ltr"></div>
+                                <div id="main" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' style="min-height: 500px" dir="ltr"></div>
                             </div>
                     </div>
                     </div>
@@ -239,7 +240,6 @@
 <script src="{{ asset('backend/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('backend/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('backend/libs/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('backend/js/pages/dashboard.init.js') }}"></script>
 <script src="{{ asset('backend/libs/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('backend/js/pages/echarts.init.js') }}"></script>
 <script src="{{ asset('backend/js/app.js') }}"></script>
@@ -253,13 +253,6 @@
                 datatable.draw();
         });
 
-       $("input[name='selection_type']").change(function(){
-             if($(this).val() === "0"){
-                $('#interval-row').hide();
-             }else{
-                  $('#interval-row').show();
-             }
-          });
         function initDatatable(){
             /* DATATABLE INIT */
             var dt = $('#datatable').DataTable( {

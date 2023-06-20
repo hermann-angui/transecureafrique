@@ -6,7 +6,7 @@
             </td>
             <td style="padding: 15px 15px;">
                 <p style="font-weight: bolder; font-size: 25px; text-transform: capitalize">RECU DE PAIEMENT MACARON - VTC</p>
-                <p style="font-weight: bolder">Num Re&ccedil;u:   {{ demande.reference }}</p>
+                <p style="font-weight: bolder">Num Re&ccedil;u:   {{ payment.reference }}</p>
                 <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d/m/Y H-i-s')}}</p>
             </td>
         </tr>
@@ -37,19 +37,17 @@
         </tr>
         <tr>
             <td style="padding: 15px 15px;">Moyen de paiement</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.paymentType }}</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ payment.Type }}</td>
         </tr>
         <tr>
-            <td colspan="2" style="padding: 15px 15px;text-align: center">
-                <img src="/var/www/html/public/media/{{ demande.NumeroVinChassis }}_barcode.png" width="150" height="150">
+            <td colspan="2" style="margin-top:50px;padding: 15px 15px;text-align: center">
+                <img src="/var/www/html/public/frontend/media/{{ demande.NumeroVinChassis }}_barcode.png" width="150" height="150">
             </td>
         </tr>
         <tr>
             <td colspan="2" style="padding: 15px 15px; text-align: center">
-                <p>Veuillez consulter votre attestation de prise de RDV, pour votre enrolement SFP
-                met &aacute; votre disposition les services de:</p>
-                <p>Prise de RDV pour l'enrolement;</p>
-                <p>Pour plus d'informations, contactez le service d'assistance au:</p>
+                <p>Rendez-vous &agrave; notre agence pour le retrait de votre macaron.</p>
+                <p>Pour plus d'informations, contactez le service d'assistance : </p>
                 <div>
                     <ul style="text-align: center; list-style: none">
                         <li>T&eacute;l&eacute;phone: </li>
@@ -61,7 +59,7 @@
             </td>
         </tr>
         <tr>
-            <div style="padding: 30px 30px;margin-top:20px; border:1px solid #000000; color:red">
+            <div style="padding: 30px 5px 0px 30px; border:1px solid red; color:red">
                 <div>Nous vous prions de vous rendre &agrave; notre agence pour le retrait de votre macaron &agrave; la date indiqu&eacute; sur votre re&ccedil;u de paiement.</div>
                 <div style="font-weight: bold;margin-top:20px;">
                     NB: Documents obligatoires pour le retrait de votre macaron:

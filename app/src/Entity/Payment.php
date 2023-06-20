@@ -24,7 +24,7 @@ class Payment
     private ?int $montant;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $payment_type = null;
+    private ?string $type = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $status;
@@ -130,18 +130,18 @@ class Payment
     /**
      * @return string|null
      */
-    public function getPaymentType(): ?string
+    public function getType(): ?string
     {
-        return $this->payment_type;
+        return $this->type;
     }
 
     /**
-     * @param string|null $payment_type
+     * @param string|null $type
      * @return Payment
      */
-    public function setPaymentType(?string $payment_type): Payment
+    public function setType(?string $type): Payment
     {
-        $this->payment_type = $payment_type;
+        $this->type = $type;
         return $this;
     }
 

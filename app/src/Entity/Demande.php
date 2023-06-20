@@ -92,15 +92,6 @@ class Demande
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $montant;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $qrcode;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private string $type;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $payment_type = null;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $status;
 
@@ -121,6 +112,7 @@ class Demande
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
+
 
     public function __construct()
     {
@@ -170,23 +162,6 @@ class Demande
         return $this->modified_at;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     * @return User
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
 
     /**
      * @return mixed
@@ -617,42 +592,6 @@ class Demande
     public function setMontant(?int $montant): Demande
     {
         $this->montant = $montant;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getQrcode(): ?string
-    {
-        return $this->qrcode;
-    }
-
-    /**
-     * @param string|null $qrcode
-     * @return Demande
-     */
-    public function setQrcode(?string $qrcode): Demande
-    {
-        $this->qrcode = $qrcode;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaymentType(): ?string
-    {
-        return $this->payment_type;
-    }
-
-    /**
-     * @param string $payment_type
-     * @return Demande
-     */
-    public function setPaymentType(?string $payment_type): Demande
-    {
-        $this->payment_type = $payment_type;
         return $this;
     }
 

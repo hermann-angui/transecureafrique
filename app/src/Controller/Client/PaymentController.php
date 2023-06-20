@@ -2,9 +2,8 @@
 
 namespace App\Controller\Client;
 
-use App\Entity\Macaron;
 use App\Entity\Payment;
-use App\Repository\MacaronRepository;
+use App\Repository\DemandeRepository;
 use App\Repository\PaymentRepository;
 use App\Service\Wave\WaveService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +18,7 @@ class PaymentController extends AbstractController
     #[Route(path: '/do/{id}', name: 'do_payment')]
     public function doPayment(Payment $payment,
                               WaveService $waveService,
+                              DemandeRepository $demandeRepository,
                               PaymentRepository $paymentRepository): Response
     {
         $response = $waveService->makePayment($payment);
@@ -26,7 +26,14 @@ class PaymentController extends AbstractController
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());
             $payment->setMontant($response->getAmount());
+            $payment->setType("MOBILE_MONEY");
+
+            $demande = $payment->getDemande();
+            $demande->setStatus("PAYED");
+            $demandeRepository->add($demande, true);
+
             $paymentRepository->add($payment, true);
+
             return $this->redirect($response->getWaveLaunchUrl());
         }
         else return $this->redirectToRoute('home');
@@ -41,7 +48,7 @@ class PaymentController extends AbstractController
             if (!empty($data) && array_key_exists("client_reference", $data)) {
                 $payment = $paymentRepository->findOneBy(["reference" => $data["client_reference"]]);
                 if ($payment) {
-                    $payment->setStatus($data["payment_status"]);
+                    $payment->setStatus(strtoupper($data["payment_status"]));
                     $payment->setMontant($data["amount"]);
                     $payment->setCodePaymentOperateur($data["transaction_id"]);
                     $payment->setModifiedAt(new \DateTime());
@@ -54,18 +61,17 @@ class PaymentController extends AbstractController
 
     #[Route(path: '/wave/checkout/{status}', name: 'wave_payment_callback')]
     public function wavePaymentCheckoutStatusCallback($status, Request $request,
-                                                      MacaronRepository $macaronRepository,
                                                       PaymentRepository $paymentRepository): Response
     {
-        $payment = $paymentRepository->findOneBy(["reference" => $request->get("id")]);
-        if ($payment) {
-            $macaron  = new Macaron();
-         //   $macaron->setDemande($payment->getDemande());
-            $macaron->setStatus("WAITING_FOR_REVIEW");
-            $macaron->setCreatedAt(new \DateTime('now'));
-            $macaronRepository->add($macaron, true);
+        $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
+        if ($payment && $payment->getStatus()==="SUCCEDED") {
+            return $this->redirectToRoute('demande_display_receipt', [
+                "id" => $payment->getId(),
+                "status" => $status]
+            );
+        }else{
+            return $this->redirectToRoute('home');
         }
-       return $this->redirectToRoute('demande_display_receipt', ["id" => 1, "status" => $status]);
     }
 
 }

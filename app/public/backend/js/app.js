@@ -1,9 +1,9 @@
 !function (a) {
     "use strict";
-    var e, t = localStorage.getItem("language"), s = "en";
+    var e, t = localStorage.getItem("language"), s = "fr";
 
     function n(e) {
-        document.getElementById("header-lang-img") && ("en" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/us.jpg" : "sp" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/spain.jpg" : "gr" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/germany.jpg" : "it" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/italy.jpg" : "ru" == e && (document.getElementById("header-lang-img").src = "/assets/admin/images/flags/russia.jpg"), localStorage.setItem("language", e), null == (t = localStorage.getItem("language")) && n(s), a.getJSON("assets/lang/" + t + ".json", function (e) {
+        document.getElementById("header-lang-img") && ("fr" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/us.jpg" : "sp" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/spain.jpg" : "gr" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/germany.jpg" : "it" == e ? document.getElementById("header-lang-img").src = "/assets/admin/images/flags/italy.jpg" : "ru" == e && (document.getElementById("header-lang-img").src = "/assets/admin/images/flags/russia.jpg"), localStorage.setItem("language", e), null == (t = localStorage.getItem("language")) && n(s), a.getJSON("assets/lang/" + t + ".json", function (e) {
             a("html").attr("lang", t), a.each(e, function (e, t) {
                 "head" === e && a(document).attr("title", t.title), a("[key='" + e + "']").text(t)
             })

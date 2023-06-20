@@ -3,218 +3,126 @@
 namespace App\Service\Demande;
 
 use App\Entity\Demande;
-use App\Entity\Subscription;
-use App\Helper\CsvReaderHelper;
-use App\Helper\DemandeAssetHelper;
-use App\Helper\PasswordHelper;
 use App\Repository\DemandeRepository;
-use App\Service\Wave\WaveCheckoutRequest;
-use DateTime;
+use App\Repository\OtpCodeRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Uuid;
 
 class DemandeService
 {
-    private DemandeGeneratorService $demandeGeneratorService;
+    private const WEBSITE_URL = "https://transecureafrica.com";
+    private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
+    private const MONTANT = 100;
 
-    private ReceiptGeneratorService $demandeReceiptGeneratorService;
-
-    private DemandeAssetHelper $demandeAssetHelper;
-
-    private DemandeRepository $demandeRepository;
-
-    private ContainerInterface $container;
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    private CsvReaderHelper $csvReaderHelper;
-
-    public function __construct(
-        ContainerInterface          $container,
-        DemandeGeneratorService     $demandeGeneratorService,
-        ReceiptGeneratorService     $demandeReceiptGeneratorService,
-        DemandeAssetHelper          $demandeAssetHelper,
-        DemandeRepository           $demandeRepository)
+    public function __construct(private ContainerInterface $container, private DemandeRepository  $demandeRepository, private OtpCodeRepository  $otpCodeRepository)
     {
-        $this->demandeGeneratorService = $demandeGeneratorService;
-        $this->demandeReceiptGeneratorService = $demandeReceiptGeneratorService;
-        $this->demandeAssetHelper = $demandeAssetHelper;
-        $this->demandeRepository = $demandeRepository;
-        $this->container = $container;
-    }
-
-    /**
-     * @param Demande|null $demande
-     * @return void
-     */
-    public function deleteDemande(?Demande $demande): void
-    {
-
-    }
-
-    /**
-     * @param Demande|null $demande
-     * @return Demande|null
-     */
-    public function generateSingleDemandeCard(?Demande $demande): ?Demande
-    {
-        date_default_timezone_set("Africa/Abidjan");
-        if ($demande) {
-            if(empty($demande->getPhoto())) return null;
-            $cardImage = $this->demandeGeneratorService->generate($demande);
-            $demande->setCardPhoto(new File($cardImage));
-            $demande->setModifiedAt(new DateTime());
-            return $demande;
-        }
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function generateMultipleDemandeCards(array $matricules = []): array
-    {
-        date_default_timezone_set("Africa/Abidjan");
-        $demandeList = [];
-        if(empty($matricules)){
-            $demandes = $this->demandeRepository->findAll();
-        }else{
-            $demandes = $this->demandeRepository->findBy(["matricule" => $matricules]);
-        }
-
-        foreach ($demandes as $demande) {
-            $this->generateSingleDemandeCard($demande);
-            $demandeList[] = $demandes;
-        }
-        return $demandeList;
-    }
-
-    /**
-     * @param array $demandes
-     * @return string|null
-     */
-    public function archiveDemandeCards(array $demandes): ?string
-    {
-        date_default_timezone_set("Africa/Abidjan");
-        set_time_limit(0);
-        $zipArchive = new \ZipArchive();
-        $zipFile = $this->container->getParameter('kernel.project_dir') . '/public/demandes/tmp/demandes.zip';;
-        if(file_exists($zipFile)) unlink($zipFile);
-        if($zipArchive->open($zipFile, \ZipArchive::CREATE) === true)
-        {
-            /**@var Demande $demandeDto **/
-            foreach($demandes as $demande)
-            {
-                $photoRealPath =  $demande->getPhoto();
-                if(is_file($photoRealPath)) {
-                    $zipArchive->addFile($photoRealPath->getRealPath(), $demande->getMatricule() . '_photo.png');
-                }
-
-                $cardPhotoRealPath =  $demande->getCardPhoto();
-                if(is_file($cardPhotoRealPath)) {
-                    $zipArchive->addFile($cardPhotoRealPath->getRealPath(), $demande->getMatricule() . '_card.png');
-                }
-
-                $barCodePhotoRealPath = $this->container->getParameter('kernel.project_dir') . "/public/demandes/" . $demandeDto->getMatricule() . "/" . $demandeDto->getMatricule() . "_barcode.png";
-                if(is_file($barCodePhotoRealPath)) {
-                    $zipArchive->addFile($barCodePhotoRealPath, $demande->getMatricule() . '_barcode.png');
-                }
-            }
-            $zipArchive->close();
-            return $zipFile;
-        }
-        return null;
-    }
-
-
-    public function getDemandeCardsList(array $demandes){
-        $zipFile = $this->container->getParameter('kernel.project_dir') . '/public/vehicule/tmp/vehicules.zip';;
-         if(!file_exists($zipFile)){
-             $this->generateMultipleDemandeCards($demandes);
-         }
-    }
-
-    /**
-     * @param Demande|null $demande
-     * @return void
-     */
-    public function generateDemandePdfReceipt(?Demande $demande): void
-    {
-        $this->demandeReceiptGeneratorService->generate($demande);
     }
 
     /**
      * @param Demande $demande
      * @return void
      */
-    public function storeDemande(Demande $demande): void
+    public function save(Demande $demande): void
     {
          $this->demandeRepository->add($demande, true);
     }
 
     /**
-     * @return string
+     * @param array $data
+     * @param OtpCodeRepository $otpCodeRepository
+     * @param DemandeRepository $demandeRepository
+     * @return Demande
+     * @throws \Exception
      */
-    public function generateSampleCsvFile()
+    public function create(array $data): Demande
     {
-        date_default_timezone_set("Africa/Abidjan");
-        $sampleRealPath = $this->container->getParameter('kernel.project_dir') . "/public/assets/files/sample.csv";
-        $columns = [
-            "TITRE",
-            "MATRICULE",
-            "NOM",
-            "PRENOMS",
-            "PHOTO",
-            "SEXE",
-            "EMAIL",
-            "WHATSAPP",
-            "COMPAGNIE",
-            "DATE_NAISSANCE",
-            "LIEU_NAISSANCE",
-            "NUMERO_PERMIS",
-            "NUMERO_PIECE",
-            "TYPE_PIECE",
-            "PAYS",
-            "VILLE",
-            "COMMUNE",
-            "MOBILE",
-            "FIXE",
-            "QUARTIER",
-            "DATE_SOUSCRIPTION",
-            "DATE_EXPIRATION_SOUSCRIPTION",
-            "PHOTO_PIECE_RECTO",
-            "PHOTO_PIECE_VERSO",
-            "PHOTO_PERMIS_RECTO",
-            "PHOTO_PERMIS_VERSO"
-        ];
-        $fp = fopen($sampleRealPath, "w+");
-        fputcsv($fp, $columns);
-        fputcsv($fp, []);
-        fclose($fp);
-        return $sampleRealPath;
-    }
+        $demande = new Demande();
+        $demande->setReference(strtoupper(uniqid()));
+        if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
+        if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
+        $demande->setMontant(self::MONTANT);
+        $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
+        $demande->setDateDePremiereMiseEnCirulation(new \DateTime($data["date_de_premiere_mise_en_cirulation"]));
+        $demande->setDateDEdition(new \DateTime($data["date_d_edition"]));
+        $demande->setIdentiteProprietaire(strtoupper($data["identite_proprietaire"]));
+        $demande->setIdentiteProprietairePiece(strtoupper($data["identite_proprietaire_piece"]));
+        $demande->setMarqueDuVehicule(strtoupper($data["marque_du_vehicule"]));
+        $demande->setGenreVehicule(strtoupper($data["genre_vehicule"]));
+        $demande->setTypeCommercial(strtoupper($data["type_commercial"]));
+        $demande->setCouleurVehicule(strtoupper($data["couleur_vehicule"]));
+        $demande->setCarroserieVehicule(strtoupper($data["carroserie_vehicule"]));
+        $demande->setEnergieVehicule(strtoupper($data["energie_vehicule"]));
+        $demande->setPlacesAssises($data["places_assises"]);
+        $demande->setUsageVehicule($data["usage_vehicule"]);
+        $demande->setPuissanceFiscale($data["puissance_fiscale"]);
+        $demande->setNombreDEssieux($data["nombre_d_essieux"]);
+        $demande->setCylindree($data["cylindree"]);
+        $demande->setNumeroVinChassis($data["numero_vin_chassis"]);
+        $demande->setSocieteDeCredit(strtoupper($data["societe_de_credit"]));
+        $demande->setTypeTechnique(strtoupper($data["type_technique"]));
+        $demande->setNumeroDImmatriculationPrecedent(strtoupper($data["numero_d_immatriculation_precedent"]));
 
-    /**
-     * @param $row
-     * @param string $uploadDir
-     * @param Demande $demande
-     * @return void
-     */
-    public function storeAsset($row, string $uploadDir, Demande $demande): void
-    {
-        if (isset($row) && !empty($row)) {
-            $photo = new File($uploadDir . $row, false);
-            if (file_exists($photo->getPathname())) {
-                $fileName = $this->demandeAssetHelper->uploadAsset($photo, $demande->getMatricule());
-                if ($fileName) $demande->setPhoto($fileName);
+        $demande->setDateRendezVous(new \DateTime("tomorrow"));
+
+        if (array_key_exists("authid", $data)) {
+            $otpCode = $this->otpCodeRepository->find($data["authid"]);
+            if ($otpCode && !$demande->getOtpCodes()->contains($otpCode)) {
+                $demande->addOtpCode($otpCode);
             }
         }
+        $this->demandeRepository->add($demande, true);
+        return $demande;
     }
 
+    public function update(Demande &$demande, array $data): Demande
+    {
+        if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
+        if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
+        $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
+        $demande->setDateDePremiereMiseEnCirulation(new \DateTime($data["date_de_premiere_mise_en_cirulation"]));
+        $demande->setDateDEdition(new \DateTime($data["date_d_edition"]));
+        $demande->setIdentiteProprietaire(strtoupper($data["identite_proprietaire"]));
+        $demande->setIdentiteProprietairePiece(strtoupper($data["identite_proprietaire_piece"]));
+        $demande->setMarqueDuVehicule(strtoupper($data["marque_du_vehicule"]));
+        $demande->setGenreVehicule(strtoupper($data["genre_vehicule"]));
+        $demande->setTypeCommercial(strtoupper($data["type_commercial"]));
+        $demande->setCouleurVehicule(strtoupper($data["couleur_vehicule"]));
+        $demande->setCarroserieVehicule(strtoupper($data["carroserie_vehicule"]));
+        $demande->setEnergieVehicule(strtoupper($data["energie_vehicule"]));
+        $demande->setPlacesAssises($data["places_assises"]);
+        $demande->setUsageVehicule($data["usage_vehicule"]);
+        $demande->setPuissanceFiscale($data["puissance_fiscale"]);
+        $demande->setNombreDEssieux($data["nombre_d_essieux"]);
+        $demande->setCylindree($data["cylindree"]);
+        $demande->setNumeroVinChassis($data["numero_vin_chassis"]);
+        $demande->setSocieteDeCredit(strtoupper($data["societe_de_credit"]));
+        $demande->setTypeTechnique(strtoupper($data["type_technique"]));
+        $demande->setNumeroDImmatriculationPrecedent(strtoupper($data["numero_d_immatriculation_precedent"]));
 
+        $demande->setDateRendezVous(new \DateTime("tomorrow"));
 
+        if (array_key_exists("authid", $data)) {
+            $otpCode = $this->otpCodeRepository->find($data["authid"]);
+            if ($otpCode && !$demande->getOtpCodes()->contains($otpCode)) {
+                $demande->addOtpCode($otpCode);
+            }
+        }
+        $this->demandeRepository->add($demande, true);
+        return $demande;
+    }
+
+    public function getGroupByMarque(){
+        return $this->demandeRepository->findGroupByMarque();
+    }
+
+    public function getGroupByEnergie(){
+        return $this->demandeRepository->findGroupByEnergie();
+    }
+
+    public function getTotalPendingPayment(){
+        return $this->demandeRepository->findTotaNotPayed();
+    }
+
+    public function  getTotalUndeliveredEachMonth(){
+        return $this->demandeRepository->findTotalUndeliveredEachMonth();
+    }
 }

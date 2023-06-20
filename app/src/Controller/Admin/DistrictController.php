@@ -10,6 +10,8 @@ use App\Helper\DataTableHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
 use App\Service\Demande\DemandeService;
+use App\Service\Macaron\MacaronService;
+use App\Service\Payment\PaymentService;
 use Doctrine\DBAL\Connection;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
@@ -25,9 +27,19 @@ class DistrictController extends AbstractController
 {
 
     #[Route('', name: 'admin_district_index', methods: ['GET'])]
-    public function index(Request $request): Response
+    public function index(Request $request,
+                          PaymentService $paymentService,
+                          DemandeService $demandeService,
+                          MacaronService $macaronService): Response
     {
-        return $this->render('admin/district/index.html.twig');
+        $stats = [
+            "total_demandes" => $paymentService->getTotalDemandes(),
+            "total_macarons_en_circulation" => $macaronService->getMacaronEnCirulation(),
+            "total_macarons_non_delivres" => $demandeService->getTotalPendingPayment(),          // If not payed the macaron is not generated and not delivered
+            "total_demandes_journalieres" => $paymentService->getTotalDailyDemande(),
+            "total_demandes_hebdomadaires" => $paymentService->getTotalWeeklyDemandes(),
+        ];
+        return $this->render('admin/district/index.html.twig', $stats);
     }
 
     #[Route('/data', name: 'admin_dstrict_dt', methods: ['GET'])]

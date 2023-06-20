@@ -39,7 +39,6 @@ class MacaronRepository extends ServiceEntityRepository
         }
     }
 
-
 //    public function findOneBySomeField($value): ?Member
 //    {
 //        return $this->createQueryBuilder('m')

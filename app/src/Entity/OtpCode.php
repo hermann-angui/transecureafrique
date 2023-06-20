@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: OtpCodeRepository::class)]
-#[ORM\Table(name: '`otpCode`')]
+#[ORM\Table(name: '`otpcode`')]
 #[ORM\HasLifecycleCallbacks()]
 class OtpCode
 {

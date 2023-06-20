@@ -2,11 +2,18 @@
 
 namespace App\Service\Otp;
 
+use App\Dtos\OtpRequest;
+use App\Entity\OtpCode;
+use App\Repository\OtpCodeRepository;
+
 /**
  *
  */
 class OtpService
 {
+    public function __construct(private OtpCodeRepository $otpCodeRepository)
+    {
+    }
 
     /**
      * @return string|null
@@ -24,9 +31,30 @@ class OtpService
     }
 
 
-    public static function checkValidity(string $code){
+    public function checkOtpValidity(OtpCode $OtpCode): bool {
+        if(!$OtpCode) return false;
+        $now = new \DateTime('now');
+        return !($OtpCode->getExpiredAt() > $now );
+    }
 
-        return true;
+    public function create(OtpRequest $request): OtpCode {
+        $otpCode = new OtpCode();
+        $otpCode->setCode($request->getCode());
+        $otpCode->setWebserviceReference($request->getWebserviceref());
+        $otpCode->setPhone($request->get('numerotelInput'));
+        $otpCode->setIsExpired(false);
+        $otpCode->setCreatedAt(new \DateTime('now'));
+        $otpCode->setModifiedAt(new \DateTime('now'));
+        $now = new \DateTime('now');
+        $expireOn = $now->modify('+2 day');
+        $otpCode->setExpiredAt($expireOn);
+        $this->otpCodeRepository->add($otpCode, true);
+
+        return $otpCode;
+    }
+
+    public function getByPhone(string $phone){
+        return $this->otpCodeRepository->findOneBy(['phone' => $phone]);
     }
 
 }
