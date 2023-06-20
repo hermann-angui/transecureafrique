@@ -3,14 +3,9 @@
 namespace App\Controller\Client;
 
 use App\Dtos\OtpRequest;
-use App\Entity\Demande;
-use App\Entity\Payment;
-use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
-use App\Service\Demande\DemandeService;
 use App\Service\InfoBip\InfoBipService;
 use App\Service\Otp\OtpService;
-use App\Service\Payment\PaymentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

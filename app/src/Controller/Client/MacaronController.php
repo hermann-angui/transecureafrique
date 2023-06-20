@@ -67,8 +67,9 @@ class MacaronController extends AbstractController
 
             if(array_key_exists("authid", $data)) {
                 $otpCode = $otpCodeRepository->find($data["authid"]);
-                if($otpCode) {
-                    $demande->setOtpcode($otpCode);
+                if(!$otpCode) {
+                    $otpCode->setDemande($otpCode);
+                    $otpCodeRepository->add($otpCode, true);
                 }
             }
 
