@@ -20,7 +20,7 @@ class DemandeController extends AbstractController
     {
         $auth_id = $request->get('authid');
         if(!$auth_id) return $this->redirectToRoute('auth');
-        return $this->render('frontend/pages/select-demande-type.html.twig', ["authid" => $auth_id]);
+        return $this->render('frontend/bs/select-demande-type.html.twig', ["authid" => $auth_id]);
     }
 
     #[Route(path: '/formulaire', name: 'demande_new', methods: ['POST', 'GET'])]
@@ -30,7 +30,7 @@ class DemandeController extends AbstractController
             $document = $request->get("document");
             $authid = $request->get("authid");
             if(empty($document && $authid)) return $this->redirectToRoute('demande_select_type');
-            return $this->render('frontend/pages/formulaire_demande.html.twig', [
+            return $this->render('frontend/bs/formulaire_demande.html.twig', [
                 "document" => $document,
                 "authid" => $authid
             ]);
@@ -61,7 +61,7 @@ class DemandeController extends AbstractController
     #[Route(path: '/recap/{id}', name: 'demande_recap', methods: ['POST', 'GET'])]
     public function demandeRecap(Demande $demande): Response
     {
-        return $this->render('frontend/pages/recapitulatif.html.twig', ['demande' => $demande]);
+        return $this->render('frontend/bs/recapitulatif.html.twig', ['demande' => $demande]);
     }
 
     #[Route(path: '/receipt/{id}', name: 'demande_display_receipt', methods: ['POST', 'GET'])]

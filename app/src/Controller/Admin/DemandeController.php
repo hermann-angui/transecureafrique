@@ -3,16 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Demande;
-use App\Entity\Macaron;
 use App\Form\DemandeType;
-use App\Form\MacaronType;
 use App\Helper\DataTableHelper;
 use App\Repository\DemandeRepository;
-use App\Repository\MacaronRepository;
 use App\Service\Demande\DemandeService;
 use Doctrine\DBAL\Connection;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('admin/demande')]
 class DemandeController extends AbstractController
 {
-
     #[Route('', name: 'admin_demande_index', methods: ['GET'])]
     public function index(Request $request): Response
     {

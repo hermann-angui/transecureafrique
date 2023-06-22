@@ -10,6 +10,8 @@
         {% block stylesheet %}
         <link  href="{{ asset('frontend/css/style.css') }}" rel="stylesheet" type="text/css">
         <link  href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/owl/assets/owl.carousel.min.css') }}" rel="stylesheet" type="text/css">
         {% endblock %}
 </head>
 
@@ -32,7 +34,12 @@
         <script src="{{ asset('frontend/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
         <script src="{{ asset('frontend/_next/static/chunks/webpack-bc0a8e12a52f09d4.js') }}"></script>
         <script src="{{ asset('frontend/_next/static/chunks/framework-4fadf02ee0c3c13f.js') }}"></script>
-        <script src="{{ asset('frontend/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
+        <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.js') }}"></script>
+        <script src="{{ asset('frontend/libs/inputmask/dist/bindings/inputmask.binding.js') }}"></script>
+        <script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.css') }}"></script>
+        <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
 {% endblock %}
 
 </body>

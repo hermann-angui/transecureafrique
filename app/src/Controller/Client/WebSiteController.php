@@ -33,7 +33,7 @@ class WebSiteController extends AbstractController
     #[Route(path: '/auth', name: 'auth')]
     public function login(Request $request): Response
     {
-        return $this->render('frontend/pages/auth.html.twig');
+        return $this->render('frontend/bs/auth.html.twig');
     }
 
     #[Route(path: '/otp/check', name: 'check_otp', methods: ['GET', 'POST'])]
@@ -49,7 +49,7 @@ class WebSiteController extends AbstractController
         if ($otpCode) {
             return $this->redirectToRoute('demande_select_type', ['authid' => $otpCode->getId()]);
         } else {
-            return $this->render('frontend/pages/otp.html.twig', ["error" => "Le Code " . ($code1 ?: $code2) . " est  incorrect. Veuillez entrer le code reçu par SMS ", "otp" => null]);
+            return $this->render('frontend/bs/otp.html.twig', ["error" => "Le Code " . ($code1 ?: $code2) . " est  incorrect. Veuillez entrer le code reçu par SMS ", "otp" => null]);
         }
     }
 
@@ -73,7 +73,7 @@ class WebSiteController extends AbstractController
             }
         }
 
-        return $this->render('frontend/pages/otp.html.twig', ["otp" => $existingOtp]);
+        return $this->render('frontend/bs/otp.html.twig', ["otp" => $existingOtp]);
     }
 
 
