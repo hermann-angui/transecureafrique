@@ -169,7 +169,7 @@
             align-self: flex-start;
             position: absolute;
             left: 10px;
-            top: 241px;
+            top: 220px;
             z-index: 2;
             margin-bottom: 0;
             max-width: 320px;
@@ -205,7 +205,6 @@
             color: #006a53;
             font-family: 'Gotham Cond SSm', 'Arial Narrow Title', 'Roboto Condensed Title', 'DIN Condensed Title', 'Arial Title', 'Helvetica title', 'sans-serif-title', sans-serif;
             font-weight: bold;
-            margin-bottom: 16px;
             line-height: 1.22;
             font-size: 10px;
         }
@@ -242,7 +241,6 @@
             border-radius: 3px;
             background-color: #ff7b00;
         }
-
         .ePNbYx span {
             -webkit-text-size-adjust: 100%;
             visibility: visible !important;
@@ -264,7 +262,6 @@
             text-align: left;
             flex: 1;
         }
-
         .flYPBY {
             display: inline-block;
             vertical-align: middle;
@@ -274,8 +271,6 @@
             min-width: 14px;
             margin-left: 8px;
         }
-
-
         .lefIfz {
             display: inline-block;
             vertical-align: middle;
@@ -283,6 +278,29 @@
             color: #006a53;
             width: 24px;
             height: 24px;
+        }
+
+        .box{
+            cursor: pointer;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 2px 2px 20px 0 rgba(196, 196, 196, 0.29), 0 2px 4px 0 rgba(196, 196, 196, 0.6);
+            -webkit-transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease;
+            border-right: 15px solid #ff7b00;
+        }
+
+        .box:hover {
+            background-color: #fff8ec;
+        }
+
+        .separator_a{
+            width: 80px;
+            background-color: #0f735d;
+            -webkit-transform: skewX(-12deg);
+            -ms-transform: skewX(-12deg);
+            transform: skewX(-12deg);
+            margin-left: -42px;
         }
     </style>
 
@@ -353,7 +371,8 @@
                     <h1 color="#d86100" class="sc-afcf0985-0 hWWVP">VTC</h1>
                 </div>
                 <div style="display:contents">
-                    <p class="sc-ff3d7efc-0 jjzkEl">Votre macaron</p>
+                    <p class="sc-ff3d7efc-0 jjzkEl">Votre macaron à </p>
+                    <p class="fs-4 fw-bolder">10100 FCFA</p>
                 </div>
                 <a tabindex="0" href="/auth" class="sc-29f394f2-0 ePNbYx" rel="follow">
                     <span class="sc-440a794-0 hrlawX">Faire une demande</span>
@@ -379,49 +398,59 @@
     </div>
 </div>
 <div class="container">
-    <div class="row g-5 mt--20">
+    <div class="row mt-3 justify-content-center m-auto">
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-            <div class="service-one-inner-four">
-                <a href="#" class="icon">
-                    <img src="assets/images/service/icon/service-logo1.svg" alt="Business-service">
-                </a>
-                <div class="content">
-                    <h5 class="title">Financial Planning</h5>
-                    <p class="disc">Purus dui eget sollicitudin curae leo proin platea cras, morbi torquent massa
-                    </p>
+            <div class="card box">
+                <div class="card-body">
+                    <a href="{{ path('home') }}" class="text-decoration-none text-success text-center">
+                        <div class="d-block d-flex justify-content-center align-items-center m-auto">
+                            <img src="{{ asset('frontend/assets/img/question_mark.png') }}" width="60" height="60">
+                        </div>
+                        <div class="px-2">
+                            <span class="fw-bolder">POURQUOI LE MACARON ?</span>
+                        </div>
+                    </a>
                 </div>
-                <a href="service-details.html" class="rts-btn btn-primary-3"> Read More</a>
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-            <div class="service-one-inner-four">
-                <a href="#" class="icon">
-                    <img src="assets/images/service/icon/service-logo2.svg" alt="Business-service">
-                </a>
-                <div class="content">
-                    <h5 class="title">Business Planning</h5>
-                    <p class="disc">Commodo gravida sodales pulvinar quamta habitant tristique auctore sapien
-                    </p>
+            <div class="card box">
+                <div class="card-body">
+                    <a href="{{ path('home') }}" class="text-decoration-none text-success text-center">
+                        <div class="d-block d-flex justify-content-center align-items-center m-auto">
+                            <img src="{{ asset('frontend/assets/img/macaron_thumbnail.jpg') }}" width="60" height="60">
+                        </div>
+                        <div class="px-2"><span class="fw-bolder">OBTENIR SON MACARON</span></div>
+                    </a>
                 </div>
-                <a href="service-details.html" class="rts-btn btn-primary-3"> Read More</a>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-            <div class="service-one-inner-four">
-                <a href="#" class="icon">
-                    <img src="assets/images/service/icon/service-logo3.svg" alt="Business-service">
-                </a>
-                <div class="content">
-                    <h5 class="title">Marketing Planning</h5>
-                    <p class="disc">Sodales pulvinar habitant tristique sapien pretiumto turpis dignissim mus
-                    </p>
-                </div>
-                <a href="service-details.html" class="rts-btn btn-primary-3"> Read More</a>
             </div>
         </div>
     </div>
 </div>
+<div class="container bg-gradient bg-body-tertiary mt-4">
+    <div class="row">
+        <div class="col-5 px-0" >
+            <img src="{{ asset('frontend/assets/img/uber-driver.jpg') }}"  width="100%" alt="">
+        </div>
+        <div class="separator_a"></div>
+        <div class="col-5 bg-gradient px-5">
+            <div class="bg-gradient px-1 d-flex justify-content-center">
+                <div><h1>Qui sommes-nous ?</h1></p>
+                <p>Depuis près de 15 ans, nous accompagnons tous nos clients dans le développement de logiciels spécifiques à leur activité et à leur organisation.
+                    Force de propositions et riches d’une maîtrise des sujets du monde de l’entreprise, nous concevons des logiciels sur mesure qui répondent avec précision aux spécificités et exigences de tous nos clients.
+                    Notre savoir faire est reconnu dans la réalisation de logiciels ergonomiques et performants mais aussi dans l’analyse fonctionnelle et l’acompagnement au changement.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="col-12">
+        <div style="width:500px;font-weight:bolder; font-size: 0.6em; border-bottom:5px solid #0f735d; padding: 5px 5px 5px 5px;"><h2>Pourquoi le macron ?</h2></div>
+        <div style="border-radius:5px;height:500px; margin-top: 10px; background-color: #e7e7e7; border-left: 2px solid #ff7b00;">
 
+        </div>
+    </div>
+</div>
 <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('frontend/libs/inputmask/dist/bindings/inputmask.binding.js') }}"></script>
