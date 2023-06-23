@@ -1,4 +1,3 @@
-/public/users
 /public/assets/files/sample.csv
 ###> symfony/framework-bundle ###
 /.env.local
