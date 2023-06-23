@@ -17,15 +17,8 @@ class WebSiteController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function home(Request $request): Response
     {
-        return $this->render('frontend/bs/index.html.twig');
-    }
-
-    #[Route(path: '/accueil', name: 'accueil')]
-    public function accueil(Request $request): Response
-    {
         return $this->render('frontend/bs/index2.html.twig');
     }
-
     #[Route(path: '/check/receipt/{chassis}', name: 'check_receipt')]
     public function checkReceipt($chassis, DemandeRepository $demandeRepository, Request $request): Response
     {
