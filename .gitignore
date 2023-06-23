@@ -10,4 +10,4 @@ app/vendor
 /app/public/members
 /app/public/media
 /app/public/tmp
-/app/public/frontend/
+/app/public/frontend/media
