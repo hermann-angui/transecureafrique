@@ -9,3 +9,5 @@ app/vendor
 /apppublic/uploads/
 /app/public/members
 /app/public/media
+/app/public/tmp
+/app/public/frontend/

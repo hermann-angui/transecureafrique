@@ -1,0 +1,226 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Code d'accès{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        body{
+            background-color: #f2f3f2
+        }
+        .form-signin {
+            max-width: 500px;
+            padding: 1rem;
+            height: 50vh;
+        }
+        input.form-control  {
+            text-align: center;
+        }
+        input.form-control:focus {
+            color: var(--bs-body-color);
+            background-color: var(--bs-body-bg);
+            border-color: #006a53;
+            outline: 0;
+            box-shadow: 4px 3px 0 0rem #006a53;
+        }
+        .btn-check:checked+.btn,
+        .btn.active, .btn.show,
+        .btn:first-child:active,
+        :not(.btn-check)+.btn:active,
+        button.btn:hover {
+            color: #ffffff;;
+            background-color: #e16a00;
+            border: 1px solid #e16a00;
+        }
+        button.btn {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 16px 13px;
+            color: #ffffff;
+            border: 1px solid #ff7b00;
+            border-radius: 3px;
+            background-color: #ff7b00;
+        }
+        .liste-etapes {
+            color: var(--text-color);
+            font-family: var(--font-text);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #b2b2b2;
+            box-shadow: none;
+        }
+        .form-label{
+            color: var(--text-color);
+            font-family: var(--font-text);
+            box-sizing: border-box;
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: .5em;
+            line-height: 1.375rem;
+        }
+        .input {
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding: 13px 16px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div role="main" class="container">
+        <div id="page-1">
+            <div class="liste-etapes is-clearfix">
+                <div class="etape disabled"><!---->
+                    <div class="icon">1</div> <!---->
+                    <div class="info">Informations vehicule</div>
+                </div>
+                <div class="etape disabled">
+                    <div class="line"></div>
+                    <div class="icon">2</div>
+                    <div class="info">Récapitulatif</div>
+                </div>
+                <div class="etape disabled">
+                    <div class="line"></div>
+                    <div class="icon">3</div> <!---->
+                    <div class="info">Paiement</div>
+                </div>
+                <div class="etape active current">
+                    <div class="line"></div>
+                    <div class="icon">4</div> <!---->
+                    <div class="info">Reçu de paiement</div>
+                </div>
+            </div>
+            <div class="notification">
+                <h2>Afficher le reçu de paiement </h2>
+                <div class="gpm-alert gpm-alert--information gpm-alert--bgimg">
+                    <div class="gpm-alert__title"><!---->
+                        <div style="font-weight: bold;">Votre paiement de <strong>{{ payment.demande.Montant }} f cfa </strong> a été effectué avec succès.</div>
+                        </div>
+                        <div style="margin-top:20px;">
+                            <div>Nous vous prions de vous rendre à notre agence pour le retrait de votre macaron à la date indiqué sur votre reçu de paiement.</div>
+                            <div style="font-weight: bold;margin-top:20px;">
+                                NB: Documents obligatoires pour le retrait de votre macaron:
+                            </div>
+                            <div style="padding: 20px 20px;">
+                                <ul style="list-style: disc">
+                                    <li>Une copie de votre reçu de paiement</li>
+                                    <li>L'original de votre carte grise ou du récépissé d'immatriculation</li>
+                                    <li>Le numéro de téléphone du propriétaire du véhicule </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <a style="margin-bottom: 10px; border-radius:5px; padding:10px 10px; background-color: #21a103; color:#fff; width: auto; height: 20px;" href="{{ path('download_receipt_pdf', {id: payment.id}) }}"><i class="fa fa-download">Télécharger mon reçu</i></a>
+                        </div>
+
+                        <object data="/frontend/media/{{ payment.demande.NumeroVinChassis }}_receipt.pdf" type="application/pdf" style="width:100%;height:1000px; margin-top: 20px;">
+                            <p>Unable to display PDF file. <a href="/frontend/media/{{ payment.demande.NumeroVinChassis }}_receipt.pdf">Télécharger</a></p>
+                        </object>
+                    </div>
+
+                    <div style="margin-top: 20px">
+                        <a href="{{ path("home") }}" type="submit" style="border-radius:10px; border: none; cursor: pointer;padding:15px 30px 15px 30px; background-color: orange; color: white; font-size: 16px">Revenir à l'acceuil</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function(){
+    })
+</script>
+{% endblock %}
+
+

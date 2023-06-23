@@ -1,8 +1,9 @@
+
 <header id="nav-header" class="sc-116d8234-2 kKePqs">
     <div class="sc-feb227fc-0 cEHQHP nav-mobile-header hidden-desktop">
         <div class="nav-mobile-inner">
             <a tabindex="0" href="{{ path('home') }}" rel="follow">
-                <img src="{{ asset('/frontend/images/logo_pommgroup.jpeg') }}" alt="amoirie" height="50" />
+                <img src="{{ asset('/frontend/images/logo_v1.png') }}" alt="amoirie" height="50" />
             </a>
             <div class="right-part">
                 <div class="cta1-container">
@@ -79,41 +80,45 @@
             </nav>
             <nav data-level="0" class="sc-5b1b30ea-0 ckwbHv">
                 <div class="inner">
-                    <a tabindex="0" href="{{ path('home') }}" class="logo logoDesktop" rel="follow">
-                        <img src="{{ asset('/frontend/images/logo_pommgroup.jpeg') }}" alt="amoirie" height="50" />
-                    </a>
-                    <ul class="sc-a14e407c-0 fKYHYB">
-                        <li>
-                            <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> Accueil</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> A propos de nous</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="0" href="{{ path('demande_select_type') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> Demande</span></a>
-                        </li>
-                        <li>
-                            <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> Réclamation</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> Nos services</span></a>
-                        </li>
-                        <li>
-                            <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
-                                <span></span><span class="m_list_univers"> Nous contacter</span>
-                            </a>
-                        </li>
+                    <div class="logo logoDesktop">
+                        <a tabindex="0" href="{{ path('home') }}"  rel="follow">
+                            <img src="{{ asset('/frontend/images/logo_v1.png') }}" alt="amoirie" height="100" />
+                        </a>
+                    </div>
+                    <div  class="sc-a14e407c-0 fKYHYB">
+                        <ul>
+                            <li>
+                                <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> Accueil</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> A propos de nous</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a tabindex="0" href="{{ path('demande_select_type') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> Demande</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> Réclamation</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> Nos services</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="0" href="{{ path('home') }}" class="itemniv2-nav-link" rel="follow">
+                                    <span></span><span class="m_list_univers"> Nous contacter</span>
+                                </a>
+                            </li>
 
-                    </ul>
-                    <div class="cta1-container">
+                        </ul>
+                    </div>
+                    <div class="cta1-container" style="display: flex; justify-content: center; align-content: center">
                         <a class="cta1" href="{{ path('home') }}" target="_blank" rel="noopener noreferrer">
                             <p>
                                 <span class="name">Me connecter</span>

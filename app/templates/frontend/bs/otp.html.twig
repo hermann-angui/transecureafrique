@@ -34,13 +34,18 @@
             margin-right: 1rem !important;
         }
 
+        body {
+            background-color: #f2f3f2
+        }
+        div.main {
+            height: 55vh;
+            margin-bottom: 50px;
+        }
         .form-signin {
             max-width: 500px;
             padding: 1rem;
             height: 50vh;
         }
-
-
         .btn-check:checked+.btn,
         .btn.active, .btn.show,
         .btn:first-child:active,
@@ -64,31 +69,39 @@
 {% endblock %}
 
 {% block body %}
-    <main class="form-signin w-100 m-auto px-3 my-5">
-        {% if error is defined %}
-            <div style="align-items: center;background-color:#f3e1e1;;background-position: 100% 100%;background-repeat: no-repeat;border-bottom-left-radius: 3px;border-bottom-right-radius: 3px;box-sizing: border-box;color: #000000;display: flex;flex-wrap: wrap;padding: 15px 42px;text-align: center;">
-                <div>
-                    {{ error }}
-                </div> <!---->
-            </div>
-        {% endif %}
-        <form action="{{ path('check_otp') }}" method="post">
-            <h1 class="h3 mb-3 fw-normal">Code d'authentification</h1>
-            <div class="form-group mb-3">
-                <label for="numerotelInput" class="fs-6">Veuillez saisir le code à 6 chiffres reçu par SMS.</label>
-                <div class="otp-field">
-                    <input type="text" maxlength="1" tabindex="1" value="{{ otp ? otp.Code|slice(0, 1) : '' }}" name="tt[]"/>
-                    <input type="text" maxlength="1" tabindex="2" value="{{ otp ? otp.Code|slice(1, 1) : '' }}" name="tt[]"/>
-                    <input class="space" type="text" maxlength="1" tabindex="3" value="{{ otp ? otp.Code|slice(2, 1) : '' }}" name="tt[]"/>
-                    <input type="text" maxlength="1" tabindex="4" value="{{ otp ? otp.Code|slice(3, 1) : '' }}" name="tt[]"/>
-                    <input type="text" maxlength="1" tabindex="5"  value="{{ otp ? otp.Code|slice(4, 1) : '' }}" name="tt[]"/>
-                    <input type="text" maxlength="1" tabindex="6"  value="{{ otp ? otp.Code|slice(5, 1) : '' }}" name="tt[]"/>
+
+    <div class="main container pb-5">
+        <div class="row justify-content-center align-items-center py-5">
+            <div class="col-xl-8">
+                <div class="card py-5">
+                    <div class="card-body m-auto align-items-center">
+                        {% if error is defined %}
+                        <div class="alert alert-danger mb-3">
+                            <h3 class="text-danger">{{ error }}</h3>
+                        </div>
+                        {% endif %}
+                        <form action="{{ path('check_otp') }}" method="post">
+                            <h1 class="h3 mb-3 fw-normal">Code d'authentification</h1>
+                            <div class="form-group mb-3">
+                                <label for="numerotelInput" class="fs-6 my-3">Veuillez saisir le code à 6 chiffres reçu par SMS.</label>
+                                <div class="otp-field mb-3">
+                                    <input type="text" maxlength="1" tabindex="1" value="{{ otp ? otp.Code|slice(0, 1) : '' }}" name="tt[]"/>
+                                    <input type="text" maxlength="1" tabindex="2" value="{{ otp ? otp.Code|slice(1, 1) : '' }}" name="tt[]"/>
+                                    <input class="space" type="text" maxlength="1" tabindex="3" value="{{ otp ? otp.Code|slice(2, 1) : '' }}" name="tt[]"/>
+                                    <input type="text" maxlength="1" tabindex="4" value="{{ otp ? otp.Code|slice(3, 1) : '' }}" name="tt[]"/>
+                                    <input type="text" maxlength="1" tabindex="5"  value="{{ otp ? otp.Code|slice(4, 1) : '' }}" name="tt[]"/>
+                                    <input type="text" maxlength="1" tabindex="6"  value="{{ otp ? otp.Code|slice(5, 1) : '' }}" name="tt[]"/>
+                                </div>
+                            </div>
+                            <input type="hidden" id="otpcode" name="otpcode"/>
+                            <input type="submit" class="btn w-100 py-2" id="otpsubmit_btn" {{ otp ? '' : 'disabled' }}>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <input type="hidden" id="otpcode" name="otpcode"/>
-            <input type="submit" class="btn w-100 py-2" id="otpsubmit_btn" {{ otp ? '' : 'disabled' }}>
-        </form>
-    </main>
+        </div>
+    </div>
+    <div class="py-5"></div>
 {% endblock %}
 
 {% block javascript %}

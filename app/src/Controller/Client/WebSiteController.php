@@ -17,7 +17,7 @@ class WebSiteController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function home(Request $request): Response
     {
-        return $this->render('frontend/pages/index.html.twig');
+        return $this->render('frontend/bs/index2.html.twig');
     }
 
     #[Route(path: '/check/receipt/{chassis}', name: 'check_receipt')]
@@ -25,7 +25,7 @@ class WebSiteController extends AbstractController
     {
         $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $chassis]);
         if($demande) {
-            if($demande->getPayment()) return $this->render('frontend/pages/receipt-check.html.twig',["payment" => $demande->getPayment()]);
+            if($demande->getPayment()) return $this->render('frontend/bs/receipt-check.html.twig',["payment" => $demande->getPayment()]);
         }
         return new Response("<strong>ATTENTION!! Ce recu n'est pas authentitique</strong>");
     }

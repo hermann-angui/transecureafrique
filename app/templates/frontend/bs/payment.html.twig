@@ -1,0 +1,224 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Code d'accès{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        body #__next{
+            background-color: #f2f3f2
+        }
+        .form-signin {
+            max-width: 500px;
+            padding: 1rem;
+            height: 50vh;
+        }
+        input.form-control  {
+            text-align: center;
+        }
+        input.form-control:focus {
+            color: var(--bs-body-color);
+            background-color: var(--bs-body-bg);
+            border-color: #006a53;
+            outline: 0;
+            box-shadow: 4px 3px 0 0rem #006a53;
+        }
+        .btn-check:checked+.btn,
+        .btn.active, .btn.show,
+        .btn:first-child:active,
+        :not(.btn-check)+.btn:active,
+        button.btn:hover {
+            color: #ffffff;;
+            background-color: #e16a00;
+            border: 1px solid #e16a00;
+        }
+        button.btn {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 16px 13px;
+            color: #ffffff;
+            border: 1px solid #ff7b00;
+            border-radius: 3px;
+            background-color: #ff7b00;
+        }
+        .liste-etapes {
+            color: var(--text-color);
+            font-family: var(--font-text);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #b2b2b2;
+            box-shadow: none;
+        }
+
+        .form-label{
+            color: var(--text-color);
+            font-family: var(--font-text);
+            box-sizing: border-box;
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: .5em;
+            line-height: 1.375rem;
+        }
+        .input {
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding: 13px 16px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+            <div role="main" class="container">
+                <div id="page-1">
+                    <div class="liste-etapes is-clearfix">
+                        <div class="etape disabled"><!---->
+                            <div class="icon">1</div> <!---->
+                            <div class="info">Informations vehicule</div>
+                        </div>
+                        <div class="etape disabled">
+                            <div class="line"></div>
+                            <div class="icon">2</div>
+                            <div class="info">Récapitulatif</div>
+                        </div>
+                        <div class="etape active current">
+                            <div class="line"></div>
+                            <div class="icon">3</div> <!---->
+                            <div class="info">Paiement</div>
+                        </div>
+                        <div class="etape disabled">
+                            <div class="line"></div>
+                            <div class="icon">4</div> <!---->
+                            <div class="info">Reçu de paiement</div>
+                        </div>
+                    </div>
+                    <div class="notification">
+
+                        <ul width="calc(100% + 24px)" class="sc-283c6453-0 cexWYZ">
+
+                            <li id="46rhjYuf5ctVfRwlM4gTXj" class="sc-fdb78d1b-0 fxcFUx">
+                                <div class="sc-283c6453-0 fDGnLX"><h2>Paiement </h2></div>
+                                <div class="sc-283c6453-0 fDGnLX">
+                                    <div style="display:contents">
+                                        <p class="sc-afcf0985-0 fgGzvr">
+                                        </p>
+                                    </div>
+                                    <div style="display:contents">
+                                        <h3 class="sc-afcf0985-0 diOvZF"></h3>
+                                    </div>
+                                    <div style="display:flex;">
+                                        <img src="{{ asset('frontend/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
+                                        <p class="sc-ff3d7efc-0 eqASmT">
+                                            Faites votre paiement via wave money.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a tabindex="0" href="{{ path('do_payment', {id: payment.id, type: "wave_money"}) }}" class="sc-29f394f2-0 gmKwVk" rel="follow">
+                                        <span class="sc-440a794-0 hrlawX">
+                                            <span>Payer</span>
+                                        </span>
+                                            <svg viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg" name="common/ArrowRight" aria-hidden="true" focusable="false" ml="2" class="sc-3e8a2c25-0 flYPBY"><path d="m1.178 15.057-.08-.147c-.289-.6-.256-1.349.164-1.818l4.851-5.061L1.3 3.007l-.047-.04c-.565-.54-.565-1.537 0-2.077l.06-.05-.05.048A1.523 1.523 0 0 1 2.357.4c.395 0 .631.125.878.372l5.188 5.415c.473.526.748 1.185.748 1.843 0 .658-.275 1.317-.732 1.825L3.327 15.19l-.093.082c-.61.454-1.475.454-1.972-.1l-.084-.115z"></path></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function(){
+    })
+</script>
+{% endblock %}

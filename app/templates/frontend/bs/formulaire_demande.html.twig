@@ -13,14 +13,26 @@
             padding: 1rem;
             height: 50vh;
         }
-        input.form-control  {
-            text-align: center;
+
+        .form-label{
+            color: #6d6e6e !important;
         }
+        select.input, input.form-control  {
+            color: var(--bs-body-color);
+            background-color: var(--bs-body-bg);
+            border-color: #006a53;
+            outline: 0;
+            font-weight: bolder;
+            box-shadow: 2px 2px 0 0rem #006a53;
+        }
+
+        .form-select:focus,
         input.form-control:focus {
             color: var(--bs-body-color);
             background-color: var(--bs-body-bg);
             border-color: #006a53;
             outline: 0;
+
             box-shadow: 4px 3px 0 0rem #006a53;
         }
         .btn-check:checked+.btn,
@@ -187,19 +199,16 @@
                             <form action="{{ path('demande_new') }}" method="POST">
                                 {% if document == 'carte_grise' %}
                                 <div class="mb-3">
-                                    <label for="numero_carte_grise" class="form-label">Numéro de la carte grise</label>
+                                    <label for="numero_carte_grise" class="form-label">Numéro de la carte grise<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
                                     <input type="text" class="form-control input" id="numero_carte_grise" placeholder="" required>
                                 </div>
-                                {% endif %}
-                                {% if document == 'recepisse' %}
                                 <div class="mb-3">
-                                    <label for="numero_recepisse" class="form-label">Numéro du récépissé d'immatriculation</label>
-                                    <input type="text" class="form-control input" id="numero_recepisse" placeholder="" required>
-                                </div>
-                                {% endif %}
-                                <div class="mb-3">
-                                    <label for="numero_immatriculation" class="form-label">Numéro d'immatriculation</label>
+                                    <label for="numero_immatriculation" class="form-label">Numéro d'immatriculation du véhicule<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
                                     <input type="text" class="form-control input" id="numero_immatriculation" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numero_vin_chassis" class="form-label">Numéro du VIN/Chassis<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                                    <input type="text" class="form-control input" id="numero_vin_chassis" placeholder="">
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en cirulation</label>
@@ -214,14 +223,7 @@
                                     <input type="text" class="form-control input" id="identite_proprietaire" placeholder="">
                                     <input type="text" class="form-control input" id="identite_proprietaire_piece" placeholder="">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="marque_du_vehicule" class="form-label">Marque</label>
-                                    <input type="text" class="form-control input" id="marque_du_vehicule" placeholder="">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="genre_vehicule" class="form-label">Genre</label>
-                                    <input type="text" class="form-control input" id="genre_vehicule" placeholder="">
-                                </div>
+
                                 <div class="mb-3">
                                     <label for="type_commercial" class="form-label">Type Commercial</label>
                                     <input type="text" class="form-control input" id="type_commercial" placeholder="">
@@ -229,17 +231,6 @@
                                 <div class="mb-3">
                                     <label for="couleur_vehicule" class="form-label">Couleur</label>
                                     <input type="text" class="form-control input" id="couleur_vehicule" placeholder="">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="carroserie_vehicule" class="form-label">Carroserie vehicule</label>
-                                    <input type="text" class="form-control input" id="carroserie_vehicule" placeholder="">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="energie_vehicule" class="form-label">Energie</label>
-                                    <select id="energie_vehicule" class="form-select input" name="energie_vehicule">
-                                        <option value="ESSENCE" selected>ESSENCE</option>
-                                        <option value="GAZOIL" >GASOIL</option>
-                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="places_assises" class="form-label">Places assises</label>
@@ -265,23 +256,95 @@
                                     <span>C.U (Kg)</span>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="numero_vin_chassis" class="form-label">Numéro du VIN/Chassis</label>
-                                    <input type="text" class="form-control input" id="numero_vin_chassis" placeholder="">
-                                </div>
-                                <div class="mb-3">
                                     <label for="societe_de_credit" class="form-label">Société de crédit</label>
                                     <input type="text" class="form-control input" id="societe_de_credit" placeholder="">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="type_technique" class="form-label">Type technique</label>
+                                    <label for="marque_du_vehicule" class="form-label">Marque</label>
+                                    <input type="text" class="form-control input" id="marque_du_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="genre_vehicule" class="form-label">Genre</label>
+                                    <input type="text" class="form-control input" id="genre_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="carroserie_vehicule" class="form-label">Carroserie vehicule</label>
+                                    <input type="text" class="form-control input" id="carroserie_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type_technique" class="form-label">Type technique </label>
                                     <input type="text" class="form-control input" id="type_technique" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="energie_vehicule" class="form-label">Energie Véhicule</label>
+                                    <select id="energie_vehicule" class="form-select input" name="energie_vehicule">
+                                        <option value="ESSENCE" selected>ESSENCE</option>
+                                        <option value="GAZOIL" >GASOIL</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="numero_d_immatriculation_precedent" class="form-label">Numéro d'immatriculation précedent</label>
                                     <input type="text" class="form-control input" id="numero_d_immatriculation_precedent" placeholder="">
                                 </div>
-                                <div>
-                                    <input type="submit" class="btn btn-primary w-md">Enregister</input>
+                                {% endif %}
+                                {% if document == 'recepisse' %}
+                                <div class="mb-3">
+                                    <label for="numero_recepisse" class="form-label">Numéro de la série<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                                    <input type="text" class="form-control input" id="numero_recepisse" placeholder="" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numero_vin_chassis" class="form-label">Numéro de série<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                                    <input type="text" class="form-control input" id="numero_vin_chassis" placeholder="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en circulation</label>
+                                    <input type="text" class="form-control input" id="date_de_premiere_mise_en_cirulation" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="marque_du_vehicule" class="form-label">Marque</label>
+                                    <input type="text" class="form-control input" id="marque_du_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="genre_vehicule" class="form-label">Genre</label>
+                                    <input type="text" class="form-control input" id="genre_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="carroserie_vehicule" class="form-label">Carroserie vehicule</label>
+                                    <input type="text" class="form-control input" id="carroserie_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type_technique" class="form-label">Type </label>
+                                    <input type="text" class="form-control input" id="type_technique" placeholder="">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="energie_vehicule" class="form-label">Source Energie</label>
+                                    <select id="energie_vehicule" class="form-select input" name="energie_vehicule">
+                                        <option value="ESSENCE" selected>ESSENCE</option>
+                                        <option value="GAZOIL" >GASOIL</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="places_assises" class="form-label">Nombre de places</label>
+                                    <input type="text" class="form-control input" id="places_assises" placeholder="">
+                                    <span>P T.A.C (Kg)</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="puissance_fiscale" class="form-label">Puissance </label>
+                                    <input type="text" class="form-control input" id="puissance_fiscale" placeholder="">
+                                    <span>P.V (Kg)</span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="couleur_vehicule" class="form-label">Couleur</label>
+                                    <input type="text" class="form-control input" id="couleur_vehicule" placeholder="">
+                                </div>
+                                <div class="mb-3 form-group">
+                                    <label for="date_d_edition" class="form-label">Le présent récépissé est délivré le</label>
+                                    <input type="text" class="form-control " id="date_d_edition" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                                </div>
+                                {% endif %}
+                                <hr>
+                                <div class="pt-3 my-3">
+                                    <button class="btn w-50" type="submit">Enregister</button>
                                 </div>
                             </form>
                         </div>
@@ -300,8 +363,14 @@
       $(document).ready(function(){
            $("#date_d_edition").inputmask();
            $("#date_de_premiere_mise_en_cirulation").inputmask();
+           $("#nombre_d_essieux").inputmask({
+              alias: 'numeric',
+              allowMinus: false,
+              digits: 2,
+              max: 999
+            });
 
-           $(":input").keypress(function(e){
+           $(":input").keyup(function(e){
                this.value = this.value.toUpperCase();
            });
       });

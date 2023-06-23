@@ -14,15 +14,20 @@
 
         input.form-control  {
             text-align: center;
-            padding: 10px 10px;
-            font-size: 25px;
-        }
-        input.form-control:focus {
             color: var(--bs-body-color);
             background-color: var(--bs-body-bg);
             border-color: #006a53;
             outline: 0;
             box-shadow: 4px 3px 0 0rem #006a53;
+        }
+
+        .select ,.select:focus,
+        input.form-control:focus {
+            color: var(--bs-body-color);
+            background-color: var(--bs-body-bg);
+            border-color: #006a53;
+            outline: 0;
+            box-shadow: 2px 2px 0 0rem #006a53;
         }
 
         .btn-check:checked+.btn,
@@ -48,16 +53,25 @@
 {% endblock %}
 
 {% block body %}
-    <main class="form-signin w-100 m-auto my-5">
-        <form action="{{ path("otp") }}" method="post">
-            <h1 class="h3 mb-3 fw-normal">Authentifiez vous</h1>
-            <div class="form-group mb-3">
-                <label for="numerotelInput">Entrez votre numéro de téléphone mobile.</label>
-                <input class="form-control my-3" tabindex="1" id="numerotelInput" name="numerotelInput"  type="text" autocomplete="off" autofocus="">
+<div class="main container pb-5">
+    <div class="row justify-content-center align-items-center py-5">
+        <div class="col-xl-8">
+            <div class="card py-5">
+                <div class="card-body m-auto align-items-center">
+                    <form action="{{ path("otp") }}" method="post">
+                        <h1 class="h3 mb-3 fw-normal">Authentifiez vous</h1>
+                        <div class="form-group mb-3">
+                            <label for="numerotelInput">Entrez votre numéro de téléphone mobile.</label>
+                            <input class="form-control my-3 p-3 fs-3" tabindex="1" id="numerotelInput" name="numerotelInput"  type="text" autocomplete="off" autofocus="">
+                        </div>
+                        <button class="btn w-100 py-2" type="submit">Envoyer</button>
+                    </form>
+                </div>
             </div>
-            <button class="btn w-100 py-2" type="submit">Envoyer</button>
-        </form>
-    </main>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block javascript %}

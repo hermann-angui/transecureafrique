@@ -68,7 +68,7 @@ class DemandeController extends AbstractController
     public function demandeShowReceipt(Payment $payment, PaymentService $paymentService): Response
     {
         $paymentService->generateReceipt($payment, 'frontend/pages/receipt-pdf.html.twig');
-        return $this->render('frontend/pages/display-receipt.html.twig', [
+        return $this->render('frontend/bs/display-receipt.html.twig', [
             'payment' => $payment
         ]);
     }
@@ -86,7 +86,7 @@ class DemandeController extends AbstractController
 
             $paymentService->create($data);
         }
-        return $this->render('frontend/pages/payment.html.twig', [
+        return $this->render('frontend/bs/payment.html.twig', [
             "payment" => $demande->getPayment()
         ]);
     }
@@ -103,17 +103,17 @@ class DemandeController extends AbstractController
             if($demande){
                 if($demande->getMacaron()){
                     $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
-                    return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
+                    return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
                 }else{
                     $payment = $demande->getPayment();
                     return $this->redirectToRoute('demande_display_receipt' , ['id' => $payment->getId()]);
                 }
             }else{
                 $warning = "Cette demande est introuvable!";
-                return $this->render('frontend/pages/search-demande.html.twig', ["warning" => $warning ]);
+                return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
             }
         }
-        return $this->render('frontend/pages/search-demande.html.twig');
+        return $this->render('frontend/bs/search-demande.html.twig');
     }
 
     #[Route('/receipt-pdf/{id}', name: 'download_receipt_pdf', methods: ['GET'])]
