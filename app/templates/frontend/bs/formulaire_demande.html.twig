@@ -358,21 +358,24 @@
     </div>
 {% endblock %}
 {% block javascript %}
- {{ parent() }}
-  <script>
+<script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+<script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+ <script>
       $(document).ready(function(){
+
+          $("#input-date1").inputmask();
+
            $("#date_d_edition").inputmask();
+
            $("#date_de_premiere_mise_en_cirulation").inputmask();
+
            $("#nombre_d_essieux").inputmask({
               alias: 'numeric',
               allowMinus: false,
               digits: 2,
               max: 999
             });
-
-           $(":input").keyup(function(e){
-               this.value = this.value.toUpperCase();
-           });
       });
   </script>
 {% endblock %}

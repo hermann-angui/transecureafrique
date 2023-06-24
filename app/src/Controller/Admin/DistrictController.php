@@ -100,7 +100,7 @@ class DistrictController extends AbstractController
         if(!empty($params['energie_vehicule'])) {
             $whereResult .= " energie_vehicule LIKE '%". $params['energie_vehicule']. "%' AND";
         }
-        $whereResult .= " payment_id IS NOT NULL AND";
+        $whereResult .= " payment_id IS NOT NULL";
 
         $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $whereResult);
 
