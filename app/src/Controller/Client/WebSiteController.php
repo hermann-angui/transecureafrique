@@ -17,7 +17,7 @@ class WebSiteController extends AbstractController
     #[Route(path: '/', name: 'home')]
     public function home(Request $request): Response
     {
-        return $this->render('frontend/bs/index2.html.twig');
+        return $this->render('frontend/bs/index.html.twig');
     }
     #[Route(path: '/check/receipt/{chassis}', name: 'check_receipt')]
     public function checkReceipt($chassis, DemandeRepository $demandeRepository, Request $request): Response
@@ -56,6 +56,8 @@ class WebSiteController extends AbstractController
     public function otp(Request $request, InfoBipService $infoBipService, OtpService $otpService): Response
     {
         $phoneNumber = $request->get('numerotelInput');
+        $phoneNumber = trim($phoneNumber, "-");
+       // $phoneNumber = substr($phoneNumber,6);
         if (!$phoneNumber) return $this->redirectToRoute('auth');
         $existingOtp = $otpService->getByPhone($phoneNumber);
        // $otpService->checkOtpValidity($existingOtp);

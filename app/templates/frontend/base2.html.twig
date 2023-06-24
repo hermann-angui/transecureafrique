@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="transecureafrica.com">
+        <meta name="author" content="transecureafrica">
+        <title>{% block title %}Accueil{% endblock %}</title>
+        {% block stylesheet %}
+        <link  href="{{ asset('frontend/css/style.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/owl/assets/owl.carousel.min.css') }}" rel="stylesheet" type="text/css">
+        {% endblock %}
+</head>
+
+<body>
+<div id="__next" >
+    {% block header %}
+        {{ include('frontend/_partials/header.html.twig') }}
+    {% endblock %}
+
+    {% block body %}
+    {% endblock %}
+
+    {% block footer %}
+     {{ include('frontend/_partials/footer.html.twig') }}
+    {% endblock %}
+</div>
+
+
+{% block javascript %}
+        <script src="{{ asset('frontend/_next/static/chunks/polyfills-5cd94c89d3acac5f.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/webpack-bc0a8e12a52f09d4.js') }}"></script>
+        <script src="{{ asset('frontend/_next/static/chunks/framework-4fadf02ee0c3c13f.js') }}"></script>
+        <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
+{% endblock %}
+
+</body>
+
+</html>
