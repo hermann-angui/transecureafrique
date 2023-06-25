@@ -100,6 +100,7 @@ class DemandeController extends AbstractController
         if($term && $criteria){
             if($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
             if($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
+            if($criteria === 'numero_recu') $demande = $demandeRepository->findOneBy(['reference' => $term]);
             if($demande){
                 if($demande->getMacaron()){
                     $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
