@@ -207,6 +207,15 @@
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="energie_vehicule" placeholder="Type energie">
                                         </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="identite_proprietaire" placeholder="Propriétaire">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Contact Propriétaire">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -248,7 +257,7 @@
 
         var datatable = initDatatable();
 
-        $("#numero_carte_grise,#numero_recepisse,#marque_du_vehicule,#genre_vehicule,#energie_vehicule").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#marque_du_vehicule,#genre_vehicule,#energie_vehicule,#identite_proprietaire,#identite_proprietaire_piece,#numero_telephone_proprietaire").change(function (e) {
                 datatable.draw();
         });
 
@@ -271,6 +280,9 @@
                         d.marque_du_vehicule = $("#marque_du_vehicule").val();
                         d.genre_vehicule = $("#genre_vehicule").val();
                         d.energie_vehicule = $("#energie_vehicule").val();
+                        d.identite_proprietaire = $("#identite_proprietaire").val();
+                        d.identite_proprietaire_piece = $("#identite_proprietaire_piece").val();
+                        d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
                     }
                 },
                 "columns": [
@@ -279,7 +291,10 @@
                     {"data":  "numero_recepisse"},
                     {"data":  "marque_du_vehicule"},
                     { "data": "genre_vehicule" },
-                    { "data": "energie_vehicule" },
+                    { "data": "genre_vehicule" },
+                    { "data": "identite_proprietaire" },
+                    { "data": "identite_proprietaire_piece" },
+                    { "data": "numero_telephone_proprietaire" },
                 ],
                 "order": [[1, 'asc']]
             } );

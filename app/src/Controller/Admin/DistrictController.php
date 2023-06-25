@@ -83,6 +83,10 @@ class DistrictController extends AbstractController
                 'db' => 'energie_vehicule',
                 'dt' => 'energie_vehicule'
             ],
+            [
+                'db' => 'numero_telephone_proprietaire',
+                'dt' => 'numero_telephone_proprietaire'
+            ],
         ];
 
         $sql_details = array(
