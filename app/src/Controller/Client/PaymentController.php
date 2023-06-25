@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 
 #[Route('/payment')]
@@ -25,6 +26,7 @@ class PaymentController extends AbstractController
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());
+            $payment->setReceiptNumber($this->generateReference());
             $payment->setMontant($response->getAmount());
             $payment->setType("MOBILE_MONEY");
 
@@ -73,5 +75,12 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('home');
         }
     }
+
+    public function generateReference() {
+        $now = new \DateTime();
+        $year = $now->format("Y");
+        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
+    }
+
 
 }

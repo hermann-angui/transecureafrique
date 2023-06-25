@@ -20,6 +20,9 @@ class Payment
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $reference;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $receipt_number;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $montant;
 
@@ -218,6 +221,24 @@ class Payment
 
         $this->demande = $demande;
 
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReceiptNumber(): ?string
+    {
+        return $this->receipt_number;
+    }
+
+    /**
+     * @param string|null $receipt_number
+     * @return Payment
+     */
+    public function setReceiptNumber(?string $receipt_number): Payment
+    {
+        $this->receipt_number = $receipt_number;
         return $this;
     }
 

@@ -77,7 +77,7 @@ class WaveService
             $waveCheckoutRequest = new WaveCheckoutRequest();
             $waveCheckoutRequest->setCurrency("XOF")
                 ->setAmount($payment->getMontant())
-                ->setClientReference( Uuid::v4()->toRfc4122())
+                ->setClientReference(Uuid::v4()->toRfc4122())
                 ->setSuccessUrl(self::SUCCESS_URL);
 
             $waveResponse = $this->checkOutRequest($waveCheckoutRequest);
