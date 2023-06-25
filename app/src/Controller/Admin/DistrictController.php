@@ -72,6 +72,14 @@ class DistrictController extends AbstractController
                 'dt' => 'genre_vehicule'
             ],
             [
+                'db' => 'identite_proprietaire',
+                'dt' => 'identite_proprietaire'
+            ],
+            [
+                'db' => 'identite_proprietaire_piece',
+                'dt' => 'identite_proprietaire_piece'
+            ],
+            [
                 'db' => 'energie_vehicule',
                 'dt' => 'energie_vehicule'
             ],
@@ -99,6 +107,12 @@ class DistrictController extends AbstractController
         }
         if(!empty($params['energie_vehicule'])) {
             $whereResult .= " energie_vehicule LIKE '%". $params['energie_vehicule']. "%' AND";
+        }
+        if(!empty($params['identite_proprietaire'])) {
+            $whereResult .= " identite_proprietaire LIKE '%". $params['identite_proprietaire']. "%' AND";
+        }
+        if(!empty($params['identite_proprietaire_piece'])) {
+            $whereResult .= " identite_proprietaire_piece LIKE '%". $params['identite_proprietaire_piece']. "%' AND";
         }
         $whereResult .= " payment_id IS NOT NULL";
 

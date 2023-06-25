@@ -61,12 +61,13 @@ class DemandeService
         $demande->setMontant(self::MONTANT);
 
         $appointmentDate = new \DateTime();
-        $exit = false;
-        do {
-            $count = $this->demandeRepository->count(['date_rendez_vous'=> $appointmentDate]);
-            if($count <= 50) $exit = true;
-            if($exit) $appointmentDate->modify("+1 day");
-        } while(!$exit);
+        $appointmentDate->modify("+2 day");
+//        $exit = false;
+//        do {
+//            $count = $this->demandeRepository->count(['date_rendez_vous'=> $appointmentDate]);
+//            if($count <= 50) $exit = true;
+//            if($exit) $appointmentDate->modify("+1 day");
+//        } while(!$exit);
 
         $demande->setDateRendezVous($appointmentDate);
 
