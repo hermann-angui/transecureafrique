@@ -9,24 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ReceiptGeneratorService
 {
-    /**
-     * @param DemandeAssetHelper ;
-     */
-    protected DemandeAssetHelper $demandeAssetHelper;
-
-    /**
-     * @var Pdf
-     */
-    protected Pdf $pdfGenerator;
-
-    public function __construct(ContainerInterface $container,
-                                DemandeAssetHelper $demandeAssetHelper,
-                                Pdf                $pdfGenerator)
-    {
-        $this->container = $container;
-        $this->demandeAssetHelper = $demandeAssetHelper;
-        $this->pdfGenerator = $pdfGenerator;
-    }
+    public function __construct(private ContainerInterface $container, private Pdf  $pdfGenerator){}
 
     public function generate(?Demande $demande)
     {
@@ -35,6 +18,4 @@ class ReceiptGeneratorService
         $data['demande'] = $demande;
         $this->pdfGenerator->generate($data);
     }
-
-
 }

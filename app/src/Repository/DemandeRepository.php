@@ -37,66 +37,80 @@ class DemandeRepository extends ServiceEntityRepository
         }
     }
 
-
-    public function findTotaNotPayed(){
-        $result = $this->createQueryBuilder('d')
+    public function findTotalNotPayed(){
+        return $this->createQueryBuilder('d')
             ->select('COUNT(d)')
             ->where('d.status = :param' )
             ->andWhere("d.payment IS NULL")
-            ->setParameter('param', 'WAITING_FOR_PAYMENT')
-            ->getQuery();
-
-        return $result->getSingleScalarResult();
-    }
-
-    public function findTotalUndeliveredEachMonth(){
-        $result = $this->createQueryBuilder('d')
-            ->select('MONTH(d.created_at) as mois_num, count(d) AS total')
-            ->andWhere("d.payment IS NULL")
-            ->groupBy('mois_num')
-            ->getQuery();
-        return $result->getResult();
-    }
-
-    public function findTotalDaily() {
-        $now = new \DateTime('now');
-        return $this->createQueryBuilder('d')
-            ->select('COUNT(d)')
-            ->where('d.created_at = :param' )
-            ->setParameter('param', $now->format('Y-m-d'))
             ->getQuery()
             ->getSingleScalarResult()
         ;
     }
 
+    public function findTotalUndeliveredEachMonth() {
+        return $this->createQueryBuilder('d')
+            ->select('MONTH(d.created_at) as mois_num, count(d) AS total')
+            ->where("d.payment IS NOT NULL")
+            ->where("d.status != 'CLOSED'")
+            ->groupBy('mois_num')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findTotalDaily() {
+        $now = new \DateTime('now');
+
+        return $this->createQueryBuilder('d')
+            ->select('COUNT(d)')
+            ->where('d.created_at = :param')
+            ->andWhere("d.payment IS NOT NULL")
+            ->setParameter('param', $now->format('Y-m-d'))
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
     public function findTotalWeekly(){
         $start = date("Y-m-d 00:00:00", strtotime('monday this week'));
         $end = date("Y-m-d 00:00:00", strtotime('sunday this week'));
-        $result = $this->createQueryBuilder('d')
-                    ->select('COUNT(d)')
-                    ->andWhere("d.created_at BETWEEN :start AND :end")
-                    ->setParameter('start', $start)
-                    ->setParameter('end', $end)
-                    ->getQuery();
 
-        return $result->getSingleScalarResult();
+        return $this->createQueryBuilder('d')
+            ->select('COUNT(d)')
+            ->where("d.payment IS NULL")
+            ->andWhere("d.created_at BETWEEN :start AND :end")
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
     }
 
     public function findGroupByMarque(){
-        $result = $this->createQueryBuilder('d')
+        return $this->createQueryBuilder('d')
             ->select('count(d.marque_du_vehicule) as value, d.marque_du_vehicule as name')
             ->andWhere('d.payment IS NOT NULL')
             ->groupBy('d.marque_du_vehicule')
-            ->getQuery();
-        return $result->getResult();
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     public function findGroupByEnergie(){
-        $result = $this->createQueryBuilder('d')
+        return $this->createQueryBuilder('d')
             ->select('count(d.energie_vehicule) as value, d.energie_vehicule as name')
             ->andWhere("d.payment IS NOT NULL")
             ->groupBy('d.energie_vehicule')
-            ->getQuery();
-        return $result->getResult();
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findTotalDemandePayed(){
+        return $this->createQueryBuilder('d')
+            ->select('count(d) as total')
+            ->andWhere("d.payment IS NOT NULL")
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
     }
 }

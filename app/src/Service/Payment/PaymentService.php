@@ -105,4 +105,8 @@ class PaymentService
     public function  getTotalEachMonth(){
         return $this->paymentRepository->findTotalEachMonth();
     }
+
+    public function  getTotalPaymentWithoutMacaron(){
+        return $this->paymentRepository->findTotalWithoutMacaron();
+    }
 }

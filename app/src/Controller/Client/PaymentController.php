@@ -29,8 +29,8 @@ class PaymentController extends AbstractController
             $payment->setType("MOBILE_MONEY");
 
             $demande = $payment->getDemande();
-            $demande->setStatus("PAYED");
-            $demandeRepository->add($demande, true);
+            //$demande->setStatus("PAYED");
+            // $demandeRepository->add($demande, true);
 
             $paymentRepository->add($payment, true);
 

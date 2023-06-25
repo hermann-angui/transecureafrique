@@ -6,6 +6,7 @@ use App\Entity\Demande;
 use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class DemandeService
 {
@@ -13,9 +14,7 @@ class DemandeService
     private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
     private const MONTANT = 100;
 
-    public function __construct(private ContainerInterface $container, private DemandeRepository  $demandeRepository, private OtpCodeRepository  $otpCodeRepository)
-    {
-    }
+    public function __construct(private ContainerInterface $container, private DemandeRepository  $demandeRepository, private OtpCodeRepository  $otpCodeRepository){}
 
     /**
      * @param Demande $demande
@@ -36,10 +35,9 @@ class DemandeService
     public function create(array $data): Demande
     {
         $demande = new Demande();
-        $demande->setReference(strtoupper(uniqid()));
+        $demande->setReference($this->generateReference());
         if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
         if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
-        $demande->setMontant(self::MONTANT);
         if(array_key_exists("numero_immatriculation", $data)) $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
         if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)) $demande->setDateDePremiereMiseEnCirulation(new \DateTime($data["date_de_premiere_mise_en_cirulation"]));
         if(array_key_exists("date_d_edition", $data)) $demande->setDateDEdition(new \DateTime($data["date_d_edition"]));
@@ -60,8 +58,17 @@ class DemandeService
         if(array_key_exists("societe_de_credit", $data)) $demande->setSocieteDeCredit(strtoupper($data["societe_de_credit"]));
         if(array_key_exists("type_technique", $data))  $demande->setTypeTechnique(strtoupper($data["type_technique"]));
         if(array_key_exists("numero_d_immatriculation_precedent", $data))  $demande->setNumeroDImmatriculationPrecedent(strtoupper($data["numero_d_immatriculation_precedent"]));
+        $demande->setMontant(self::MONTANT);
 
-        $demande->setDateRendezVous(new \DateTime("tomorrow"));
+        $appointmentDate = new \DateTime();
+        $exit = false;
+        do {
+            $count = $this->demandeRepository->count(['date_rendez_vous'=> $appointmentDate]);
+            if($count <= 50) $exit = true;
+            if($exit) $appointmentDate->modify("+1 day");
+        } while(!$exit);
+
+        $demande->setDateRendezVous($appointmentDate);
 
         if (array_key_exists("authid", $data)) {
             $otpCode = $this->otpCodeRepository->find($data["authid"]);
@@ -119,10 +126,29 @@ class DemandeService
     }
 
     public function getTotalPendingPayment(){
-        return $this->demandeRepository->findTotaNotPayed();
+        return $this->demandeRepository->findTotalNotPayed();
     }
 
     public function  getTotalUndeliveredEachMonth(){
         return $this->demandeRepository->findTotalUndeliveredEachMonth();
+    }
+
+    public function generateReference() {
+        $now = new \DateTime();
+        $year = $now->format("Y");
+        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
+    }
+
+    public function scheduleAppointment()
+    {
+        $appointmentDate = new \DateTime("now");
+        $appointmentDate->modify("+1 day");
+        do {
+            $count = $this->demandeRepository->count(['date_rendez_vous'=> $appointmentDate]);
+            $exit = ($count <= 50) ? true : false;
+            if(!$exit) $appointmentDate->modify("+1 day");
+        } while(!$exit);
+
+        return $appointmentDate;
     }
 }

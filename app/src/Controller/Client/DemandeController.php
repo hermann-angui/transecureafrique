@@ -118,7 +118,7 @@ class DemandeController extends AbstractController
 
     #[Route('/receipt-pdf/{id}', name: 'download_receipt_pdf', methods: ['GET'])]
     public function pdfGenerate(Payment $payment, PaymentService $paymentService): Response {
-        return $paymentService->downloadPdfReceipt($payment, "frontend/pages/receipt-pdf.html.twig");
+        return $paymentService->downloadPdfReceipt($payment, "frontend/bs/receipt-pdf.html.twig");
     }
 
 }

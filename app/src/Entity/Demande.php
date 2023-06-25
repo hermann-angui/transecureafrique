@@ -614,9 +614,9 @@ class Demande
     }
 
     /**
-     * @return DateTime
+     * @return Date
      */
-    public function getDateRendezVous(): DateTime
+    public function getDateRendezVous(): \DateTime
     {
         return $this->date_rendez_vous;
     }
@@ -625,7 +625,7 @@ class Demande
      * @param DateTime $date_rendez_vous
      * @return Demande
      */
-    public function setDateRendezVous(DateTime $date_rendez_vous): Demande
+    public function setDateRendezVous(?\DateTime $date_rendez_vous): Demande
     {
         $this->date_rendez_vous = $date_rendez_vous;
         return $this;

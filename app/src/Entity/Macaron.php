@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MacaronRepository::class)]
 #[ORM\Table(name: '`macaron`')]
+#[ORM\HasLifecycleCallbacks()]
 class Macaron
 {
     #[ORM\Id]
@@ -19,8 +20,11 @@ class Macaron
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $reference;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $numero_telephone_proprietaire;
+
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $macaron_qrcode_image;
+    private ?string $macaron_image;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $macaron_qrcode_number;
@@ -42,7 +46,6 @@ class Macaron
 
     #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['persist', 'remove'])]
     private ?Demande $demande = null;
-
 
     public function __construct()
     {
@@ -112,18 +115,18 @@ class Macaron
     /**
      * @return string|null
      */
-    public function getMacaronQrcodeImage(): ?string
+    public function getMacaronImage(): ?string
     {
-        return $this->macaron_qrcode_image;
+        return $this->macaron_image;
     }
 
     /**
-     * @param string|null $macaron_qrcode_image
+     * @param string|null $macaron_image
      * @return Macaron
      */
-    public function setMacaronQrcodeImage(?string $macaron_qrcode_image): Macaron
+    public function setMacaronImage(?string $macaron_image): Macaron
     {
-        $this->macaron_qrcode_image = $macaron_qrcode_image;
+        $this->macaron_image = $macaron_image;
         return $this;
     }
 
@@ -196,6 +199,24 @@ class Macaron
     public function setStatus(?string $status): Macaron
     {
         $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNumeroTelephoneProprietaire(): ?string
+    {
+        return $this->numero_telephone_proprietaire;
+    }
+
+    /**
+     * @param string|null $numero_telephone_proprietaire
+     * @return Macaron
+     */
+    public function setNumeroTelephoneProprietaire(?string $numero_telephone_proprietaire): Macaron
+    {
+        $this->numero_telephone_proprietaire = $numero_telephone_proprietaire;
         return $this;
     }
 

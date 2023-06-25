@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MediaAssetRepository::class)]
 #[ORM\Table(name: '`media_asset`')]
+#[ORM\HasLifecycleCallbacks()]
 class MediaAsset
 {
     #[ORM\Id]

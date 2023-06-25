@@ -87,9 +87,9 @@ class PaymentRepository extends ServiceEntityRepository
             ->where($qb->expr()->between('p.created_at', ':start', ':end'))
             ->setParameter('start', $start)
             ->setParameter('end', $end)
-            ->getQuery();
+            ;
 
-        return $qb->getSingleScalarResult();
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     public function findTotalEachMonth(){
