@@ -20,14 +20,14 @@ class Demande
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $numero_carte_grise;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
+    private ?string $numero_carte_grise = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $numero_recepisse;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
+    private ?string $numero_recepisse = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $numero_immatriculation;
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
+    private ?string $numero_immatriculation = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime  $date_de_premiere_mise_en_cirulation;
@@ -40,6 +40,9 @@ class Demande
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $identite_proprietaire_piece;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $numero_telephone_proprietaire;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $marque_du_vehicule;
@@ -74,8 +77,8 @@ class Demande
     #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private ?string $cylindree;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string  $numero_vin_chassis;
+    #[ORM\Column(type: 'string', length: 255, nullable: true,unique: true)]
+    private ?string  $numero_vin_chassis = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $societe_de_credit;
@@ -86,7 +89,7 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $numero_d_immatriculation_precedent;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
     private ?string $reference;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -620,6 +623,25 @@ class Demande
     {
         return $this->date_rendez_vous;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getNumeroTelephoneProprietaire(): ?string
+    {
+        return $this->numero_telephone_proprietaire;
+    }
+
+    /**
+     * @param string|null $numero_telephone_proprietaire
+     * @return Demande
+     */
+    public function setNumeroTelephoneProprietaire(?string $numero_telephone_proprietaire): Demande
+    {
+        $this->numero_telephone_proprietaire = $numero_telephone_proprietaire;
+        return $this;
+    }
+
 
     /**
      * @param DateTime $date_rendez_vous

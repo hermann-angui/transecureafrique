@@ -285,21 +285,20 @@
                         d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
                     }
                 },
+                "searching": false,
                 "columns": [
                     {"data":  "id"},
                     {"data":  "numero_carte_grise"},
                     {"data":  "numero_recepisse"},
                     {"data":  "marque_du_vehicule"},
                     { "data": "genre_vehicule" },
-                    { "data": "genre_vehicule" },
+                    { "data": "energie_vehicule" },
                     { "data": "identite_proprietaire" },
                     { "data": "identite_proprietaire_piece" },
-                    { "data": "numero_telephone_proprietaire" },
+                    { "data": "numero_telephone_proprietaire" }
                 ],
                 "order": [[1, 'asc']]
             } );
-
-
             return dt;
         }
     });

@@ -68,6 +68,14 @@ class WebSiteController extends AbstractController
         if(!$phoneNumber) return $this->redirectToRoute('auth');
         $phoneNumber = trim(str_replace("-", "", substr($phoneNumber, strlen(self::CIV_CODE))));
         if (!$phoneNumber) return $this->redirectToRoute('auth');
+        $otpCode = $otpService->getByPhone($phoneNumber);
+        if (!$otpCode){
+            $generatedCode = OtpService::generate(6);
+            $otpCode = $otpService->create(new OtpRequest($generatedCode, $phoneNumber, null));
+        }
+        return $this->redirectToRoute('demande_select_type', ['authid' => $otpCode->getId()]);
+
+        /*
         $existingOtp = $otpService->getByPhone($phoneNumber);
         // $otpService->checkOtpValidity($existingOtp);
         if (!$existingOtp){
@@ -79,5 +87,6 @@ class WebSiteController extends AbstractController
             }
         }
         return $this->render('frontend/bs/otp.html.twig', ["otp" => $existingOtp]);
+        */
     }
 }

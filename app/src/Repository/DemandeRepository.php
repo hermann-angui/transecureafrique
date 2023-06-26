@@ -40,8 +40,7 @@ class DemandeRepository extends ServiceEntityRepository
     public function findTotalNotPayed(){
         return $this->createQueryBuilder('d')
             ->select('COUNT(d)')
-            ->where('d.status = :param' )
-            ->andWhere("d.payment IS NULL")
+            ->where("d.payment IS NULL")
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -51,7 +50,7 @@ class DemandeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->select('MONTH(d.created_at) as mois_num, count(d) AS total')
             ->where("d.payment IS NOT NULL")
-            ->where("d.status != 'CLOSED'")
+            ->andWhere("d.status != 'CLOSED'")
             ->groupBy('mois_num')
             ->getQuery()
             ->getResult();

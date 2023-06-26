@@ -39,8 +39,15 @@ class DemandeService
         if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
         if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
         if(array_key_exists("numero_immatriculation", $data)) $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
-        if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)) $demande->setDateDePremiereMiseEnCirulation(new \DateTime($data["date_de_premiere_mise_en_cirulation"]));
-        if(array_key_exists("date_d_edition", $data)) $demande->setDateDEdition(new \DateTime($data["date_d_edition"]));
+
+        if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)){
+            $date = \DateTime::createFromFormat("d/m/Y",$data["date_de_premiere_mise_en_cirulation"]);
+            $demande->setDateDePremiereMiseEnCirulation($date);
+        }
+        if(array_key_exists("date_d_edition", $data)) {
+            $date = \DateTime::createFromFormat("d/m/Y",$data["date_d_edition"]);
+            $demande->setDateDEdition($date);
+        }
         if(array_key_exists("identite_proprietaire", $data)) $demande->setIdentiteProprietaire(strtoupper($data["identite_proprietaire"]));
         if(array_key_exists("identite_proprietaire_piece", $data)) $demande->setIdentiteProprietairePiece(strtoupper($data["identite_proprietaire_piece"]));
         if(array_key_exists("marque_du_vehicule", $data)) $demande->setMarqueDuVehicule(strtoupper($data["marque_du_vehicule"]));

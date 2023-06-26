@@ -22,6 +22,8 @@ class PaymentController extends AbstractController
                               DemandeRepository $demandeRepository,
                               PaymentRepository $paymentRepository): Response
     {
+
+        if(in_array(strtoupper($payment->getStatus(),["SUCCEEDED","PROCESSING"]))) return $this->redirectToRoute('home');
         $response = $waveService->makePayment($payment);
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
@@ -31,8 +33,8 @@ class PaymentController extends AbstractController
             $payment->setType("MOBILE_MONEY");
 
             $demande = $payment->getDemande();
-            //$demande->setStatus("PAYED");
-            // $demandeRepository->add($demande, true);
+            $demande->setStatus("PAYED");
+            $demandeRepository->add($demande, true);
 
             $paymentRepository->add($payment, true);
 
