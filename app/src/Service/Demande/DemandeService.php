@@ -41,12 +41,21 @@ class DemandeService
         if(array_key_exists("numero_immatriculation", $data)) $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
 
         if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)){
-            $date = \DateTime::createFromFormat("d/m/Y",$data["date_de_premiere_mise_en_cirulation"]);
-            $demande->setDateDePremiereMiseEnCirulation($date);
+            try{
+                $date = \DateTime::createFromFormat("d/m/Y",$data["date_de_premiere_mise_en_cirulation"]);
+                $demande->setDateDePremiereMiseEnCirulation($date);
+            }catch(\Exception $e){
+                $demande->setDateDePremiereMiseEnCirulation(null);
+            }
         }
+
         if(array_key_exists("date_d_edition", $data)) {
-            $date = \DateTime::createFromFormat("d/m/Y",$data["date_d_edition"]);
-            $demande->setDateDEdition($date);
+            try{
+                $date = \DateTime::createFromFormat("d/m/Y",$data["date_d_edition"]);
+                $demande->setDateDEdition($date);
+            }catch(\Exception $e){
+                $demande->setDateDEdition(null);
+            }
         }
         if(array_key_exists("identite_proprietaire", $data)) $demande->setIdentiteProprietaire(strtoupper($data["identite_proprietaire"]));
         if(array_key_exists("identite_proprietaire_piece", $data)) $demande->setIdentiteProprietairePiece(strtoupper($data["identite_proprietaire_piece"]));
@@ -61,7 +70,7 @@ class DemandeService
         if(array_key_exists("puissance_fiscale", $data)) $demande->setPuissanceFiscale($data["puissance_fiscale"]);
         if(array_key_exists("nombre_d_essieux", $data)) $demande->setNombreDEssieux($data["nombre_d_essieux"]);
         if(array_key_exists("cylindree", $data)) $demande->setCylindree($data["cylindree"]);
-        if(array_key_exists("numero_vin_chassis", $data)) $demande->setNumeroVinChassis($data["numero_vin_chassis"]);
+        if(array_key_exists("numero_vin_chassis", $data)) $demande->setNumeroVinChassis(strtoupper($data["numero_vin_chassis"]));
         if(array_key_exists("societe_de_credit", $data)) $demande->setSocieteDeCredit(strtoupper($data["societe_de_credit"]));
         if(array_key_exists("type_technique", $data))  $demande->setTypeTechnique(strtoupper($data["type_technique"]));
         if(array_key_exists("numero_d_immatriculation_precedent", $data))  $demande->setNumeroDImmatriculationPrecedent(strtoupper($data["numero_d_immatriculation_precedent"]));
