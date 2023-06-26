@@ -122,45 +122,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Classement par marques de véhicules</h4>
-                                    <div id="pie-chart-marque" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Classement par type d'énergies (essence vs gazoil)</h4>
-                                    <div id="pie-chart-energie" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-sm-flex flex-wrap">
-                                    <h4 class="card-title mb-4">Stats macarons</h4>
-                                    <div class="ms-auto">
-                                        <ul class="nav nav-pills">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">Mois</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Année</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div id="stacked-column-chart" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' class="apex-charts" dir="ltr"></div>
-                            </div>
-                    </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body border-bottom">
@@ -173,9 +134,6 @@
                                 </div>
                                 <div class="card-body border-bottom">
                                     <div class="row g-3">
-                                        <div class="col-xxl-1 col-lg-1">
-                                            <button id="refresh-btn" type="button" class="btn btn-soft-secondary w-100">Filtre<i class="mdi mdi-filter-outline align-middle"></i></button>
-                                        </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
                                         </div>
@@ -183,14 +141,22 @@
                                             <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_chassis" placeholder="Numéro de chassis">
+                                            <input type="search" class="form-control" id="marque_du_vehicule" placeholder="Marque">
                                         </div>
-
-                                        <div class="col-xxl-2 col-lg-4">
-                                            <select id="title" class="form-control select2"  title="Catégorie">
-                                                <option>--Type--</option>
-                                                <option value="Chauffeur">Chauffeur</option>
-                                            </select>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="genre_vehicule" placeholder="Genre">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="energie_vehicule" placeholder="Type energie">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="identite_proprietaire" placeholder="Propriétaire">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
+                                        </div>
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Contact Propriétaire">
                                         </div>
                                     </div>
                                 </div>
@@ -286,12 +252,9 @@
                     { "data": "numero_vin_chassis" },
                     { "data": "societe_de_credit" },
                     { "data": "type_technique" },
-                    { "data": "montant" },
                     { "data": "numero_d_immatriculation_precedent" },
-                    { "data": "type" },
-                    { "data": "payment_type" },
-                    { "data": "status" },
-                    { "data": "id" },
+                    { "data": "reference" },
+                    { "data": "" },
                 ],
                 "order": [[1, 'asc']]
             } );

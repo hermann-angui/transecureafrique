@@ -47,6 +47,9 @@ class Macaron
     #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['persist', 'remove'])]
     private ?Demande $demande = null;
 
+    #[ORM\OneToOne(inversedBy: 'user', targetEntity: User::class)]
+    private ?User $lastEditor = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();

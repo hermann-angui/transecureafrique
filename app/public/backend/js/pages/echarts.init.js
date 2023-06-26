@@ -171,6 +171,10 @@ $(document).ready(function(){
         });
 
        columnChart.setOption({
+           tooltip: {
+               trigger: "item",
+               formatter: "{a} <br/>{b} : {c} ({d}%)"
+           },
             chart: {
                 height: 360,
                 type: "bar",
@@ -194,7 +198,6 @@ $(document).ready(function(){
             legend: {position: "bottom"},
             fill: {opacity: 1}
         });
-
    });
 });
 

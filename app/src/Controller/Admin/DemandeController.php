@@ -82,6 +82,10 @@ class DemandeController extends AbstractController
                 'dt' => 'identite_proprietaire'
             ],
             [
+                'db' => 'identite_proprietaire_piece',
+                'dt' => 'identite_proprietaire_piece'
+            ],
+            [
                 'db' => 'marque_du_vehicule',
                 'dt' => 'marque_du_vehicule'
             ],
@@ -138,32 +142,16 @@ class DemandeController extends AbstractController
                 'dt' => 'type_technique'
             ],
             [
-                'db' => 'reference',
-                'dt' => 'reference'
-            ],
-            [
-                'db' => 'montant',
-                'dt' => 'montant'
-            ],
-            [
                 'db' => 'numero_d_immatriculation_precedent',
                 'dt' => 'numero_d_immatriculation_precedent'
             ],
             [
-                'db' => 'type',
-                'dt' => 'type'
-            ],
-            [
-                'db' => 'payment_type',
-                'dt' => 'payment_type'
-            ],
-            [
-                'db' => 'status',
-                'dt' => 'status'
+                'db' => 'reference',
+                'dt' => 'reference'
             ],
             [
                 'db'        => 'id',
-                'dt'        => 'id',
+                'dt'        => '',
                 'formatter' => function($d, $row) {
                     $id = $row['id'];
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
