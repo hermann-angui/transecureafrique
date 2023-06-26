@@ -80,6 +80,13 @@ $(document).ready(function(){
 
     var columnChart = echarts.init(document.querySelector("#stacked-column-chart"));
     options = {
+        tooltip: {
+            y: {
+                formatter: function(e) {
+                    return e + " macarons"
+                }
+            }
+        },
         chart: {
             height: 360,
             type: "bar",
@@ -162,7 +169,6 @@ $(document).ready(function(){
                 }
             ]
         });
-        console.log(data.monthly.axis);
 
        columnChart.setOption({
             chart: {
