@@ -223,6 +223,25 @@ class Macaron
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
+    public function getLastEditor(): ?User
+    {
+        return $this->lastEditor;
+    }
+
+    /**
+     * @param User|null $lastEditor
+     * @return Macaron
+     */
+    public function setLastEditor(?User $lastEditor): Macaron
+    {
+        $this->lastEditor = $lastEditor;
+        return $this;
+    }
+
+
     public function getDemande(): ?Demande
     {
         return $this->demande;
