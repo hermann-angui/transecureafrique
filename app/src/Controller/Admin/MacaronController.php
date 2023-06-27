@@ -59,108 +59,32 @@ class MacaronController extends AbstractController
                 'dt' => 'id',
             ],
             [
-                'db' => 'numero_carte_grise',
-                'dt' => 'numero_carte_grise',
+                'db' => 'macaron_qrcode_number',
+                'dt' => 'macaron_qrcode_number',
             ],
             [
                 'db' => 'numero_recepisse',
                 'dt' => 'numero_recepisse',
             ],
             [
-                'db' => 'numero_immatriculation',
-                'dt' => 'numero_immatriculation'
-            ],
-            [
-                'db' => 'date_de_premiere_mise_en_cirulation',
-                'dt' => 'date_de_premiere_mise_en_cirulation'
-            ],
-            [
-                'db' => 'date_d_edition',
-                'dt' => 'date_d_edition'
-            ],
-            [
-                'db' => 'identite_proprietaire',
-                'dt' => 'identite_proprietaire'
-            ],
-            [
-                'db' => 'marque_du_vehicule',
-                'dt' => 'marque_du_vehicule'
-            ],
-            [
-                'db' => 'genre_vehicule',
-                'dt' => 'genre_vehicule'
-            ],
-            [
-                'db' => 'type_commercial',
-                'dt' => 'type_commercial'
-            ],
-            [
-                'db' => 'couleur_vehicule',
-                'dt' => 'couleur_vehicule'
-            ],
-            [
-                'db' => 'carroserie_vehicule',
-                'dt' => 'carroserie_vehicule'
-            ],
-            [
-                'db' => 'energie_vehicule',
-                'dt' => 'energie_vehicule'
-            ],
-            [
-                'db' => 'places_assises',
-                'dt' => 'places_assises'
-            ],
-            [
-                'db' => 'usage_vehicule',
-                'dt' => 'usage_vehicule'
-            ],
-            [
-                'db' => 'puissance_fiscale',
-                'dt' => 'puissance_fiscale'
-            ],
-            [
-                'db' => 'nombre_d_essieux',
-                'dt' => 'nombre_d_essieux'
-            ],
-            [
-                'db' => 'cylindree',
-                'dt' => 'cylindree'
-            ],
-            [
-                'db' => 'numero_vin_chassis',
-                'dt' => 'numero_vin_chassis'
-            ],
-            [
-                'db' => 'societe_de_credit',
-                'dt' => 'societe_de_credit'
-            ],
-            [
-                'db' => 'type_technique',
-                'dt' => 'type_technique'
-            ],
-            [
                 'db' => 'reference',
                 'dt' => 'reference'
             ],
             [
-                'db' => 'montant',
-                'dt' => 'montant'
-            ],
-            [
-                'db' => 'numero_d_immatriculation_precedent',
-                'dt' => 'numero_d_immatriculation_precedent'
-            ],
-            [
-                'db' => 'type',
-                'dt' => 'type'
-            ],
-            [
-                'db' => 'payment_type',
-                'dt' => 'payment_type'
-            ],
-            [
                 'db' => 'status',
                 'dt' => 'status'
+            ],
+            [
+                'db' => 'numero_telephone_proprietaire',
+                'dt' => 'numero_telephone_proprietaire'
+            ],
+            [
+                'db' => 'validity_to',
+                'dt' => 'validity_to'
+            ],
+            [
+                'db' => 'validity_from',
+                'dt' => 'validity_from'
             ],
             [
                 'db'        => 'id',
@@ -170,12 +94,6 @@ class MacaronController extends AbstractController
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
                                           <a href='/admin/macaron/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                      </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Edit'>
-                                         <a href='/admin/macaron/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
-                                      </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Supprimer'>
-                                         <a href='/admin/macaron/$id/supprimer' class='btn btn-sm btn-soft-danger'><i class='mdi mdi-delete-alert-outline'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -193,12 +111,6 @@ class MacaronController extends AbstractController
         $whereResult = '';
         if(!empty($params['numero_carte_grise'])){
             $whereResult .= " numero_carte_grise LIKE '%". $params['numero_carte_grise'] . "%' AND";
-        }
-        if(!empty($params['numero_recepisse'])) {
-            $whereResult .= " numero_recepisse LIKE '%". $params['numero_recepisse']. "%' AND";
-        }
-        if(!empty($params['numero_chassis'])) {
-            $whereResult .= " numero_chassis LIKE '%". $params['numero_chassis']. "%' AND";
         }
         $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
         $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $whereResult);

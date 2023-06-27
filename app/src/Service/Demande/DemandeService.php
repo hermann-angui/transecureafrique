@@ -32,7 +32,7 @@ class DemandeService
      * @return Demande
      * @throws \Exception
      */
-    public function create(array $data): Demande
+    public function create(array $data): ?Demande
     {
         $demande = new Demande();
         $demande->setReference($this->generateReference());
@@ -57,6 +57,7 @@ class DemandeService
                 $demande->setDateDEdition(null);
             }
         }
+
         if(array_key_exists("identite_proprietaire", $data)) $demande->setIdentiteProprietaire(strtoupper($data["identite_proprietaire"]));
         if(array_key_exists("identite_proprietaire_piece", $data)) $demande->setIdentiteProprietairePiece(strtoupper($data["identite_proprietaire_piece"]));
         if(array_key_exists("marque_du_vehicule", $data)) $demande->setMarqueDuVehicule(strtoupper($data["marque_du_vehicule"]));
@@ -78,21 +79,20 @@ class DemandeService
 
         $appointmentDate = new \DateTime();
         $appointmentDate->modify("+2 day");
-//        $exit = false;
-//        do {
-//            $count = $this->demandeRepository->count(['date_rendez_vous'=> $appointmentDate]);
-//            if($count <= 50) $exit = true;
-//            if($exit) $appointmentDate->modify("+1 day");
-//        } while(!$exit);
-
         $demande->setDateRendezVous($appointmentDate);
 
+        $otpCode = $this->otpCodeRepository->find($data["otpcode"]);
+        if ($otpCode && !$demande->getOtpCode()) {
+            $demande->setOtpCode($otpCode);
+        }
+        /*
         if (array_key_exists("authid", $data)) {
             $otpCode = $this->otpCodeRepository->find($data["authid"]);
-            if ($otpCode && !$demande->getOtpCodes()->contains($otpCode)) {
-                $demande->addOtpCode($otpCode);
+            if ($otpCode && !$demande->getOtpCode()) {
+                $demande->setOtpCode($otpCode);
             }
         }
+        */
         $this->demandeRepository->add($demande, true);
         return $demande;
     }

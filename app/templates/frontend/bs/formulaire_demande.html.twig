@@ -204,11 +204,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="numero_immatriculation" class="form-label">Numéro d'immatriculation du véhicule<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
-                                    <input type="text" class="form-control input" name="numero_immatriculation" id="numero_immatriculation" placeholder="">
+                                    <input type="text" class="form-control input" name="numero_immatriculation" id="numero_immatriculation" placeholder="" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="numero_vin_chassis" class="form-label">Numéro du VIN/Chassis<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
-                                    <input type="text" class="form-control input" name="numero_vin_chassis" id="numero_vin_chassis" placeholder="">
+                                    <input type="text" class="form-control input" name="numero_vin_chassis" id="numero_vin_chassis" placeholder="" required>
                                 </div>
                                 <div class="mb-3 form-group">
                                     <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en cirulation</label>
@@ -294,12 +294,14 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="numero_vin_chassis" class="form-label">Numéro de série<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
-                                    <input type="text" class="form-control input" name="numero_vin_chassis" id="numero_vin_chassis" placeholder="">
+                                    <input type="text" class="form-control input" name="numero_vin_chassis" id="numero_vin_chassis" placeholder="" required>
                                 </div>
+                                {#
                                 <div class="mb-3 form-group">
                                     <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en circulation</label>
                                     <input type="text" class="form-control input" name="date_de_premiere_mise_en_cirulation" id="date_de_premiere_mise_en_cirulation" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
                                 </div>
+                                #}
                                 <div class="mb-3">
                                     <label for="marque_du_vehicule" class="form-label">Marque</label>
                                     <input type="text" class="form-control input" name="marque_du_vehicule" id="marque_du_vehicule" placeholder="">
@@ -344,6 +346,7 @@
                                 {% endif %}
                                 <hr>
                                 <div class="pt-3 my-3">
+                                    <input type="hidden" id="otpcode" name="otpcode" value="{{ authid ?? '' }}"/>
                                     <button class="btn w-50" type="submit">Enregister</button>
                                 </div>
                             </form>
@@ -367,13 +370,14 @@
            $("#date_d_edition").inputmask();
 
            $("#date_de_premiere_mise_en_cirulation").inputmask();
-
-           $("#nombre_d_essieux").inputmask({
-              alias: 'numeric',
-              allowMinus: false,
-              digits: 2,
-              max: 999
-            });
+           /*
+               $("#nombre_d_essieux").inputmask({
+                  alias: 'numeric',
+                  allowMinus: false,
+                  digits: 2,
+                  max: 999
+                });
+           */
       });
 
 

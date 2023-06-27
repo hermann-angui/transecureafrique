@@ -30,7 +30,7 @@ class Demande
     private ?string $numero_immatriculation = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    private ?\DateTime  $date_de_premiere_mise_en_cirulation;
+    private ?\DateTime  $date_de_premiere_mise_en_cirulation = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTime  $date_d_edition;
@@ -96,7 +96,7 @@ class Demande
     private ?int $montant;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $status;
+    private ?string $status;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $date_rendez_vous;
@@ -107,8 +107,8 @@ class Demande
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
-    private Collection $otpCodes;
+    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
+    private ?OtpCode $otpCode = null;
 
     #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Payment $payment = null;
@@ -169,7 +169,7 @@ class Demande
     /**
      * @return mixed
      */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -178,7 +178,7 @@ class Demande
      * @param mixed $status
      * @return User
      */
-    public function setStatus($status)
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
         return $this;
@@ -223,7 +223,7 @@ class Demande
     /**
      * @return DateTime|null
      */
-    public function getDateDePremiereMiseEnCirulation(): ?DateTime
+    public function getDateDePremiereMiseEnCirulation(): ?\DateTime
     {
         return $this->date_de_premiere_mise_en_cirulation;
     }
@@ -232,7 +232,7 @@ class Demande
      * @param DateTime|null $date_de_premiere_mise_en_cirulation
      * @return Demande
      */
-    public function setDateDePremiereMiseEnCirulation(?DateTime $date_de_premiere_mise_en_cirulation): Demande
+    public function setDateDePremiereMiseEnCirulation(?\DateTime $date_de_premiere_mise_en_cirulation): Demande
     {
         $this->date_de_premiere_mise_en_cirulation = $date_de_premiere_mise_en_cirulation;
         return $this;
@@ -241,7 +241,7 @@ class Demande
     /**
      * @return DateTime|null
      */
-    public function getDateDEdition(): ?DateTime
+    public function getDateDEdition(): ?\DateTime
     {
         return $this->date_d_edition;
     }
@@ -250,7 +250,7 @@ class Demande
      * @param DateTime|null $date_d_edition
      * @return Demande
      */
-    public function setDateDEdition(?DateTime $date_d_edition): Demande
+    public function setDateDEdition(?\DateTime $date_d_edition): Demande
     {
         $this->date_d_edition = $date_d_edition;
         return $this;
@@ -653,32 +653,24 @@ class Demande
         return $this;
     }
 
-    /**
-     * @return Collection<int, OtpCode>
-     */
-    public function getOtpCodes(): Collection
+    public function getOtpCode(): ?OtpCode
     {
-        return $this->otpCodes;
+        return $this->otpCode;
     }
 
-    public function addOtpCode(OtpCode $otpCode): self
+    public function setOtpCode(?OtpCode $otpCode): self
     {
-        if (!$this->otpCodes->contains($otpCode)) {
-            $this->otpCodes[] = $otpCode;
+        // unset the owning side of the relation if necessary
+        if ($otpCode === null && $this->otpCode !== null) {
+            $this->otpCode->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($otpCode !== null && $otpCode->getDemande() !== $this) {
             $otpCode->setDemande($this);
         }
 
-        return $this;
-    }
-
-    public function removeOtpCode(OtpCode $otpCode): self
-    {
-        if ($this->otpCodes->removeElement($otpCode)) {
-            // set the owning side to null (unless already changed)
-            if ($otpCode->getDemande() === $this) {
-                $otpCode->setDemande(null);
-            }
-        }
+        $this->otpCode = $otpCode;
 
         return $this;
     }
@@ -690,6 +682,16 @@ class Demande
 
     public function setPayment(?Payment $payment): self
     {
+        // unset the owning side of the relation if necessary
+        if ($payment === null && $this->payment !== null) {
+            $this->payment->setDemande(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($payment !== null && $payment->getDemande() !== $this) {
+            $payment->setDemande($this);
+        }
+
         $this->payment = $payment;
 
         return $this;

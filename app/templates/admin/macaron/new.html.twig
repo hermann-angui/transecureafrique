@@ -11,13 +11,11 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-
         {{ include('admin/_partials/header.html.twig') }}
 
         <!-- ========== Left Sidebar Start ========== -->
         {{ include('admin/_partials/left-sidebar.html.twig')}}
         <!-- Left Sidebar End -->
-
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -29,9 +27,9 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title mb-4">Editer les informations</h4>
-                                    {{ include('admin/demande/_form_edit.html.twig', {'button_label': 'Mettre à jour'}) }}
+                                <div class="card-body px-5">
+                                    <h4 class="card-title mb-4">Enregistrer un nouveau membre</h4>
+                                    {{ include('admin/demande/_form_new.html.twig') }}
                                 </div>
                             </div>
                         </div>
@@ -46,10 +44,6 @@
     </div>
     <!-- END layout-wrapper -->
 
-    <!-- Right Sidebar -->
-
-    <!-- /Right-bar -->
-
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
@@ -61,6 +55,7 @@
       $('document').ready(function() {
 
       });
+
   </script>
 {% endblock %}
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Demande;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,9 +15,10 @@ class DemandeType extends AbstractType
         $builder
             ->add('numero_carte_grise')
             ->add('numero_recepisse')
+            ->add('numeroTelephoneProprietaire')
             ->add('numero_immatriculation')
-            ->add('date_de_premiere_mise_en_cirulation')
-            ->add('date_d_edition')
+            ->add('date_de_premiere_mise_en_cirulation', DateType::class)
+            ->add('date_d_edition', DateType::class)
             ->add('identite_proprietaire')
             ->add('identite_proprietaire_piece')
             ->add('marque_du_vehicule')
@@ -35,11 +37,8 @@ class DemandeType extends AbstractType
             ->add('type_technique')
             ->add('numero_d_immatriculation_precedent')
             ->add('reference')
-            ->add('montant')
-            ->add('qrcode')
-            ->add('type')
-            ->add('payment_type')
-            ->add('status')
+          //  ->add('montant')
+          //  ->add('status')
             ->add('date_rendez_vous')
             ->add('created_at')
             ->add('modified_at')

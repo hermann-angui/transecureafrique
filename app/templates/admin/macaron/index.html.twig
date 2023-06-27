@@ -48,7 +48,7 @@
                                     <div class="d-flex align-items-center">
                                         <h5 class="mb-0 card-title flex-grow-1"></h5>
                                         <div class="flex-shrink-0">
-                                            <a href="{{ path('admin_payment_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Télécharger</a>
+                                            <a href="{{ path('admin_macaron_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Télécharger</a>
                                         </div>
                                     </div>
                                 </div>
@@ -60,20 +60,11 @@
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="code_payment_operateur" placeholder="Code de paiement">
                                         </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="receipt_number" placeholder="Numéro de reçu">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="operateur" placeholder="Opérateur">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="status" placeholder="Statut">
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        {{ include('admin/payment/_payment_datatable.html.twig') }}
+                                        {{ include('admin/macaron/_macaron_datatable.html.twig') }}
                                     </div>
                                     <!--end row-->
                                 </div>
@@ -124,11 +115,7 @@
                 "ajax": {
                     "url": '{{ path('admin_payment_dt') }}',
                     "data": function (d) {
-                        d.reference = $("#reference").val();
-                        d.montant = $("#montant").val();
-                        d.status = $("#status").val();
-                        d.code_payment_operateur = $("#code_payment_operateur").val();
-                        d.receipt_number = $("#receipt_number").val();
+                        d.numero_chassis = $("#reference").val();
                     }
                 },
                 "columns": [

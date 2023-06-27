@@ -37,14 +37,14 @@ class DemandeController extends AbstractController
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
             $demande = $demandeService->create($data);
-            return $this->redirectToRoute('demande_recap', ['id' => $demande->getId()]);
+            return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
         }
 
         return $this->redirectToRoute('auth');
     }
 
     #[Route(path: '/formulaire/edit/{id}', name: 'demande_edit', methods: ['POST', 'GET'])]
-    public function formulaireEditDemande(Demande $demande, Request $request, DemandeService $demandeService): Response
+    public function formulaireEditDemande(?Demande $demande, Request $request, DemandeService $demandeService): Response
     {
         if ($request->getMethod() === "GET") {
             return $this->render('frontend/pages/demande_edit.html.twig', ['demande' => $demande]);
@@ -59,13 +59,13 @@ class DemandeController extends AbstractController
     }
 
     #[Route(path: '/recap/{id}', name: 'demande_recap', methods: ['POST', 'GET'])]
-    public function demandeRecap(Demande $demande): Response
+    public function demandeRecap(?Demande $demande): Response
     {
         return $this->render('frontend/bs/recapitulatif.html.twig', ['demande' => $demande]);
     }
 
     #[Route(path: '/receipt/{id}', name: 'demande_display_receipt', methods: ['POST', 'GET'])]
-    public function demandeShowReceipt(Payment $payment, PaymentService $paymentService): Response
+    public function demandeShowReceipt(?Payment $payment, PaymentService $paymentService): Response
     {
         $paymentService->generateReceipt($payment, 'frontend/bs/receipt-pdf.html.twig');
         return $this->render('frontend/bs/display-receipt.html.twig', [

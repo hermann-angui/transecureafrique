@@ -55,7 +55,10 @@ class DemandeController extends AbstractController
         $columns = [
             [
                 'db' => 'id',
-                'dt' => 'id',
+                'dt' => 'DT_RowId',
+                'formatter' => function( $d, $row ) {
+                    return 'row_'.$d;
+                }
             ],
             [
                 'db' => 'numero_carte_grise',
@@ -184,8 +187,26 @@ class DemandeController extends AbstractController
         if(!empty($params['numero_recepisse'])) {
             $whereResult .= " numero_recepisse LIKE '%". $params['numero_recepisse']. "%' AND";
         }
-        if(!empty($params['numero_chassis'])) {
-            $whereResult .= " numero_chassis LIKE '%". $params['numero_chassis']. "%' AND";
+        if(!empty($params['marque_du_vehicule'])) {
+            $whereResult .= " marque_du_vehicule LIKE '%". $params['marque_du_vehicule']. "%' AND";
+        }
+        if(!empty($params['genre_vehicule'])) {
+            $whereResult .= " genre_vehicule LIKE '%". $params['genre_vehicule']. "%' AND";
+        }
+        if(!empty($params['energie_vehicule'])) {
+            $whereResult .= " energie_vehicule LIKE '%". $params['energie_vehicule']. "%' AND";
+        }
+        if(!empty($params['identite_proprietaire'])) {
+            $whereResult .= " identite_proprietaire LIKE '%". $params['identite_proprietaire']. "%' AND";
+        }
+        if(!empty($params['identite_proprietaire_piece'])) {
+            $whereResult .= " identite_proprietaire_piece LIKE '%". $params['identite_proprietaire_piece']. "%' AND";
+        }
+        if(!empty($params['numero_telephone_proprietaire'])) {
+            $whereResult .= " numero_telephone_proprietaire LIKE '%". $params['numero_telephone_proprietaire']. "%' AND";
+        }
+        if(!empty($params['reference'])) {
+            $whereResult .= " reference LIKE '%". $params['reference']. "%' AND";
         }
         $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
         $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $whereResult);
@@ -196,31 +217,22 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
     public function show(Demande $demande): Response
     {
-        return $this->render('admin/demande/show.html.twig', [
-            'demande' => $demande,
-        ]);
+        return $this->render('admin/demande/show.html.twig', ['demande' => $demande]);
     }
 
     #[Route('/{id}/edit', name: 'admin_demande_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Demande $demande, DemandeService $demandeService): Response
-    {
+    public function edit(Request $request, Demande $demande, DemandeService $demandeService): Response {
+
         date_default_timezone_set("Africa/Abidjan");
         $form = $this->createForm(DemandeType::class, $demande);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $demande->setStatus( $demande->getStatus());
-            $demande->setReference( $demande->getCompany());
-            $demande->setMontant( $demande->getTitre());
-            $demandeService->storeDemande($demande);
-
-            return $this->redirectToRoute('admin_demande_index', [], Response::HTTP_SEE_OTHER);
+             // $demandeService->update($demande, $form->getData());
+             $demandeService->save($demande);
+             return $this->redirectToRoute('admin_demande_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('admin/demande/edit.html.twig', [
-            'demande' => $demande,
-            'form' => $form,
-        ]);
+        return $this->renderForm('admin/demande/edit.html.twig', ['demande' => $demande, 'form' => $form]);
     }
 
     #[Route('/{id}/supprimer', name: 'admin_demande_delete', methods: ['GET','POST'])]

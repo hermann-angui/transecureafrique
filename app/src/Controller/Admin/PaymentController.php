@@ -6,6 +6,7 @@ use App\Entity\Payment;
 use App\Form\PaymentType;
 use App\Helper\DataTableHelper;
 use App\Repository\PaymentRepository;
+use App\Service\Payment\PaymentService;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -55,7 +56,10 @@ class PaymentController extends AbstractController
         $columns = [
             [
                 'db' => 'id',
-                'dt' => 'id',
+                'dt' => 'DT_RowId',
+                'formatter' => function( $d, $row ) {
+                    return 'row_'.$d;
+                }
             ],
             [
                 'db' => 'reference',
@@ -64,10 +68,6 @@ class PaymentController extends AbstractController
             [
                 'db' => 'montant',
                 'dt' => 'montant',
-            ],
-            [
-                'db' => 'payment_type',
-                'dt' => 'payment_type'
             ],
             [
                 'db' => 'status',
@@ -82,19 +82,17 @@ class PaymentController extends AbstractController
                 'dt' => 'code_payment_operateur'
             ],
             [
+                'db' => 'receipt_number',
+                'dt' => 'receipt_number'
+            ],
+            [
                 'db'        => 'id',
-                'dt'        => 'id',
+                'dt'        => '',
                 'formatter' => function($d, $row) {
                     $id = $row['id'];
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
                                           <a href='/admin/payment/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                      </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Edit'>
-                                         <a href='/admin/payment/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
-                                      </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Supprimer'>
-                                         <a href='/admin/payment/$id/supprimer' class='btn btn-sm btn-soft-danger'><i class='mdi mdi-delete-alert-outline'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -110,8 +108,17 @@ class PaymentController extends AbstractController
         );
 
         $whereResult = '';
-        if(!empty($params['reference'])){
-            $whereResult .= " reference LIKE '%". $params['reference'] . "%' AND";
+        if(!empty($params['reference'])) {
+            $whereResult .= " reference LIKE '%". $params['reference']. "%' AND";
+        }
+        if(!empty($params['code_payment_operateur'])) {
+            $whereResult .= " code_payment_operateur LIKE '%". $params['code_payment_operateur']. "%' AND";
+        }
+        if(!empty($params['receipt_number'])){
+            $whereResult .= " receipt_number LIKE '%". $params['receipt_number'] . "%' AND";
+        }
+        if(!empty($params['operateur'])) {
+            $whereResult .= " operateur LIKE '%". $params['operateur']. "%' AND";
         }
         if(!empty($params['status'])) {
             $whereResult .= " status LIKE '%". $params['status']. "%' AND";

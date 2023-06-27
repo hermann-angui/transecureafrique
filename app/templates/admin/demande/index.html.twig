@@ -27,6 +27,19 @@
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">Demande de macaron</h4>
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
+                                        <li class="breadcrumb-item active">Liste des demandes</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-3">
                             <div class="card mini-stats-wid">
                                 <div class="card-body">
@@ -109,19 +122,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0 font-size-18">Demande de macaron</h4>
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
-                                        <li class="breadcrumb-item active">Liste des demandes</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-body border-bottom">
@@ -134,6 +134,9 @@
                                 </div>
                                 <div class="card-body border-bottom">
                                     <div class="row g-3">
+                                        <div class="col-xxl-2 col-lg-6">
+                                            <input type="search" class="form-control" id="reference" placeholder="Numéro du reçu">
+                                        </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
                                         </div>
@@ -158,6 +161,7 @@
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Contact Propriétaire">
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -192,7 +196,6 @@
 <script src="{{ asset('backend/libs/apexcharts/apexcharts.min.js') }}"></script>
 <script src="{{ asset('backend/js/pages/dashboard.init.js') }}"></script>
 <script src="{{ asset('backend/libs/echarts/echarts.min.js') }}"></script>
-<script src="{{ asset('backend/js/pages/echarts.init.js') }}"></script>
 <script src="{{ asset('backend/js/app.js') }}"></script>
 
 <script type="text/javascript">
@@ -200,17 +203,10 @@
 
         var datatable = initDatatable();
 
-        $("#numero_carte_grise,#numero_recepisse,#numero_chassis").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#numero_chassis,#reference").change(function (e) {
                 datatable.draw();
         });
 
-       $("input[name='selection_type']").change(function(){
-             if($(this).val() === "0"){
-                $('#interval-row').hide();
-             }else{
-                  $('#interval-row').show();
-             }
-          });
         function initDatatable(){
             /* DATATABLE INIT */
             var dt = $('#datatable').DataTable( {
@@ -225,19 +221,31 @@
                 "ajax": {
                     "url": '{{ path('admin_demande_dt') }}',
                     "data": function (d) {
-                        d.numero_chassis = $("#numero_chassis").val();
+                        d.numero_carte_grise = $("#numero_carte_grise").val();
                         d.numero_recepisse = $("#numero_recepisse").val();
-                        d.numero_chassis = $("#numero_chassis").val();
+                        d.marque_du_vehicule = $("#marque_du_vehicule").val();
+                        d.genre_vehicule = $("#genre_vehicule").val();
+                        d.energie_vehicule = $("#energie_vehicule").val();
+                        d.identite_proprietaire = $("#identite_proprietaire").val();
+                        d.identite_proprietaire_piece = $("#identite_proprietaire_piece").val();
+                        d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
+                        d.reference = $("#reference").val();
                     }
                 },
                 "columns": [
-                    {"data":  "id"},
+                    {
+                        "class":   "details-control",
+                        "orderable": false,
+                        "data":      "id",
+                        "defaultContent": ""
+                    },
                     {"data":  "numero_carte_grise"},
                     {"data":  "numero_recepisse"},
                     {"data":  "numero_immatriculation"},
                     { "data": "date_de_premiere_mise_en_cirulation" },
                     { "data": "date_d_edition" },
                     { "data": "identite_proprietaire" },
+                    { "data": "identite_proprietaire_piece" },
                     { "data": "marque_du_vehicule" },
                     { "data": "genre_vehicule" },
                     { "data": "type_commercial" },

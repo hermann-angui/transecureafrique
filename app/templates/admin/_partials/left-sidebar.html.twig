@@ -28,8 +28,7 @@
                         <span key="t-dashboards">Demandes</span>
                     </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_demande_index') }}" key="t-u">En attente</a></li>
-                        <li><a href="{{ path('admin_demande_index') }}" key="t-t">Traitées</a></li>
+                        <li><a href="{{ path('admin_demande_index') }}" key="t-u">Afficher</a></li>
                         <li><a href="{{ path('admin_demande_index') }}" key="t-a">Réclamations</a></li>
                         <li><a href="{{ path('admin_demande_index') }}" key="t-a">Statistiques</a></li>
                     </ul>
@@ -40,20 +39,20 @@
                         <span key="t-dashboards">Paiement</span>
                     </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Validée</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-a">Réclamations</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
+                        <li><a href="{{ path('admin_payment_index') }}" key="t-u">Afficher</a></li>
+                        <li><a href="{{ path('admin_payment_index') }}" key="t-a">Réclamations</a></li>
+                        <li><a href="{{ path('admin_payment_index') }}" key="t-a">Statistiques</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bxs-archive"></i>
-                        <span key="t-dashboards">Macaron</span>
+                        <span key="t-dashboards">Macarons</span>
                     </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Validée</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-a">Réclamations</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-a">Statistiques</a></li>
+                        <li><a href="{{ path('admin_macaron_index') }}" key="t-u">Afficher</a></li>
+                        <li><a href="{{ path('admin_macaron_index') }}" key="t-a">Réclamations</a></li>
+                        <li><a href="{{ path('admin_macaron_index') }}" key="t-a">Statistiques</a></li>
                     </ul>
                 </li>
                 <li class="menu-title">Paramètres</li>
@@ -65,7 +64,6 @@
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
                         <li><a href="{{ path('admin_index') }}" key="t-u">Utilisateurs</a></li>
                         <li><a href="{{ path('admin_index') }}" key="t-t">Roles</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-a">API</a></li>
                     </ul>
                 </li>
             </ul>

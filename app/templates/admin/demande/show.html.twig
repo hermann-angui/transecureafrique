@@ -32,7 +32,7 @@
                                 <div class="card-body border-bottom">
                                     <div class="d-flex justify-content-end">
                                         <div class="flex-shrink-0">
-                                            <a href="{{ path('admin_demande_new',{'id': demande.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
+                                            <a href="{{ path('admin_payment_show',{'id': demande.payment.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
                                         </div>
                                     </div>
                                 </div>
@@ -56,6 +56,34 @@
                                         <tr>
                                             <th>Date d'édition</th>
                                             <td>{{ demande.DateDEdition|date('d/m/Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pièce propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietairePiece }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Identite propriétaire</th>
+                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
                                         </tr>
                                         <tr>
                                             <th>Identite propriétaire</th>
