@@ -39,10 +39,10 @@ class PaymentService
     {
         try{
             $demande = $payment->getDemande();
-            $numeroChassis = $demande->getNumeroVinChassis();
-            $qrCodeData = self::WEBSITE_URL . "/check/receipt/" . $numeroChassis;
+            $numeroRecu = $demande->getReference();
+            $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $numeroRecu;
             $content = $this->pdfGenerator->generateBarCode($qrCodeData, 50, 50);
-            $folder = self::MEDIA_DIR . $numeroChassis;
+            $folder = self::MEDIA_DIR . $numeroRecu;
             file_put_contents( $folder . "_barcode.png", $content);
             $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $payment->getDemande()]);
             file_put_contents($folder . "_receipt.pdf", $content);

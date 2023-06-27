@@ -73,14 +73,6 @@ class DemandeController extends AbstractController
                 'dt' => 'numero_immatriculation'
             ],
             [
-                'db' => 'date_de_premiere_mise_en_cirulation',
-                'dt' => 'date_de_premiere_mise_en_cirulation'
-            ],
-            [
-                'db' => 'date_d_edition',
-                'dt' => 'date_d_edition'
-            ],
-            [
                 'db' => 'identite_proprietaire',
                 'dt' => 'identite_proprietaire'
             ],
@@ -89,64 +81,8 @@ class DemandeController extends AbstractController
                 'dt' => 'identite_proprietaire_piece'
             ],
             [
-                'db' => 'marque_du_vehicule',
-                'dt' => 'marque_du_vehicule'
-            ],
-            [
-                'db' => 'genre_vehicule',
-                'dt' => 'genre_vehicule'
-            ],
-            [
-                'db' => 'type_commercial',
-                'dt' => 'type_commercial'
-            ],
-            [
-                'db' => 'couleur_vehicule',
-                'dt' => 'couleur_vehicule'
-            ],
-            [
-                'db' => 'carroserie_vehicule',
-                'dt' => 'carroserie_vehicule'
-            ],
-            [
-                'db' => 'energie_vehicule',
-                'dt' => 'energie_vehicule'
-            ],
-            [
-                'db' => 'places_assises',
-                'dt' => 'places_assises'
-            ],
-            [
-                'db' => 'usage_vehicule',
-                'dt' => 'usage_vehicule'
-            ],
-            [
-                'db' => 'puissance_fiscale',
-                'dt' => 'puissance_fiscale'
-            ],
-            [
-                'db' => 'nombre_d_essieux',
-                'dt' => 'nombre_d_essieux'
-            ],
-            [
-                'db' => 'cylindree',
-                'dt' => 'cylindree'
-            ],
-            [
                 'db' => 'numero_vin_chassis',
                 'dt' => 'numero_vin_chassis'
-            ],
-            [
-                'db' => 'societe_de_credit',
-                'dt' => 'societe_de_credit'
-            ],
-            [
-                'db' => 'type_technique',
-                'dt' => 'type_technique'
-            ],
-            [
-                'db' => 'numero_d_immatriculation_precedent',
-                'dt' => 'numero_d_immatriculation_precedent'
             ],
             [
                 'db' => 'reference',
@@ -187,14 +123,11 @@ class DemandeController extends AbstractController
         if(!empty($params['numero_recepisse'])) {
             $whereResult .= " numero_recepisse LIKE '%". $params['numero_recepisse']. "%' AND";
         }
-        if(!empty($params['marque_du_vehicule'])) {
-            $whereResult .= " marque_du_vehicule LIKE '%". $params['marque_du_vehicule']. "%' AND";
+        if(!empty($params['numero_immatriculation'])) {
+            $whereResult .= " numero_immatriculation LIKE '%". $params['numero_immatriculation']. "%' AND";
         }
-        if(!empty($params['genre_vehicule'])) {
-            $whereResult .= " genre_vehicule LIKE '%". $params['genre_vehicule']. "%' AND";
-        }
-        if(!empty($params['energie_vehicule'])) {
-            $whereResult .= " energie_vehicule LIKE '%". $params['energie_vehicule']. "%' AND";
+        if(!empty($params['numero_vin_chassis'])) {
+            $whereResult .= " numero_vin_chassis LIKE '%". $params['numero_vin_chassis']. "%' AND";
         }
         if(!empty($params['identite_proprietaire'])) {
             $whereResult .= " identite_proprietaire LIKE '%". $params['identite_proprietaire']. "%' AND";

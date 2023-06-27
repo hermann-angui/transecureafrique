@@ -1,0 +1,28 @@
+{% extends 'admin/base.html.twig' %}
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+       body{
+           background-color: #ffffff;
+       }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="layout-wrapper">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                {% if valid is defined %}
+                    <img src="{{ asset('frontend/assets/img/macaron_valid.jpg') }}" alt="macaron valide" width="50%">
+                {% else %}
+                    <img src="{{ asset('frontend/assets/img/macaron_fake.jpg') }}" alt="macaron valide" width="50%">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
+
+

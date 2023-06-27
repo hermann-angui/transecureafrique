@@ -24,9 +24,6 @@ class Macaron
     private ?string $numero_telephone_proprietaire;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $macaron_image;
-
-    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $macaron_qrcode_number;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -112,24 +109,6 @@ class Macaron
     public function setReference(?string $reference): Macaron
     {
         $this->reference = $reference;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMacaronImage(): ?string
-    {
-        return $this->macaron_image;
-    }
-
-    /**
-     * @param string|null $macaron_image
-     * @return Macaron
-     */
-    public function setMacaronImage(?string $macaron_image): Macaron
-    {
-        $this->macaron_image = $macaron_image;
         return $this;
     }
 

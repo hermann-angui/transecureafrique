@@ -141,16 +141,10 @@
                                             <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
+                                            <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro récépissé">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="marque_du_vehicule" placeholder="Marque">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="genre_vehicule" placeholder="Genre">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="energie_vehicule" placeholder="Type energie">
+                                            <input type="search" class="form-control" id="numero_immatriculation" placeholder="N° Immatriculation">
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="identite_proprietaire" placeholder="Propriétaire">
@@ -203,7 +197,7 @@
 
         var datatable = initDatatable();
 
-        $("#numero_carte_grise,#numero_recepisse,#numero_chassis,#reference").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#numero_immatriculation,#numero_chassis,#reference,#numero_telephone_proprietaire").change(function (e) {
                 datatable.draw();
         });
 
@@ -218,14 +212,13 @@
                 },
                 "processing": true,
                 "serverSide": true,
+                "searching": false,
                 "ajax": {
                     "url": '{{ path('admin_demande_dt') }}',
                     "data": function (d) {
                         d.numero_carte_grise = $("#numero_carte_grise").val();
                         d.numero_recepisse = $("#numero_recepisse").val();
-                        d.marque_du_vehicule = $("#marque_du_vehicule").val();
-                        d.genre_vehicule = $("#genre_vehicule").val();
-                        d.energie_vehicule = $("#energie_vehicule").val();
+                        d.numero_immatriculation = $("#numero_recepisse").val();
                         d.identite_proprietaire = $("#identite_proprietaire").val();
                         d.identite_proprietaire_piece = $("#identite_proprietaire_piece").val();
                         d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
@@ -242,25 +235,9 @@
                     {"data":  "numero_carte_grise"},
                     {"data":  "numero_recepisse"},
                     {"data":  "numero_immatriculation"},
-                    { "data": "date_de_premiere_mise_en_cirulation" },
-                    { "data": "date_d_edition" },
                     { "data": "identite_proprietaire" },
                     { "data": "identite_proprietaire_piece" },
-                    { "data": "marque_du_vehicule" },
-                    { "data": "genre_vehicule" },
-                    { "data": "type_commercial" },
-                    { "data": "couleur_vehicule" },
-                    { "data": "carroserie_vehicule" },
-                    { "data": "energie_vehicule" },
-                    { "data": "places_assises" },
-                    { "data": "usage_vehicule" },
-                    { "data": "puissance_fiscale" },
-                    { "data": "nombre_d_essieux" },
-                    { "data": "cylindree" },
                     { "data": "numero_vin_chassis" },
-                    { "data": "societe_de_credit" },
-                    { "data": "type_technique" },
-                    { "data": "numero_d_immatriculation_precedent" },
                     { "data": "reference" },
                     { "data": "" },
                 ],

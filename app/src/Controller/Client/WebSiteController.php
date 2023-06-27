@@ -25,18 +25,30 @@ class WebSiteController extends AbstractController
         return $this->render('frontend/bs/index.html.twig');
     }
 
+    #[Route(path: '/check/{macaron_qr_code_number}', name: 'check_macaron')]
+    public function checkMacaron($macaron_qr_code_number,
+                                 Request $request,
+                                 DemandeRepository $demandeRepository): Response
+    {
+        $demande = $demandeRepository->findOneBy(["macaron_qrcode_number" => $macaron_qr_code_number]);
+        if($demande?->getMacaron()){
+            $valid = "valid";
+            return $this->render("admin/macaron/check.html.twig", ["valid" => $valid]);
+        }
+        return $this->render("admin/macaron/check.html.twig");
+    }
+
     #[Route(path: '/test', name: 'test')]
     public function test(Request $request, DemandeRepository $demandeRepository): Response
     {
         $total = $demandeRepository->findTotalDemandePayed();
-
         return $this->json([]);
     }
 
-    #[Route(path: '/check/receipt/{chassis}', name: 'check_receipt')]
-    public function checkReceipt($chassis, DemandeRepository $demandeRepository, Request $request): Response
+    #[Route(path: '/verify/receipt/{reference}', name: 'check_receipt')]
+    public function checkReceipt($reference, DemandeRepository $demandeRepository, Request $request): Response
     {
-        $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $chassis]);
+        $demande = $demandeRepository->findOneBy(['reference' => $reference]);
         if($demande?->getPayment())  return $this->render('frontend/bs/receipt-check.html.twig', ["payment" => $demande->getPayment()]);
         return new Response("<strong>ATTENTION!! Ce recu n'est pas authentitique</strong>");
     }
@@ -47,7 +59,7 @@ class WebSiteController extends AbstractController
         return $this->render('frontend/bs/auth.html.twig');
     }
 
-    #[Route(path: '/otp/check', name: 'check_otp', methods: ['GET', 'POST'])]
+    #[Route(path: '/otp/verify', name: 'check_otp', methods: ['GET', 'POST'])]
     public function checkOtp(Request $request, OtpCodeRepository $otpCodeRepository): Response
     {
         if ($request->getMethod() === "GET") return $this->redirectToRoute("auth");
