@@ -33,7 +33,7 @@ class Demande
     private ?\DateTime  $date_de_premiere_mise_en_cirulation = null;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    private ?\DateTime  $date_d_edition;
+    private ?\DateTime  $date_d_edition = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $identite_proprietaire;
