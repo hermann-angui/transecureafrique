@@ -109,7 +109,13 @@
     <div class="notfound-bg"></div>
     <div class="notfound">
         <div class="notfound-404">
-            <h1>PAGE INACCESSIBLE!</h1>
+
+            {% if message is defined %}
+                <h1>{{ message  }}!</h1>
+            {% else %}
+                <h1>PAGE INACCESSIBLE!</h1>
+            {% endif %}
+
         </div>
         <h2>Une exception s'est produite, Veuillez reprendre votre action ou contacter notre service technique le cas échéant.</h2>
         <a href="{{ path("home") }}" class="home-btn">Accueil</a>

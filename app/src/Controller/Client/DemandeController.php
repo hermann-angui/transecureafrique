@@ -37,7 +37,8 @@ class DemandeController extends AbstractController
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
             $demande = $demandeService->create($data);
-            return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
+            if(!$demande) return $this->redirectToRoute('error', ["message" => "une erreur est survenue"]);
+            else  return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
         }
 
         return $this->redirectToRoute('auth');
@@ -74,7 +75,7 @@ class DemandeController extends AbstractController
     }
 
     #[Route(path: '/payment/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
-    public function demandePayment(Demande $demande, Request $request, PaymentService $paymentService): Response
+    public function demandePayment(Demande $demande, Request $request, PaymentService $paymentService, DemandeService $demandeService): Response
     {
         if (!$demande->getPayment()) {
             $data = [
@@ -83,9 +84,9 @@ class DemandeController extends AbstractController
                 "type" => $request->get('type'),
                 "demande" => $demande
             ];
-
             $paymentService->create($data);
         }
+
         return $this->render('frontend/bs/payment.html.twig', [
             "payment" => $demande->getPayment()
         ]);

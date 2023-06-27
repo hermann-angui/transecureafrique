@@ -110,7 +110,7 @@ class Demande
     #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?OtpCode $otpCode = null;
 
-    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'demande', targetEntity: Payment::class)]
     private ?Payment $payment = null;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
@@ -682,15 +682,15 @@ class Demande
 
     public function setPayment(?Payment $payment): self
     {
-        // unset the owning side of the relation if necessary
-        if ($payment === null && $this->payment !== null) {
-            $this->payment->setDemande(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($payment !== null && $payment->getDemande() !== $this) {
-            $payment->setDemande($this);
-        }
+//        // unset the owning side of the relation if necessary
+//        if ($payment === null && $this->payment !== null) {
+//            $this->payment->setDemande(null);
+//        }
+//
+//        // set the owning side of the relation if necessary
+//        if ($payment !== null && $payment->getDemande() !== $this) {
+//            $payment->setDemande($this);
+//        }
 
         $this->payment = $payment;
 

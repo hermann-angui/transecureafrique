@@ -14,7 +14,8 @@
 /public/build/
 
 /public/users/
-public/uploads/
+/public/media/*
+public/uploads/*
 public/members/
 npm-debug.log
 yarn-error.log

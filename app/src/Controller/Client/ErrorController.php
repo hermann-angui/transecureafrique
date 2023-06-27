@@ -17,6 +17,6 @@ class ErrorController extends AbstractController
     #[Route(path: '/error', name: 'error', methods: ['POST', 'GET'])]
     public function show(Request $request): Response
     {
-        return $this->render("bundles/TwigBundle/Exception/error.html.twig");
+        return $this->render("bundles/TwigBundle/Exception/error.html.twig", ["message" => $request->get("message")]);
     }
 }
