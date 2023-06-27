@@ -16,54 +16,22 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="bx bx-file-blank"></i>
-                        <span key="t-dashboards">District</span>
+                        <span key="t-dashboards">MENU</span>
                     </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_district_index') }}" key="t-u">Tableau de bord</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bxs-hand-right"></i>
-                        <span key="t-dashboards">Demandes</span>
-                    </a>
-                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_demande_index') }}" key="t-u">Afficher</a></li>
-                        <li><a href="{{ path('admin_demande_index') }}" key="t-a">Réclamations</a></li>
-                        <li><a href="{{ path('admin_demande_index') }}" key="t-a">Statistiques</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bx-money"></i>
-                        <span key="t-dashboards">Paiement</span>
-                    </a>
-                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_payment_index') }}" key="t-u">Afficher</a></li>
-                        <li><a href="{{ path('admin_payment_index') }}" key="t-a">Réclamations</a></li>
-                        <li><a href="{{ path('admin_payment_index') }}" key="t-a">Statistiques</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bxs-archive"></i>
-                        <span key="t-dashboards">Macarons</span>
-                    </a>
-                    <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_macaron_index') }}" key="t-u">Afficher</a></li>
-                        <li><a href="{{ path('admin_macaron_index') }}" key="t-a">Réclamations</a></li>
-                        <li><a href="{{ path('admin_macaron_index') }}" key="t-a">Statistiques</a></li>
+                        <li><a href="{{ path('admin_demande_index') }}" key="t-u">Demandes</a></li>
+                        <li><a href="{{ path('admin_macaron_index') }}" key="t-u">Macarons</a></li>
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            <li><a href="{{ path('admin_payment_index') }}" key="t-u">Paiements</a></li>
+                            <li><a href="{{ path('admin_district_index') }}" key="t-u">Espace district</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li class="menu-title">Paramètres</li>
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bxs-lock"></i>
-                        <span key="t-dashboards">Securité</span>
-                    </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
-                        <li><a href="{{ path('admin_index') }}" key="t-u">Utilisateurs</a></li>
-                        <li><a href="{{ path('admin_index') }}" key="t-t">Roles</a></li>
+                        <li><a href="#" key="t-u">Utilisateurs</a></li>
+                        <li><a href="#" key="t-t">Roles</a></li>
                     </ul>
                 </li>
             </ul>

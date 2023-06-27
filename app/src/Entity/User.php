@@ -42,6 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $modified_at;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $last_connection;
+
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -204,6 +207,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(?string $lastname): User
     {
         $this->lastname = $lastname;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getLastConnection(): ?\DateTime
+    {
+        return $this->last_connection;
+    }
+
+    /**
+     * @param \DateTime|null $last_connection
+     * @return User
+     */
+    public function setLastConnection(?\DateTime $last_connection): User
+    {
+        $this->last_connection = $last_connection;
         return $this;
     }
 

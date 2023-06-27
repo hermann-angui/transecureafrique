@@ -150,6 +150,17 @@ class DemandeController extends AbstractController
         return $this->render('admin/demande/show.html.twig', ['demande' => $demande]);
     }
 
+    #[Route('/{id}/edit/ajax', name: 'admin_demande_edit_ajax', methods: ['GET', 'POST'])]
+    public function editAjax(Request $request, Demande $demande, DemandeService $demandeService): Response
+    {
+        $payload = $request->request->all();
+
+        $data[$payload["name"]] = $payload["value"];
+
+        $demande = $demandeService->update($demande, $data);
+        return $this->json(null);
+    }
+
     #[Route('/{id}/edit', name: 'admin_demande_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Demande $demande, DemandeService $demandeService): Response {
 

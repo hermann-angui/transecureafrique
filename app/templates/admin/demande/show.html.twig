@@ -2,6 +2,7 @@
 
 {% block stylesheet %}
     {{ parent() }}
+    <link href="{{ asset('backend/libs/bootstrap-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
@@ -37,114 +38,169 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Fiche demande : <strong class="text-primary text-decoration-underline"> N° RECU : {{ demande.Reference }}</strong></h4>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h4 class="card-title mb-4">FICHE DEMANDE DE MACARON : <strong class="text-primary text-decoration-underline"> N° RECU : {{ demande.Reference }}</strong></h4>
+                                        </div>
+                                        <div class="col-2">
+                                            <strong class="badge badge-pill bg-success font-size-15">{{ demande.Status }}</strong>
+                                        </div>
+                                        <div class="col-4">
+                                            DATE DU RENDEZ-VOUS: <strong class="badge badge-pill bg-info font-size-12"> {{ demande.DateRendezVous|date('d/m/Y') }}</strong>
+                                        </div>
+
+                                    </div>
                                     <table class="table table-bordered px-5 w-75">
                                         <tbody>
                                         <tr>
                                             <th style="width: 30%">Numéro récépissé</th>
-                                            <td>{{ demande.NumeroRecepisse }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_recepisse" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de récépissé" class="editable editable-click">{{ demande.NumeroRecepisse }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th style="width: 30%">Numéro immatriculation</th>
-                                            <td>{{ demande.NumeroImmatriculation }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_immatriculation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro d'immatriculation" class="editable editable-click"> {{ demande.NumeroImmatriculation }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Numéro vin Chassis</th>
-                                            <td>{{ demande.NumeroVinChassis }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_vin_chassis" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de chassis" class="editable editable-click">{{ demande.NumeroVinChassis }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>N° Carte grise</th>
-                                            <td>{{ demande.NumeroCarteGrise }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Satut du paiement</th>
-                                            <td>{{ demande.Status }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_carte_grise" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de la carte grise" class="editable editable-click">{{ demande.NumeroCarteGrise }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Date de première mise en cirulation</th>
-                                            <td>{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="date_de_premiere_mise_en_cirulation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date de première mise en cirulation">{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}</a>
+                                            </td>
                                         </tr>
-
                                         <tr>
                                             <th>Date d'édition</th>
-                                            <td>{{ demande.DateDEdition|date('d/m/Y') }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="date_d_edition" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDEdition|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date d'édition">{{ demande.DateDEdition|date('d/m/Y') }}</a></td>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <th>Identite propriétaire</th>
-                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                            <th>Nom du propriétaire</th>
+                                            <td>
+                                                <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Pièce propriétaire</th>
-                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietairePiece }}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Identite propriétaire</th>
-                                            <td><span class="badge badge-pill bg-info font-size-11">{{ demande.IdentiteProprietaire }}</span></td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="identite_proprietaire_piece" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire Piece" class="editable editable-click">{{ demande.IdentiteProprietairePiece }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Marque du véhicule</th>
-                                            <td>{{ demande.MarqueDuVehicule }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="marque_du_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Marque de vehicule" class="editable editable-click">{{ demande.MarqueDuVehicule }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Genre du véhicule</th>
-                                            <td>{{ demande.GenreVehicule }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="genre_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.GenreVehicule }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Type commercial</th>
-                                            <td>{{ demande.TypeCommercial }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="type_commercial" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.TypeCommercial }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Couleur vehicule</th>
-                                            <td>{{ demande.CouleurVehicule }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="couleur_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CouleurVehicule }}</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Carrosserie vehicule</th>
+                                            <td>
+                                                <a href="javascript: void(0);" id="carroserie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CarroserieVehicule }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Energie véhicule</th>
-                                            <td>{{ demande.EnergieVehicule }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Energie de vehicule" class="editable editable-click">{{ demande.EnergieVehicule }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Places assises</th>
-                                            <td>{{ demande.PlacesAssises }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="places_assises" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Paces assises" class="editable editable-click">{{ demande.PlacesAssises }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Usage véhicule</th>
-                                            <td>{{ demande.UsageVehicule }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="usage_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Usage de vehicule" class="editable editable-click">{{ demande.UsageVehicule }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Puissance fiscale</th>
-                                            <td>{{ demande.PuissanceFiscale }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="puissance_fiscale" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Puissance fiscale" class="editable editable-click">{{ demande.PuissanceFiscale }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Nombre d'essieux</th>
-                                            <td>{{ demande.NombreDEssieux }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="nombre_d_essieux" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.NombreDEssieux }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Cylindre</th>
-                                            <td>{{ demande.Cylindree }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="cylindree" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.Cylindree }}</a>
+                                            </td>
                                         </tr>
 
                                         <tr>
                                             <th>Société de crédit</th>
-                                            <td>{{ demande.SocieteDeCredit }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="societe_de_credit" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Société de Credit" class="editable editable-click">{{ demande.SocieteDeCredit }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Type technique</th>
-                                            <td>{{ demande.TypeTechnique }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="type_technique" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Type Technique" class="editable editable-click">{{ demande.TypeTechnique }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Numéro d'immatriculation précédent</th>
-                                            <td>{{ demande.NumeroDImmatriculationPrecedent }}</td>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_d_immatriculation_precedent" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Numero D'immatriculation Précédent" class="editable editable-click">{{ demande.NumeroDImmatriculationPrecedent }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Carte grise (scan)</th>
-                                            <td>{{ demande.carteGriseImage }}</td>
+                                            <td>
+                                                {{ demande.carteGriseImage }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>Carte grise (scan)</th>
-                                            <td>{{ demande.recepisseImage }}</td>
+                                            <td>
+                                                {{ demande.recepisseImage }}
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <th>Date du rendez-vous</th>
-                                            <td>{{ demande.DateRendezVous|date('d l F Y') }}</td>
+                                            <td colspan="2">
+                                                Informations:
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -173,9 +229,17 @@
 
 {% block javascript %}
 {{ parent() }}
+<script src="{{ asset('backend/libs/bootstrap-editable/js/index.js') }}"></script>
+<script src="{{ asset('backend/libs/moment/moment.min.js') }}"></script>
+
   <script>
       $('document').ready(function() {
-
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit btn-sm waves-effect waves-light"><i class="mdi mdi-check"></i></button><button type="button" class="btn btn-danger editable-cancel btn-sm waves-effect waves-light"><i class="mdi mdi-close"></i></button>',
+        $("table tr td a").editable({
+            mode: "inline",
+            inputclass: "form-control-sm",
+            emptytext: 'n/a'
+        });
       });
 
   </script>
