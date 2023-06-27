@@ -102,10 +102,10 @@ class Demande
     private ?string $macaron_qrcode_number = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
-    private ?string $numero_carte_grise_image = null;
+    private ?string $carte_grise_image = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
-    private ?string $numero_recepisse_image = null;
+    private ?string $recepisse_image = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $date_rendez_vous;
@@ -739,7 +739,7 @@ class Demande
      * @param string|null $macaron_qrcode_number
      * @return Demande
      */
-    public function setMacaronQrcodeNumber(?string $macaron_qrcode_number): Demande
+    public function setMacaronQrcodeNumber(?string $macaron_qrcode_number): ?Demande
     {
         $this->macaron_qrcode_number = $macaron_qrcode_number;
         return $this;
@@ -748,36 +748,36 @@ class Demande
     /**
      * @return string|null
      */
-    public function getNumeroCarteGriseImage(): ?string
+    public function getCarteGriseImage(): ?string
     {
-        return $this->numero_carte_grise_image;
+        return $this->carte_grise_image;
     }
 
     /**
-     * @param string|null $numero_carte_grise_image
+     * @param string|null $carte_grise_image
      * @return Demande
      */
-    public function setNumeroCarteGriseImage(?string $numero_carte_grise_image): Demande
+    public function setCarteGriseImage(?string $carte_grise_image): ?Demande
     {
-        $this->numero_carte_grise_image = $numero_carte_grise_image;
+        $this->carte_grise_image = $carte_grise_image;
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getNumeroRecepisseImage(): ?string
+    public function getRecepisseImage(): ?string
     {
-        return $this->numero_recepisse_image;
+        return $this->recepisse_image;
     }
 
     /**
-     * @param string|null $numero_recepisse_image
+     * @param string|null $recepisse_image
      * @return Demande
      */
-    public function setNumeroRecepisseImage(?string $numero_recepisse_image): Demande
+    public function setRecepisseImage(?string $recepisse_image): ?Demande
     {
-        $this->numero_recepisse_image = $numero_recepisse_image;
+        $this->recepisse_image = $recepisse_image;
         return $this;
     }
 

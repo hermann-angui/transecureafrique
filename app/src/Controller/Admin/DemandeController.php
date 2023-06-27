@@ -100,9 +100,6 @@ class DemandeController extends AbstractController
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Edit'>
                                          <a href='/admin/demande/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
                                       </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Supprimer'>
-                                         <a href='/admin/demande/$id/supprimer' class='btn btn-sm btn-soft-danger'><i class='mdi mdi-delete-alert-outline'></i></a>
-                                      </li>
                                 </ul>";
                     return $content;
                 }
