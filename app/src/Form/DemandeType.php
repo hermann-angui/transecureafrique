@@ -20,11 +20,9 @@ class DemandeType extends AbstractType
             ->add('numero_immatriculation')
             ->add('date_de_premiere_mise_en_cirulation', DateType::class, [
                 "html5" => true,
-                "format" => "dd-MM-yyyy"
             ])
             ->add('date_d_edition',DateType::class, [
                 "html5" => true,
-                "format" => "dd-MM-yyyy"
             ])
             ->add('identite_proprietaire')
             ->add('identite_proprietaire_piece')
@@ -44,12 +42,12 @@ class DemandeType extends AbstractType
             ->add('type_technique')
             ->add('numero_d_immatriculation_precedent')
             ->add('reference')
-            ->add('carte_crise_image')
+            ->add('carteGriseImage')
+            ->add('recepisseImage')
             ->add('montant')
             ->add('status')
             ->add('date_rendez_vous', DateType::class, [
                 "html5" => true,
-                "format" => "dd-MM-yyyy"
            ])
          //   ->add('created_at')
          //  ->add('modified_at')
