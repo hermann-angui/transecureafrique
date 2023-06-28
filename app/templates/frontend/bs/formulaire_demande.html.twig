@@ -383,7 +383,7 @@
             dataType: 'json',
             type: 'POST',
             success: function(response) {
-              if(response===null) return;
+              if(response==='nodata') return;
               if(response==='duplicate'){
                   $("#duplicate_alert").show();
                    $('#numero_vin_chassis').focus();

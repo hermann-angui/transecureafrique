@@ -38,6 +38,8 @@ class DemandeService
     {
         try{
 
+            // Rechercher le
+
             $demande = new Demande();
             $demande->setReference($this->generateReference());
             if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper(trim($data["numero_carte_grise"])));
@@ -197,7 +199,7 @@ class DemandeService
 
     public function generateReference() {
         $now = new \DateTime();
-        $year = $now->format("Y");
+        $year = $now->format("y");
         return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
     }
 
