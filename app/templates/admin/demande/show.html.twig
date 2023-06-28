@@ -3,6 +3,34 @@
 {% block stylesheet %}
     {{ parent() }}
     <link href="{{ asset('backend/libs/bootstrap-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .inputfile {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+        .inputfile + label {
+            font-size: 0.25em;
+            font-weight: 500;
+            padding: 3px 3px;
+            border-radius: 5px;
+            color: white;
+            background-color: black;
+            display: inline-block;
+        }
+
+        .inputfile:focus + label,
+        .inputfile + label:hover {
+            background-color: #e37200;
+        }
+        .inputfile + label {
+            cursor: pointer; /* "hand" cursor */
+        }
+    </style>
+
 {% endblock %}
 
 
@@ -92,6 +120,12 @@
                                             <th>Nom du propriétaire</th>
                                             <td>
                                                 <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-light bg-warning">
+                                            <th>Contact du propriétaire (N° Téléphone)</th>
+                                            <td>
+                                                <a href="javascript: void(0);" id="numero_telephone_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire" class="editable editable-click">{{ demande.NumeroTelephoneProprietaire }}</a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -188,18 +222,43 @@
                                         <tr>
                                             <th>Carte grise (scan)</th>
                                             <td>
-                                                {{ demande.carteGriseImage }}
+                                                {%  if demande.carteGriseImage  %}
+                                                    <img src="{{ asset("frontend/media/") ~ demande.carteGriseImage }}" width="95" >
+                                                {% endif %}
+                                                    <input type="file" name="carte_grise_image" id="carte_grise_image" class="inputfile" />
+                                                    <label for="carte_grise_image">Choisir une image</label>
+                                                    <button class="ml-3 btn btn-link" id="carte_grise_image_btn">uploader</button>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Carte grise (scan)</th>
+                                            <th>Récépissé grise (scan)</th>
                                             <td>
-                                                {{ demande.recepisseImage }}
+                                                {%  if demande.recepisseImage %}
+                                                <div class="mx-5">
+                                                    <img src="{{ asset("frontend/media/") ~ demande.recepisseImage }}" width="150">
+                                                </div>
+                                                {% endif %}
+                                                <div class="mx-5">
+                                                    <input type="file" name="recepisse_image" id="recepisse_image" class="inputfile" />
+                                                    <label for="recepisse_image">Choisir une image</label>
+                                                    <button class="ml-3 btn btn-link" id="recepisse_image_btn">uploader</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-light bg-warning">
+                                            <th class="text-danger fw-bold">QR CODE MACARON </th>
+                                            <td>
+                                                <a href="javascript: void(0);" id="macaron_qrcode_number" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Numero D'immatriculation Précédent" class="editable editable-click">{{ demande.MacaronQrcodeNumber }}</a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
                                                 Informations:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <button class="btn btn-success" id="generate_macaron">GENERER LE MACARON</button>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -234,12 +293,50 @@
 
   <script>
       $('document').ready(function() {
-        $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit btn-sm waves-effect waves-light"><i class="mdi mdi-check"></i></button><button type="button" class="btn btn-danger editable-cancel btn-sm waves-effect waves-light"><i class="mdi mdi-close"></i></button>',
-        $("table tr td a").editable({
-            mode: "inline",
-            inputclass: "form-control-sm",
-            emptytext: 'n/a'
-        });
+
+            $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit btn-sm waves-effect waves-light"><i class="mdi mdi-check"></i></button><button type="button" class="btn btn-danger editable-cancel btn-sm waves-effect waves-light"><i class="mdi mdi-close"></i></button>',
+            $("table tr td a").editable({
+                mode: "inline",
+                inputclass: "form-control-sm",
+                emptytext: 'n/a'
+            });
+
+            $("#generate_macaron").click(function(){
+                alert('Generate macaron');
+            });
+
+            $("#carte_grise_image_btn").click(function(){
+                uploadImg("input[name='carte_grise_image']", 'carte_grise_image')
+            });
+            $("#recepisse_image_btn").click(function(){
+                uploadImg("input[name='recepisse_image']", 'recepisse_image')
+            });
+
+            function uploadImg(fileTagId, fileName){
+                console.log(fileTagId);
+                  var fd = new FormData();
+                  var files = $(fileTagId)[0].files;
+
+                  // Check file selected or not
+                  if(files.length > 0 ){
+                       fd.append(fileName,files[0]);
+                       $.ajax({
+                                url:"{{ path('admin_demande_edit_ajax', {id: demande.id}) }}",
+                                type:'post',
+                                data:fd,
+                                dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                success:function(response){
+                                    console.log(response);
+                                    location.reload();
+                                }
+                           });
+                  }
+                  else{
+                     alert("Veuillez selectionner un fichier.");
+                  }
+            }
       });
 
   </script>

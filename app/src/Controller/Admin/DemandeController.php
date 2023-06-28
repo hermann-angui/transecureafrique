@@ -153,12 +153,19 @@ class DemandeController extends AbstractController
     #[Route('/{id}/edit/ajax', name: 'admin_demande_edit_ajax', methods: ['GET', 'POST'])]
     public function editAjax(Request $request, Demande $demande, DemandeService $demandeService): Response
     {
+        $data = [];
         $payload = $request->request->all();
+        if(!empty($payload)) $data[$payload["name"]] = $payload["value"];
 
-        $data[$payload["name"]] = $payload["value"];
+        $files = $request->files->all();
+        if(!empty($files)){
+            foreach($files as $key => $value){
+                $data[$key] = $value;
+            }
+        }
 
         $demande = $demandeService->update($demande, $data);
-        return $this->json(null);
+        return $this->json("ok");
     }
 
     #[Route('/{id}/edit', name: 'admin_demande_edit', methods: ['GET', 'POST'])]

@@ -46,7 +46,7 @@ class PaymentService
             file_put_contents( $folder . "_barcode.png", $content);
             $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $payment->getDemande()]);
             file_put_contents($folder . "_receipt.pdf", $content);
-           // if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
+            if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
             return $content ?? null;
         }catch(\Exception $e){
             if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");

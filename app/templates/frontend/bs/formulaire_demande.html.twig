@@ -378,6 +378,25 @@
                   max: 999
                 });
            */
+
+
+           /*
+            FILE UPLOAD VIA AJAX FORM
+            <form id="fileUploadForm" method="post" enctype="multipart/form-data">
+              <input type="file" name="file" id="fileInput">
+              <button type="submit" id="submitButton">Upload</button>
+            </form>
+             $('#fileUploadForm').ajaxForm({
+                url: 'upload.php',
+                dataType: 'json',
+                success: function(response) {
+                  console.log(response);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                  console.log(xhr.responseText);
+                }
+             });
+            */
       });
 
 
