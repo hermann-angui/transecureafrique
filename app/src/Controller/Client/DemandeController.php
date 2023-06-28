@@ -36,9 +36,10 @@ class DemandeController extends AbstractController
             ]);
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
-            $demande = $demandeService->create($data);
-            if(!$demande) return $this->redirectToRoute('error', ["message" => "une erreur est survenue"]);
-            else  return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
+            $res = $demandeService->create($data);
+            if(is_array($res) && !empty($res)) return $this->json('duplicate');
+            elseif($res instanceof Demande) return $this->json($res->getId());
+            else return $this->json('nodata');
            // return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
         }
 

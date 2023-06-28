@@ -6,6 +6,7 @@ use App\Entity\Demande;
 use App\Helper\FileUploadHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -30,10 +31,10 @@ class DemandeService
      * @param array $data
      * @param OtpCodeRepository $otpCodeRepository
      * @param DemandeRepository $demandeRepository
-     * @return Demande
+     * @return Demande|array
      * @throws \Exception
      */
-    public function create(array $data): ?Demande
+    public function create(array $data): Demande|array|null
     {
         try{
 
@@ -104,8 +105,10 @@ class DemandeService
             */
             $this->demandeRepository->add($demande, true);
             return $demande;
+        }catch (UniqueConstraintViolationException $e){
+            return ["error" => $e->getMessage() , "type" => "Duplication"];
         }catch (\Exception $e){
-            return ["error" => $e->getMessage()];
+            return null;
         }
     }
 

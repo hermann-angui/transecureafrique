@@ -196,7 +196,13 @@
                     <div class="card">
                         <div class="card-body m-auto w-75">
                             <h4 class="card-title mb-4">Informations sur votre vehicule</h4>
-                            <form action="{{ path('demande_new') }}" method="POST">
+{#                            <form action="{{ path('demande_new') }}" method="POST">#}
+
+                            <div class="alert alert-danger" role="alert" id="duplicate_alert">
+                                Désolé, il semblerait qu'une demande de macaron ait déjà été faite pour ce véhicule.
+                                <br>Veuillez contactez le propriétaire ou le service client de transecureafrica  pour plus d'informations.
+                            </div>
+                            <form id="uploadFormulaire" method="post" enctype="multipart/form-data">
                                 {% if document == 'carte_grise' %}
                                 <div class="mb-3">
                                     <label for="numero_carte_grise" class="form-label">Numéro de la carte grise<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
@@ -363,24 +369,35 @@
 {% block javascript %}
 <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
-<script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+<script src="{{ asset('backend/libs/jquery.form/jquery.form.min.js') }}"></script>
  <script>
       $(document).ready(function(){
-
+           $("#duplicate_alert").hide();
            $("#date_d_edition").inputmask();
 
            $("#date_de_premiere_mise_en_cirulation").inputmask();
-           /*
-               $("#nombre_d_essieux").inputmask({
-                  alias: 'numeric',
-                  allowMinus: false,
-                  digits: 2,
-                  max: 999
-                });
-           */
 
-
+         $('#uploadFormulaire').ajaxForm({
+            url: '{{ path('demande_new') }}',
+            dataType: 'json',
+            type: 'POST',
+            success: function(response) {
+              if(response===null) return;
+              if(response==='duplicate'){
+                  $("#duplicate_alert").show();
+                   $('#numero_vin_chassis').focus();
+              }else{
+                  $("#duplicate_alert").hide();
+                  window.location.replace('/demande/recap/' + response);
+              }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+            }
+         });
            /*
+           uploadFormulaire
             FILE UPLOAD VIA AJAX FORM
             <form id="fileUploadForm" method="post" enctype="multipart/form-data">
               <input type="file" name="file" id="fileInput">
