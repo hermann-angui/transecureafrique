@@ -3,17 +3,13 @@
 namespace App\Controller\Client;
 
 use App\Dtos\OtpRequest;
-use App\Helper\PasswordHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
-use App\Service\InfoBip\InfoBipService;
 use App\Service\Otp\OtpService;
-use DoctrineExtensions\Query\Mysql\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Uid\Uuid;
 
 class WebSiteController extends AbstractController
 {

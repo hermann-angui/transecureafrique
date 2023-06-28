@@ -37,9 +37,9 @@ class DemandeController extends AbstractController
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
             $demande = $demandeService->create($data);
-          //  if(!$demande) return $this->redirectToRoute('error', ["message" => "une erreur est survenue"]);
-          //  else  return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
-            return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
+            if(!$demande) return $this->redirectToRoute('error', ["message" => "une erreur est survenue"]);
+            else  return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
+           // return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
         }
 
         return $this->redirectToRoute('auth');

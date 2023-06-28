@@ -116,8 +116,6 @@ class Demande
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(inversedBy: 'demande', cascade: ['persist', 'remove'])]
-    private ?OtpCode $otpCode = null;
 
     #[ORM\OneToOne(inversedBy: 'demande', targetEntity: Payment::class)]
     private ?Payment $payment = null;
@@ -125,11 +123,15 @@ class Demande
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
 
+    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
+    private Collection $optcodes;
+
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->modified_at = new \DateTime();
+        $this->optcodes = new ArrayCollection();
     }
 
     /**
@@ -661,28 +663,6 @@ class Demande
         return $this;
     }
 
-    public function getOtpCode(): ?OtpCode
-    {
-        return $this->otpCode;
-    }
-
-    public function setOtpCode(?OtpCode $otpCode): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($otpCode === null && $this->otpCode !== null) {
-            $this->otpCode->setDemande(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($otpCode !== null && $otpCode->getDemande() !== $this) {
-            $otpCode->setDemande($this);
-        }
-
-        $this->otpCode = $otpCode;
-
-        return $this;
-    }
-
     public function getPayment(): ?Payment
     {
         return $this->payment;
@@ -778,6 +758,36 @@ class Demande
     public function setRecepisseImage(?string $recepisse_image): ?Demande
     {
         $this->recepisse_image = $recepisse_image;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OtpCode>
+     */
+    public function getOptcodes(): Collection
+    {
+        return $this->optcodes;
+    }
+
+    public function addOptcode(OtpCode $optcode): self
+    {
+        if (!$this->optcodes->contains($optcode)) {
+            $this->optcodes[] = $optcode;
+            $optcode->setDemande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOptcode(OtpCode $optcode): self
+    {
+        if ($this->optcodes->removeElement($optcode)) {
+            // set the owning side to null (unless already changed)
+            if ($optcode->getDemande() === $this) {
+                $optcode->setDemande(null);
+            }
+        }
+
         return $this;
     }
 

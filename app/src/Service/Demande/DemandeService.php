@@ -35,7 +35,7 @@ class DemandeService
      */
     public function create(array $data): ?Demande
     {
-    //    try{
+        try{
 
             $demande = new Demande();
             $demande->setReference($this->generateReference());
@@ -92,9 +92,8 @@ class DemandeService
             $demande->setDateRendezVous($appointmentDate);
 
             $otpCode = $this->otpCodeRepository->find($data["otpcode"]);
-            if ($otpCode && !$demande->getOtpCode()) {
-                $demande->setOtpCode($otpCode);
-            }
+            $demande->addOptcode($otpCode);
+
             /*
             if (array_key_exists("authid", $data)) {
                 $otpCode = $this->otpCodeRepository->find($data["authid"]);
@@ -105,9 +104,9 @@ class DemandeService
             */
             $this->demandeRepository->add($demande, true);
             return $demande;
-/*        }catch (\Exception $e){
+        }catch (\Exception $e){
             return ["error" => $e->getMessage()];
-        }*/
+        }
     }
 
     public function update(?Demande &$demande, array $data): ?Demande
