@@ -30,7 +30,7 @@ class WebSiteController extends AbstractController
      //   if($demande?->getMacaron()){
         if($demande){
             $valid = "valid";
-            return $this->render("admin/macaron/check.html.twig", ["valid" => $valid]);
+            return $this->render("admin/macaron/check.html.twig", ["valid" => $valid, "demande" => $demande]);
         }
         return $this->render("admin/macaron/check.html.twig");
     }
