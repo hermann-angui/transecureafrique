@@ -27,7 +27,8 @@ class WebSiteController extends AbstractController
                                  DemandeRepository $demandeRepository): Response
     {
         $demande = $demandeRepository->findOneBy(["macaron_qrcode_number" => $macaron_qr_code_number]);
-        if($demande?->getMacaron()){
+     //   if($demande?->getMacaron()){
+        if($demande){
             $valid = "valid";
             return $this->render("admin/macaron/check.html.twig", ["valid" => $valid]);
         }
