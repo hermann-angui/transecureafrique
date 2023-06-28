@@ -35,7 +35,7 @@ class DemandeService
      */
     public function create(array $data): ?Demande
     {
-        try{
+    //    try{
 
             $demande = new Demande();
             $demande->setReference($this->generateReference());
@@ -105,9 +105,9 @@ class DemandeService
             */
             $this->demandeRepository->add($demande, true);
             return $demande;
-        }catch (\Exception $e){
-            return null;
-        }
+/*        }catch (\Exception $e){
+            return ["error" => $e->getMessage()];
+        }*/
     }
 
     public function update(?Demande &$demande, array $data): ?Demande

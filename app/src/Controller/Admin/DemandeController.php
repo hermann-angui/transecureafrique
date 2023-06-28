@@ -33,7 +33,7 @@ class DemandeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $data = $request->request->all();
-            $demandeService->createDemande($demande);
+            $demandeService->create($demande);
             return $this->redirectToRoute('admin_demande_index');
 
         }
