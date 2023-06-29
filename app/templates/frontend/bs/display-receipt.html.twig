@@ -3,6 +3,7 @@
 {% block title %}Code d'accès{% endblock %}
 
 {% block stylesheet %}
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     {{ parent() }}
     <style>
         body{

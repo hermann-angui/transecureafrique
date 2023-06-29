@@ -32,7 +32,7 @@ class PaymentService
      * @return PdfResponse
      */
     public function downloadPdfReceipt(?Payment $payment, string $viewTemplate){
-        $content = $this->generateReceipt($payment,$viewTemplate);
+        $content = $this->generateReceipt($payment, $viewTemplate);
         return new PdfResponse($content, 'recu_macaron.pdf');
     }
 
