@@ -27,7 +27,6 @@ class PaymentController extends AbstractController
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());
-            $payment->setReceiptNumber($this->generateReference());
             $payment->setMontant($response->getAmount());
             $payment->setType("MOBILE_MONEY");
             $paymentRepository->add($payment, true);
@@ -47,7 +46,7 @@ class PaymentController extends AbstractController
                 if ($payment) {
                     $payment->setStatus(strtoupper($data["payment_status"]));
                     $payment->setMontant($data["amount"]);
-                    $payment->setCodePaymentOperateur($data["transaction_id"]);
+                    $payment->setCodePaymentOperateur(trim($data["transaction_id"]));
                     $payment->setModifiedAt(new \DateTime());
                     $paymentRepository->add($payment, true);
 
@@ -79,12 +78,6 @@ class PaymentController extends AbstractController
         }else{
             return $this->redirectToRoute('home');
         }
-    }
-
-    public function generateReference() {
-        $now = new \DateTime();
-        $year = $now->format("Y");
-        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
     }
 
 

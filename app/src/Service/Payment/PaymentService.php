@@ -6,6 +6,7 @@ use App\Entity\Payment;
 use App\Helper\PdfGenerator;
 use App\Repository\PaymentRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Symfony\Component\Uid\Uuid;
 
 class PaymentService
 {
@@ -17,6 +18,12 @@ class PaymentService
         private PdfGenerator     $pdfGenerator,
         private PaymentRepository $paymentRepository)
     {
+    }
+
+    public function generateReference() {
+        $now = new \DateTime();
+        $year = $now->format("Y");
+        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
     }
 
     /**
@@ -73,6 +80,7 @@ class PaymentService
         $payment = new Payment();
         $payment->setMontant($data["montant"]);
         $payment->setOperateur("WAVE");
+        $payment->setReceiptNumber($this->generateReference());
         $payment->setType(strtoupper($data["type"]));
         $payment->setDemande($data["demande"]);
         $this->paymentRepository->add($payment, true);
