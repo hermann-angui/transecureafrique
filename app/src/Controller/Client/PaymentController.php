@@ -10,18 +10,36 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Uid\Uuid;
 
 
 #[Route('/payment')]
 class PaymentController extends AbstractController
 {
     #[Route(path: '/do/{id}', name: 'do_payment')]
-    public function doPayment(Payment $payment,
+    public function doPayment(Request $request, Payment $payment,
                               WaveService $waveService,
                               PaymentRepository $paymentRepository): Response
     {
         $status = strtoupper($payment->getStatus());
+
+//        if($request->get("test") === "1"){
+//            $response = [
+//               "status" => "SUCCEEDED",
+//               "reference" => "TEST",
+//               "montant" => "10100",
+//               "url" => "https://transecureafrica.com/payment/wave/checkout/success?ref=TEST",
+//            ];
+//            if($response) {
+//                $payment->setStatus($response["status"]);
+//                $payment->setReference($response["reference"]);
+//                $payment->setMontant($response["montant"]);
+//                $payment->setType("MOBILE_MONEY");
+//                $paymentRepository->add($payment, true);
+//                return $this->redirect($response["url"]);
+//            }
+//            else return $this->redirectToRoute('home');
+//        }
+
         if(in_array($status, ["SUCCEEDED","PROCESSING"])) return $this->redirectToRoute('home');
         $response = $waveService->makePayment($payment);
         if($response) {
@@ -58,7 +76,6 @@ class PaymentController extends AbstractController
                             $demandeRepository->add($demande, true);
                         }
                     }
-
                 }
             }
         }

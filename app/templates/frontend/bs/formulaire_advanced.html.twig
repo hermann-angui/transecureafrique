@@ -1,0 +1,262 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Nouvelle demande{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        body #__next{
+            background-color: #f2f3f2
+        }
+        .liste-etapes {
+            color: var(--text-color);
+            font-family: var(--font-text);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #b2b2b2;
+            box-shadow: none;
+        }
+
+        #card-wrapper{
+            min-height: 500px;
+            background: rgb(252,114,0);
+            background: linear-gradient(40deg, rgba(252,114,0,1) 9%, rgba(244,130,0,0.8855917366946778) 17%, rgba(255,255,255,0.3701855742296919) 37%, rgba(255,255,255,0.4650542664670658) 73%, rgba(62,146,60,0.9398113905325444) 85%, rgba(4,113,2,1) 95%);
+        }
+
+        #left-wrapper{
+            min-height:475px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px; width:25%;
+            background-color: #4f4f50;
+            margin: 15px 5px 5px 10px;
+            padding: 25px 20px 20px 20px;
+        }
+
+        #right-wrapper{
+            min-height:475px;
+            width:75%;
+            border: 1px solid red;
+            background-color: rgba(255, 255, 255, 0);
+            margin: 15px 10px 5px 0px;
+            padding: 5px 15px 15px 15px;
+        }
+
+        #left-wrapper .block{
+            margin-bottom: 50px;
+        }
+
+        #left-wrapper .block .label-lg {
+            color: #b7b7b7;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            max-width: 100px;
+        }
+
+        #left-wrapper .block .label-sm {
+            color: #adadad;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            max-width: 150px;
+        }
+
+        #left-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #fff;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #5e5e5e;
+            border-radius: 0;
+        }
+
+        #left-wrapper .input:focus,
+        #left-wrapper .input:focus-visible,
+        #left-wrapper .input:focus-within{
+            border: 1px solid #888888;
+        }
+
+        #left-wrapper hr{
+            border: 1px solid #ffffff;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div role="main" class="mx-3 mt-5">
+        <div class="liste-etapes is-clearfix">
+            <div class="etape active current"><!---->
+                <div class="icon">1</div> <!---->
+                <div class="info">Informations vehicule</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">2</div>
+                <div class="info">Récapitulatif</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">3</div> <!---->
+                <div class="info">Paiement</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">4</div> <!---->
+                <div class="info">Reçu de paiement</div>
+            </div>
+        </div>
+        <div id="card-wrapper">
+            <div class="d-flex justify-content-center align-content-center">
+                <div id="left-wrapper">
+                    <div class="block">
+                        <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation</label>
+                        <input type="text" id="numero_immatriculation" placeholder="" class="input"/>
+                    </div>
+                    <div class="block">
+                        <label class="label-lg" for="numero_carte_grise">Numéro de Carte Grise</label>
+                        <input type="text" id="numero_carte_grise" placeholder="" class="input"/>
+                    </div>
+                    <hr>
+                    <div class="block">
+                        <label class="label-sm" for="date_premire_mise_en_circulation">Date de 1ère mise en circulation</label>
+                        <input type="text" id="date_premire_mise_en_circulation" placeholder="" class="input"/>
+                    </div>
+                    <hr>
+                    <div class="block">
+                        <label class="label-sm" for="date_d_edition">Date d'édition</label>
+                        <input type="text" id="date_d_edition" placeholder="" class="input"/>
+                    </div>
+                </div>
+                <div id="right-wrapper">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <img src="{{ asset('frontend/assets/img/amoirie_1.png') }}" height="85" width="85" alt="armoirie"/>
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+    <script src="{{ asset('backend/libs/jquery.form/jquery.form.min.js') }}"></script>
+    <script>
+      $(document).ready(function(){
+             $("#duplicate_alert").hide();
+             $("#date_d_edition").inputmask();
+             $("#date_de_premiere_mise_en_cirulation").inputmask();
+
+             $('#uploadFormulaire').ajaxForm({
+                url: '{{ path('demande_new') }}',
+                dataType: 'json',
+                type: 'POST',
+                success: function(response) {
+                  if(response==='nodata') return;
+                  if(response==='duplicate'){
+                      $("#duplicate_alert").show();
+                       $('#numero_vin_chassis').focus();
+                  }else{
+                      $("#duplicate_alert").hide();
+                      window.location.replace('/demande/recap/' + response);
+                  }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                  console.log(xhr.responseText);
+                }
+             });
+      });
+    </script>
+{% endblock %}

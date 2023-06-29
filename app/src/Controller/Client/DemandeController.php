@@ -23,6 +23,11 @@ class DemandeController extends AbstractController
         return $this->render('frontend/bs/select-demande-type.html.twig', ["authid" => $auth_id]);
     }
 
+    #[Route(path: '/formulaire/adv', name: 'demande_adv', methods: ['POST', 'GET'])]
+    public function demandeAdv(Request $request): Response
+    {
+        return $this->render('frontend/bs/formulaire_advanced.html.twig');
+    }
     #[Route(path: '/formulaire', name: 'demande_new', methods: ['POST', 'GET'])]
     public function demande(Request $request, DemandeService $demandeService): Response
     {
