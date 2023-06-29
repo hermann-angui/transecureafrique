@@ -82,6 +82,8 @@ services:
     networks:
       - internal
       - proxy
+    ports:
+      - 1000:80
 
   app:
     container_name: app
