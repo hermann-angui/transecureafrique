@@ -19,7 +19,6 @@ class PaymentController extends AbstractController
     #[Route(path: '/do/{id}', name: 'do_payment')]
     public function doPayment(Payment $payment,
                               WaveService $waveService,
-                              DemandeRepository $demandeRepository,
                               PaymentRepository $paymentRepository): Response
     {
         $status = strtoupper($payment->getStatus());
@@ -31,20 +30,14 @@ class PaymentController extends AbstractController
             $payment->setReceiptNumber($this->generateReference());
             $payment->setMontant($response->getAmount());
             $payment->setType("MOBILE_MONEY");
-
-            $demande = $payment->getDemande();
-            $demande->setStatus("PAYED");
-            $demandeRepository->add($demande, true);
-
             $paymentRepository->add($payment, true);
-
             return $this->redirect($response->getWaveLaunchUrl());
         }
         else return $this->redirectToRoute('home');
     }
 
     #[Route(path: '/wave', name: 'wave_payment_checkout_webhook')]
-    public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository): Response
+    public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository, DemandeRepository $demandeRepository,): Response
     {
         $payload =  json_decode($request->getContent(), true);
         if(!empty($payload) && array_key_exists("data", $payload)) {
@@ -57,6 +50,16 @@ class PaymentController extends AbstractController
                     $payment->setCodePaymentOperateur($data["transaction_id"]);
                     $payment->setModifiedAt(new \DateTime());
                     $paymentRepository->add($payment, true);
+
+                    if(array_key_exists("payment_status", $data)){
+                        if(strtoupper($data["payment_status"]) === "SUCCEEDED"){
+                            $demande = $payment->getDemande();
+                            $demande->setStatus("PAYE");
+                            $demande->setReceiptNumber("PAYE");
+                            $demandeRepository->add($demande, true);
+                        }
+                    }
+
                 }
             }
         }
@@ -68,7 +71,7 @@ class PaymentController extends AbstractController
                                                       PaymentRepository $paymentRepository): Response
     {
         $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
-        if ($payment && $payment->getStatus()==="SUCCEEDED") {
+        if ($payment && strtoupper(trim($status)) === "SUCCESS") {
             return $this->redirectToRoute('demande_display_receipt', [
                 "id" => $payment->getId(),
                 "status" => $status]

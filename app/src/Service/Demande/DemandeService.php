@@ -14,7 +14,7 @@ class DemandeService
 {
     private const WEBSITE_URL = "https://transecureafrica.com";
     private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
-    private const MONTANT = 100;
+    private const MONTANT = 10100;
 
     public function __construct(private ContainerInterface $container, private FileUploadHelper $fileUploadHelper, private DemandeRepository  $demandeRepository, private OtpCodeRepository  $otpCodeRepository){}
 
@@ -176,7 +176,6 @@ class DemandeService
             }
         }
 
-
         $this->demandeRepository->add($demande, true);
         return $demande;
     }
@@ -199,8 +198,8 @@ class DemandeService
 
     public function generateReference() {
         $now = new \DateTime();
-        $year = $now->format("y");
-        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
+        $year = $now->format("Y");
+        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 12));
     }
 
     public function scheduleAppointment()

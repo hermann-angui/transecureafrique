@@ -11,7 +11,7 @@ class PaymentService
 {
     private const WEBSITE_URL = "https://transecureafrica.com";
     private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
-    private const MONTANT = 100;
+    private const MONTANT = 10100;
 
     public function __construct(
         private PdfGenerator     $pdfGenerator,
@@ -38,11 +38,9 @@ class PaymentService
     public function generateReceipt(?Payment $payment, string $viewTemplate)
     {
         try{
-            $demande = $payment->getDemande();
-            $numeroRecu = $demande->getReference();
-            $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $numeroRecu;
+            $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $payment->getReceiptNumber();
             $content = $this->pdfGenerator->generateBarCode($qrCodeData, 50, 50);
-            $folder = self::MEDIA_DIR . $numeroRecu;
+            $folder = self::MEDIA_DIR . $payment->getReceiptNumber();
             file_put_contents( $folder . "_barcode.png", $content);
             $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $payment->getDemande()]);
             file_put_contents($folder . "_receipt.pdf", $content);
