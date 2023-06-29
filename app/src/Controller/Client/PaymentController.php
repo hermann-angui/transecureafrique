@@ -40,7 +40,13 @@ class PaymentController extends AbstractController
 //            else return $this->redirectToRoute('home');
 //        }
 
-        if(in_array($status, ["SUCCEEDED","PROCESSING"])) return $this->redirectToRoute('home');
+        if(in_array($status, ["SUCCEEDED","PROCESSING"])) {
+            $status = "success";
+            return $this->redirectToRoute('demande_display_receipt', [
+                    "id" => $payment->getId(),
+                    "status" => $status]
+            );
+        }
         $response = $waveService->makePayment($payment);
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
