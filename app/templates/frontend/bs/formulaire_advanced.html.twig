@@ -111,20 +111,11 @@
 
         #left-wrapper{
             min-height:475px;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px; width:25%;
             background-color: #4f4f50;
-            margin: 15px 5px 5px 10px;
-            padding: 25px 20px 20px 20px;
         }
 
         #right-wrapper{
             min-height:475px;
-            width:75%;
-            border: 1px solid red;
-            background-color: rgba(255, 255, 255, 0);
-            margin: 15px 10px 5px 0px;
-            padding: 5px 15px 15px 15px;
         }
 
         #left-wrapper .block{
@@ -166,6 +157,42 @@
             border: 1px solid #ffffff;
         }
 
+
+        #right-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
+
+        #right-wrapper .input:focus,
+        #right-wrapper .input:focus-visible,
+        #right-wrapper.input:focus-within{
+            border: 1px solid #888888;
+        }
+
+        #right-wrapper .block{
+            margin-bottom: 5px;
+        }
+
+        #right-wrapper .block .label-lg {
+            color: #282828;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 100px;
+        }
+
+        #right-wrapper .block .label-sm {
+            color: #282828;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 150px;
+        }
+
     </style>
 {% endblock %}
 
@@ -192,9 +219,11 @@
                 <div class="info">Reçu de paiement</div>
             </div>
         </div>
-        <div id="card-wrapper">
-            <div class="d-flex justify-content-center align-content-center">
-                <div id="left-wrapper">
+        <div >
+{#            <div class="d-flex justify-content-center align-content-center">#}
+            <div id="card-wrapper" class="container row m-auto">
+{#                <div id="left-wrapper">#}
+                <div id="left-wrapper" class="col-lg-4 col-md-5 col-sm-12 text-white rounded-left rounded-start-4 mx-2 my-3 p-3">
                     <div class="block">
                         <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation</label>
                         <input type="text" id="numero_immatriculation" placeholder="" class="input"/>
@@ -214,15 +243,84 @@
                         <input type="text" id="date_d_edition" placeholder="" class="input"/>
                     </div>
                 </div>
-                <div id="right-wrapper">
-                    <div class="d-flex justify-content-between">
-                        <div>
+{#                <div id="right-wrapper">#}
+                <div id="right-wrapper" class="col-lg-7 col-md-6 col-sm-12 border border-1 border-danger mr-2 my-3 p-3">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12">
                             <img src="{{ asset('frontend/assets/img/amoirie_1.png') }}" height="85" width="85" alt="armoirie"/>
                         </div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div class="col-lg-10 col-md-10 col-sm-12">
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <span class="font-size-12 fw-bolder lh-1">REPUBLIQUE DE COTE D'IVOIRE</span>
+                                <span class="font-size-12 fw-bolder">MINISTERE DES TRANSPORTS</span>
+                                <span class="fs-2 fw-bolder">CARTE GRISE</span>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="block">
+                            <label class="label-sm" for="identite_proprietaire">Identité du propriètaire</label>
+                            <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Marque</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Type commercial</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Couleur</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Carroserie</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Energie</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Places assises</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                <span>P.T.A.C (Kg)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Genre</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Usage du véhicule</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                <span>P.T.A.C (Kg)</span>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Puissance fiscale (CV)</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                <span>P.V (Kg)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Nombre d'essieu</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="identite_proprietaire">Cylindree (CV)</label>
+                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                <span>C.U (Kg)</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
