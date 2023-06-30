@@ -193,6 +193,14 @@
             max-width: 150px;
         }
 
+        #verso .input {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
     </style>
 {% endblock %}
 
@@ -219,10 +227,8 @@
                 <div class="info">Reçu de paiement</div>
             </div>
         </div>
-        <div >
-{#            <div class="d-flex justify-content-center align-content-center">#}
-            <div id="card-wrapper" class="container row m-auto">
-{#                <div id="left-wrapper">#}
+        <div id="recto" >
+            <div id="card-wrapper" class="container row m-auto border border-1 rounded-left rounded-4 shadow-sm">
                 <div id="left-wrapper" class="col-lg-4 col-md-5 col-sm-12 text-white rounded-left rounded-start-4 mx-2 my-3 p-3">
                     <div class="block">
                         <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation</label>
@@ -243,8 +249,7 @@
                         <input type="text" id="date_d_edition" placeholder="" class="input"/>
                     </div>
                 </div>
-{#                <div id="right-wrapper">#}
-                <div id="right-wrapper" class="col-lg-7 col-md-6 col-sm-12 border border-1 border-danger mr-2 my-3 p-3">
+                <div id="right-wrapper" class="col-lg-7 col-md-6 col-sm-12 border border-1 mr-2 my-3 p-3">
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-12">
                             <img src="{{ asset('frontend/assets/img/amoirie_1.png') }}" height="85" width="85" alt="armoirie"/>
@@ -291,27 +296,29 @@
                                 <span>P.T.A.C (Kg)</span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 d-flex flex-column justify-content-between">
                             <div class="block">
                                 <label class="label-sm" for="identite_proprietaire">Genre</label>
                                 <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
                             </div>
-                            <div class="block">
-                                <label class="label-sm" for="identite_proprietaire">Usage du véhicule</label>
-                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
-                                <span>P.T.A.C (Kg)</span>
+                            <div>
+                                <div class="block">
+                                    <label class="label-sm" for="identite_proprietaire">Usage du véhicule</label>
+                                    <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                    <span>P.T.A.C (Kg)</span>
+                                </div>
+                                <div class="block">
+                                    <label class="label-sm" for="identite_proprietaire">Puissance fiscale (CV)</label>
+                                    <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                                    <span>P.V (Kg)</span>
+                                </div>
                             </div>
-                            <div class="block">
-                                <label class="label-sm" for="identite_proprietaire">Puissance fiscale (CV)</label>
-                                <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
-                                <span>P.V (Kg)</span>
-                            </div>
+
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 d-flex flex-column justify-content-end">
                             <div class="block">
                                 <label class="label-sm" for="identite_proprietaire">Nombre d'essieu</label>
                                 <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
-
                             </div>
                             <div class="block">
                                 <label class="label-sm" for="identite_proprietaire">Cylindree (CV)</label>
@@ -321,6 +328,46 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+        <div id="verso" class="container row m-auto">
+            <div class="border border-1 rounded-left rounded-4 mx-2 my-5 p-5 shadow-sm">
+                <div class="row">
+                    <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:50px; width:75%"></div>
+                </div>
+                <div class="row my-5">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="block  mb-4">
+                            <label class="label-sm" for="numero_vin_chassis">numero_vin_chassis</label>
+                            <input type="text" id="numero_vin_chassis" placeholder="" class="input"/>
+                        </div>
+                        <div class="block  mb-4">
+                            <label class="label-sm" for="identite_proprietaire">Société de crédit</label>
+                            <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="block mb-4">
+                            <label class="label-sm" for="numero_vin_chassis">Type technique</label>
+                            <input type="text" id="numero_vin_chassis" placeholder="" class="input"/>
+                        </div>
+                        <div class="block mb-4">
+                            <label class="label-sm" for="identite_proprietaire">Numéro d'immatriculation précédent</label>
+                            <input type="text" id="identite_proprietaire" placeholder="" class="input"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="d-flex">
+                            <div class="small px-2">Signature et cachet de l'autorité</div>
+                            <div style="border-left: 2px solid #000; padding-left:5px;">Cette carte est strictement personnelle elle doit être présentée<br> à tout controle</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div style="background-repeat: no-repeat; background-image: url({{ asset('frontend/assets/img/stamp.jpg') }}); height:150px; width:75%"></div>
                 </div>
             </div>
         </div>
