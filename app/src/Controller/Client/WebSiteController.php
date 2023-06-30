@@ -5,6 +5,7 @@ namespace App\Controller\Client;
 use App\Dtos\OtpRequest;
 use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
+use App\Repository\PaymentRepository;
 use App\Service\Otp\OtpService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,11 +43,11 @@ class WebSiteController extends AbstractController
         return $this->json([]);
     }
 
-    #[Route(path: '/verify/receipt/{reference}', name: 'check_receipt')]
-    public function checkReceipt($reference, DemandeRepository $demandeRepository, Request $request): Response
+    #[Route(path: '/verify/receipt/{receipt_number}', name: 'check_receipt')]
+    public function checkReceipt($receipt_number, DemandeRepository $demandeRepository, PaymentRepository $paymentRepository ): Response
     {
-        $demande = $demandeRepository->findOneBy(['reference' => $reference]);
-        if($demande?->getPayment())  return $this->render('frontend/bs/receipt-check.html.twig', ["payment" => $demande->getPayment()]);
+        $payment = $paymentRepository->findOneBy(['receipt_number' => $receipt_number]);
+        if($payment)  return $this->render('frontend/bs/receipt-check.html.twig', ["payment" => $payment]);
         return new Response("<strong>ATTENTION!! Ce recu n'est pas authentitique</strong>");
     }
 
