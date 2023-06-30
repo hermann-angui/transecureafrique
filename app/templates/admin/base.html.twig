@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <title>{% block title %}transecureafrica{% endblock %}</title>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    {% if app.environment != 'dev' %}
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Administration" name="description" />
     <meta content="transecureafrica" name="author" />
