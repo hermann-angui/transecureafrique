@@ -39,6 +39,12 @@ class WebSiteController extends AbstractController
     #[Route(path: '/test', name: 'test')]
     public function test(Request $request, DemandeRepository $demandeRepository): Response
     {
+        $appointmentDate = new \DateTime();
+        $appointmentDate->modify("+1 day");
+        $d = $appointmentDate->format('N');
+        if($d == 6) $appointmentDate->modify("+2 day");
+        if($d == 7) $appointmentDate->modify("+1 day ");
+
         $total = $demandeRepository->findTotalDemandePayed();
         return $this->json([]);
     }

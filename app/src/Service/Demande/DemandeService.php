@@ -90,8 +90,12 @@ class DemandeService
 
             $demande->setMontant(self::MONTANT);
 
+            // Appointment is after two day if saturday or sunday postpone to monday
             $appointmentDate = new \DateTime();
             $appointmentDate->modify("+2 day");
+            $d = $appointmentDate->format('N');
+            if($d == 6) $appointmentDate->modify("+2 day");
+            if($d == 7) $appointmentDate->modify("+1 day ");
             $demande->setDateRendezVous($appointmentDate);
 
             $otpCode = $this->otpCodeRepository->find($data["otpcode"]);
