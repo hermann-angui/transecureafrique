@@ -40,6 +40,7 @@ security:
 #        - { path: ^(/admin/register|/admin/demande|/admin/macaron|/admin/setting), roles: ROLE_SUPERADMIN }
 #         - { path: ^(?!/(admin/login)), roles: ROLE_USER }
 #        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USERADMIN }
+        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USER }
 when@test:
     security:
         password_hashers:
