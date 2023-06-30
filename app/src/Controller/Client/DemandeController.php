@@ -35,7 +35,7 @@ class DemandeController extends AbstractController
             $document = $request->get("document");
             $authid = $request->get("authid");
             if(empty($document && $authid)) return $this->redirectToRoute('demande_select_type');
-            return $this->render('frontend/bs/formulaire_demande.html.twig', [
+            return $this->render('frontend/bs/formulaire_advanced.html.twig', [
                 "document" => $document,
                 "authid" => $authid
             ]);
