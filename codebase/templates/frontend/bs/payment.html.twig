@@ -1,0 +1,224 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Code d'accès{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        body #__next{
+            background-color: #f2f3f2
+        }
+        .form-signin {
+            max-width: 500px;
+            padding: 1rem;
+            height: 50vh;
+        }
+        input.form-control  {
+            text-align: center;
+        }
+        input.form-control:focus {
+            color: var(--bs-body-color);
+            background-color: var(--bs-body-bg);
+            border-color: #006a53;
+            outline: 0;
+            box-shadow: 4px 3px 0 0rem #006a53;
+        }
+        .btn-check:checked+.btn,
+        .btn.active, .btn.show,
+        .btn:first-child:active,
+        :not(.btn-check)+.btn:active,
+        button.btn:hover {
+            color: #ffffff;;
+            background-color: #e16a00;
+            border: 1px solid #e16a00;
+        }
+        button.btn {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 16px 13px;
+            color: #ffffff;
+            border: 1px solid #ff7b00;
+            border-radius: 3px;
+            background-color: #ff7b00;
+        }
+        .liste-etapes {
+            color: var(--text-color);
+            font-family: var(--font-text);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #b2b2b2;
+            box-shadow: none;
+        }
+
+        .form-label{
+            color: var(--text-color);
+            font-family: var(--font-text);
+            box-sizing: border-box;
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: .5em;
+            line-height: 1.375rem;
+        }
+        .input {
+            font-size: .875rem;
+            line-height: 1.25rem;
+            padding: 13px 16px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+            <div role="main" class="container" style="height:50vh; padding-bottom: 500px;" >
+                <div id="page-1">
+                    <div class="liste-etapes is-clearfix">
+                        <div class="etape disabled"><!---->
+                            <div class="icon">1</div> <!---->
+                            <div class="info">Informations vehicule</div>
+                        </div>
+                        <div class="etape disabled">
+                            <div class="line"></div>
+                            <div class="icon">2</div>
+                            <div class="info">Récapitulatif</div>
+                        </div>
+                        <div class="etape active current">
+                            <div class="line"></div>
+                            <div class="icon">3</div> <!---->
+                            <div class="info">Paiement</div>
+                        </div>
+                        <div class="etape disabled">
+                            <div class="line"></div>
+                            <div class="icon">4</div> <!---->
+                            <div class="info">Reçu de paiement</div>
+                        </div>
+                    </div>
+                    <div class="main container pb-5 mb-5">
+                        <div class="row justify-content-center align-items-center py-5">
+                            <div class="col-xl-8">
+                                <div class="card py-5">
+                                    <div class="card-body m-auto align-items-center">
+                                        <div class="">
+                                            <h2>Paiement</h2>
+                                        </div>
+                                        <div class="d-flex mx-2 px-3">
+                                            <div>
+                                                <img src="{{ asset('frontend/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
+                                            </div>
+                                            <div class="px-3">
+                                                Faites votre paiement via wave money.
+                                                <h5>Coût du macaron: <br><span class="font-size-24 fw-bolder">10 100F FCFA</span></h5>
+                                            </div>
+                                        </div>
+                                        <div class="mx-3 py-4">
+                                            <a class="btn btn-warning w-75" tabindex="0" href="{{ path('do_payment', {id: payment.id, type: "wave_money"}) }}">
+                                                <span class="sc-440a794-0 hrlawX">
+                                                    <span>Payer</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <div style="height: 100px;">
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function(){
+    })
+</script>
+{% endblock %}

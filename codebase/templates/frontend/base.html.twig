@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="generator" content="">
+        <title>{% block title %}Accueil{% endblock %}</title>
+        {% if app.environment != 'dev' %}
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        {% endif %}
+        {% block stylesheet %}
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
+        <link  href="{{ asset('frontend/libs/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/owl/assets/owl.carousel.min.css') }}" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template -->
+        <link  href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+               rel="stylesheet"> <!-- Custom styles for this template -->
+        <link href="{{ asset('backend/css/icons.min.css') }}" rel="stylesheet">
+        <style>
+                body {
+                        font-family: 'Open Sans', sans-serif;
+                }
+
+                @media (min-width: 768px) {
+                        .bd-placeholder-img-lg {
+                                font-size: 3.5rem;
+                        }
+                }
+
+                .nav-scroller {
+                        position: relative;
+                        z-index: 2;
+                        height: 2.75rem;
+                        overflow-y: hidden;
+                }
+
+                .nav-scroller .nav {
+                        display: flex;
+                        flex-wrap: nowrap;
+                        padding-bottom: 1rem;
+                        margin-top: -1px;
+                        overflow-x: auto;
+                        text-align: center;
+                        white-space: nowrap;
+                        -webkit-overflow-scrolling: touch;
+                }
+
+                .btn-bd-primary {
+                        --bd-violet-bg: #712cf9;
+                        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+                        --bs-btn-font-weight: 600;
+                        --bs-btn-color: var(--bs-white);
+                        --bs-btn-bg: var(--bd-violet-bg);
+                        --bs-btn-border-color: var(--bd-violet-bg);
+                        --bs-btn-hover-color: var(--bs-white);
+                        --bs-btn-hover-bg: #6528e0;
+                        --bs-btn-hover-border-color: #6528e0;
+                        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+                        --bs-btn-active-color: var(--bs-btn-hover-color);
+                        --bs-btn-active-bg: #5a23c8;
+                        --bs-btn-active-border-color: #5a23c8;
+                }
+
+                .bd-mode-toggle {
+                        z-index: 1500;
+                }
+
+                .t-header {
+                        background-color: #006a53;
+                        color: rgb(255, 255, 255)
+                }
+
+                .flash_info_label {
+                        background-color: rgba(255, 255, 255, 0.2);
+                        font-weight: 600;
+                }
+
+                .cta1-container {
+                        -webkit-text-size-adjust: 100%;
+                        -webkit-font-smoothing: auto;
+                        color: #222222;
+                        line-height: 1.5;
+                        visibility: visible;
+                        clear: both;
+                        box-sizing: border-box;
+                        float: right;
+                        display: block;
+                        vertical-align: top;
+                }
+
+                .nav a.nav-link {
+                        font-size: 14px;
+                }
+
+                .nav-underline .nav-link:focus,
+                .nav-underline .nav-link:hover {
+                        border-bottom-color: rgba(0, 106, 83, 0.33);
+                }
+
+                @media (min-width: 48em) {
+                        .cta1-container .cta1 {
+                                -webkit-text-size-adjust: 100%;
+                                -webkit-font-smoothing: auto;
+                                line-height: 1.5;
+                                visibility: visible;
+                                background-color: transparent;
+                                word-break: break-word;
+                                clear: both;
+                                box-sizing: border-box;
+                                font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+                                text-decoration: none;
+                                cursor: pointer;
+                                color: #006a53;
+                                text-align: right;
+                                padding: 14px 0;
+                                display: flex;
+                                font-size: 14px;
+                                -webkit-box-align: center;
+                                align-items: center;
+                        }
+
+                        .cta1-container .cta1 p {
+                                -webkit-text-size-adjust: 100%;
+                                -webkit-font-smoothing: auto;
+                                line-height: 1.5;
+                                visibility: visible;
+                                word-break: break-word;
+                                cursor: pointer;
+                                color: #006a53;
+                                text-align: right;
+                                font-size: 14px;
+                                clear: both;
+                                box-sizing: border-box;
+                                font-family: 'OpenSans', Arial, Helvetica, sans-serif;
+                                margin: 0 16px 0 0;
+                        }
+
+                        .cta1-container .cta1 p span.name {
+                                font-weight: bold;
+                                display: block;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                width: 110px;
+                                white-space: nowrap;
+                        }
+
+                        .cta1-container .cta1 p span.espaceClient {
+                                display: block;
+                                font-size: 12px;
+                        }
+
+                }
+
+                .eGihjF {
+                        -webkit-text-size-adjust: 100%;
+                        -webkit-font-smoothing: auto;
+                        color: #222222;
+                        line-height: 1.5;
+                        visibility: visible !important;
+                        box-sizing: inherit;
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        min-width: 230px;
+                        background-color: #ffffff;
+                        padding: 6px;
+                        align-self: flex-start;
+                        position: absolute;
+                        left: 3px;
+                        top: 260px;
+                        z-index: 2;
+                        margin-bottom: 0;
+                        max-width: 320px;
+                }
+
+                .eGihjF h1 {
+                        -webkit-text-size-adjust: 100%;
+                        -webkit-font-smoothing: auto;
+                        visibility: visible !important;
+                        box-sizing: inherit;
+                        word-break: break-word;
+                        -webkit-box-align: center;
+                        align-items: center;
+                        margin: 0;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        display: inline-flex;
+                        font-family: 'Gotham Cond SSm', 'Arial Narrow Title', 'Roboto Condensed Title', 'DIN Condensed Title', 'Arial Title', 'Helvetica title', 'sans-serif-title', sans-serif;
+                        letter-spacing: 0.8px;
+                        color: #d86100;
+                        font-size: 28px;
+                        line-height: 1.22;
+                        margin-bottom: 0;
+                }
+
+                .eGihjF p {
+                        -webkit-text-size-adjust: 100%;
+                        -webkit-font-smoothing: auto;
+                        visibility: visible !important;
+                        box-sizing: inherit;
+                        margin: 0;
+                        text-transform: uppercase;
+                        color: #006a53;
+                        font-family: 'Gotham Cond SSm', 'Arial Narrow Title', 'Roboto Condensed Title', 'DIN Condensed Title', 'Arial Title', 'Helvetica title', 'sans-serif-title', sans-serif;
+                        font-weight: bold;
+                        line-height: 1.22;
+                        font-size: 10px;
+                }
+
+                .ePNbYx {
+                        display: -webkit-inline-box;
+                        display: -webkit-inline-flex;
+                        display: -ms-inline-flexbox;
+                        display: inline-flex;
+                        -webkit-box-pack: center;
+                        -webkit-justify-content: center;
+                        -ms-flex-pack: center;
+                        justify-content: center;
+                        -webkit-align-items: center;
+                        -webkit-box-align: center;
+                        -ms-flex-align: center;
+                        align-items: center;
+                        min-width: 160px;
+                        line-height: 1.2;
+                        -webkit-text-decoration: none;
+                        text-decoration: none;
+                        overflow-wrap: break-word;
+                        cursor: pointer;
+                        -webkit-font-smoothing: auto;
+                        -moz-osx-font-smoothing: grayscale;
+                        -webkit-transition: 0.3s background ease, 0.3s color ease, border 0.3s ease;
+                        transition: 0.3s background ease, 0.3s color ease, border 0.3s ease;
+                        font-family: 'Gotham SSm', 'Arial Rounded', 'Helvetica Rounded', 'sans-serif-rounded', sans-serif;
+                        font-size: 16px;
+                        font-weight: 600;
+                        padding: 14px 16px 13px;
+                        color: #ffffff;
+                        border: 1px solid #ff7b00;
+                        border-radius: 3px;
+                        background-color: #ff7b00;
+                }
+                .ePNbYx span {
+                        -webkit-text-size-adjust: 100%;
+                        visibility: visible !important;
+                        word-break: break-word;
+                        line-height: 1.2;
+                        overflow-wrap: break-word;
+                        cursor: pointer;
+                        -webkit-font-smoothing: auto;
+                        font-family: 'Gotham SSm', 'Arial Rounded', 'Helvetica Rounded', 'sans-serif-rounded', sans-serif;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #ffffff;
+                        box-sizing: inherit;
+                        display: inline-flex;
+                        -webkit-box-pack: start;
+                        justify-content: flex-start;
+                        -webkit-box-align: center;
+                        align-items: center;
+                        text-align: left;
+                        flex: 1;
+                }
+                .flYPBY {
+                        display: inline-block;
+                        vertical-align: middle;
+                        fill: currentColor;
+                        height: 14px;
+                        width: 14px;
+                        min-width: 14px;
+                        margin-left: 8px;
+                }
+                .lefIfz {
+                        display: inline-block;
+                        vertical-align: middle;
+                        fill: currentColor;
+                        color: #006a53;
+                        width: 24px;
+                        height: 24px;
+                }
+
+                .box{
+                        cursor: pointer;
+                        background-color: #ffffff;
+                        border-radius: 5px;
+                        box-shadow: 2px 2px 20px 0 rgba(196, 196, 196, 0.29), 0 2px 4px 0 rgba(196, 196, 196, 0.6);
+                        -webkit-transition: box-shadow 0.3s ease;
+                        transition: box-shadow 0.3s ease;
+                        border-right: 15px solid #ff7b00;
+                }
+
+                .box:hover {
+                        background-color: #fff8ec;
+                }
+
+                .separator_a{
+                        width: 80px;
+                        background-color: #0f735d;
+                        -webkit-transform: skewX(-12deg);
+                        -ms-transform: skewX(-12deg);
+                        transform: skewX(-12deg);
+                        margin-left: -42px;
+                }
+        </style>
+
+        {% endblock %}
+</head>
+
+<body>
+
+{% block header %}
+        {{ include('frontend/_partials/header.html.twig') }}
+{% endblock %}
+
+{% block body %}
+{% endblock %}
+
+{% block footer %}
+{{ include('frontend/_partials/footer.html.twig') }}
+{% endblock %}
+
+
+{% block javascript %}
+        <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
+{% endblock %}
+
+</body>
+
+</html>

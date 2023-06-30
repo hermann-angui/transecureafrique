@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+    <div class="card accordion my-3" id="info_perso">
+        <div class="card-header accordion-item accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                1 - INFORMATIONS DEMANDE
+            </button>
+        </div>
+        <div id="collapseOne" class="card-body accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#info_perso">
+            <div class="accordion-body">
+                <div class="">
+                    <button id="toggle_input" class="btn btn-outline-info"><i class="fa fa-pencil"></i></button>
+                    <button type="button" class="btn btn-success waves-effect waves-light w-sm">
+                        <i class="mdi mdi-pencil d-block font-size-16"></i>
+                    </button>
+                </div>
+                {{ form_row(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <a href="{{ path('admin_index') }}" class="btn btn-primary w-25 default-btn bg-info">Fermer</a> &nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary w-25 default-btn">{{ button_label|default('Enregistrer') }}</button>
+    </div>
+{{ form_end(form) }}

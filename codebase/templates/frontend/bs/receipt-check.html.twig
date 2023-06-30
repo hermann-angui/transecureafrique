@@ -1,0 +1,40 @@
+<div style="display: flex; justify-content: center;">
+    <table style="border-radius:10px; background-color: #ffd6c3; width: 70%; padding: 15px 15px;margin-bottom: 5px;">
+        <tr style="text-align: center; ">
+            <td colspan="2" style="text-align: center;padding-top:5px; padding-bottom:10px"><span style="font-weight: bolder; font-size: 25px; text-transform: capitalize">CERTIFICATION</span></td>
+        </tr>
+        <tr style="border-bottom: 2px solid #211f1f; color:#020000">
+            <td style="padding: 30px 3px;">
+                <img src="{{ asset('frontend/assets/img/logo_v1.jpg') }}" width="100">
+                <img src="{{ asset('frontend/assets/img/logo_district.png') }}" width="85">
+            </td>
+            <td style="text-align: center">
+                <div>
+                    <span>Num Re&ccedil;u:   <span style="font-weight: bolder;font-size:20px">{{ payment.ReceiptNumber }}</span></span><br>
+                    <span style="font-weight: bolder; font-size: 60px; text-transform: capitalize; color:rgb(0,138,24);">payé</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 10px 10px; font-weight: bolder;color:#333232;border-bottom: 1px dashed #fff;">
+                Date du rendez-vous : {{ payment.demande.CreatedAt | date('d-m-Y')}}
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bolder;padding: 10px 10px;color:#333232; border-bottom: 1px dashed #fff;">Num&eacute;ro vin/chassis</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232; border-bottom: 1px dashed #fff;">{{ payment.demande.NumeroVinChassis }}</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bolder;padding: 10px 10px;color:#333232; border-bottom: 1px dashed #fff;">Num&eacute;ro immatriculation</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demande.NumeroImmatriculation }}</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bolder;padding: 10px 10px; color:#333232; border-bottom: 1px dashed #fff;">Marque du v&eacute;hicule</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demande.MarqueDuVehicule }}</td>
+        </tr>
+        <tr>
+            <td style="font-weight: bolder;padding: 10px 10px; color:#333232; border-bottom: 1px dashed #fff;">Type commercial</td>
+            <td style="padding: 5px 5px; color:#333232;  font-weight: bolder; border-bottom: 1px dashed #fff;">{{ payment.demande.TypeCommercial }}</td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,78 @@
+<div style="display: flex; justify-content: center">
+    <table>
+        <tr style="border-bottom: 2px solid #211f1f; ">
+            <td style="padding: 15px 15px;">
+               <img src="/var/www/html/public/frontend/assets/img/logo_v1.jpg" width="100">
+                <img src="/var/www/html/public/frontend/assets/img/logo_district.png" width="90">
+            </td>
+            <td style="padding: 15px 15px;">
+                <p style="font-weight: bolder; font-size: 25px; text-transform: capitalize">RECU DE PAIEMENT MACARON - VTC</p>
+                <p style="font-weight: bolder">Num Re&ccedil;u:   {{ payment.ReceiptNumber }}</p>
+                <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d/m/Y')}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 15px 15px; font-weight: bolder">
+                Date: {{ demande.CreatedAt | date('d/m/Y')}}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Num&eacute;ro vin/chassis</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.NumeroVinChassis }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Marque du v&eacute;hicule</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.MarqueDuVehicule }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Type commercial</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.TypeCommercial }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Montant (CFA)</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.Montant }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Montant en lettres</td>
+            <td style="padding: 15px 15px; font-weight: bolder">Dix mille cents francs</td>
+        </tr>
+        <tr>
+            <td style="padding: 15px 15px;">Moyen de paiement</td>
+            <td style="padding: 15px 15px; font-weight: bolder">{{ payment.Type }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="margin-top:50px;padding: 15px 15px;text-align: center">
+                <img src="/var/www/html/public/frontend/media/{{ payment.ReceiptNumber }}_barcode.png" width="150" height="150">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding: 15px 15px; text-align: center">
+                <p>Rendez-vous &agrave; notre agence pour le retrait de votre macaron.</p>
+                <p>Pour plus d'informations, contactez le service d'assistance : </p>
+                <div>
+                    <ul style="text-align: center; list-style: none">
+                        <li>T&eacute;l&eacute;phone: </li>
+                        <li>Fixe: 07 07 55 51 20</li>
+                        <li>Email: info@pommgroup.com</li>
+                    </ul>
+                </div>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <div style="padding: 30px 5px 0px 30px; border:1px solid red; color:red">
+                <div>Nous vous prions de vous rendre &agrave; notre agence pour le retrait de votre macaron &agrave; la date indiqu&eacute; sur votre re&ccedil;u de paiement.</div>
+                <div style="font-weight: bold;margin-top:20px;">
+                    NB: Documents obligatoires pour le retrait de votre macaron:
+                </div>
+                <div style="padding: 20px 20px;">
+                    <ul style="list-style: disc">
+                        <li>Une copie de votre re&ccedil;u de paiement</li>
+                        <li>L'original ou une copie de la carte grise ou du r&eacute;c&eacute;piss&eacute; d'immatriculation</li>
+                        <li>Le num&eacute;ro de t&eacute;l&eacute;phone du propri&eacute;taire du v&eacute;hicule </li>
+                    </ul>
+                </div>
+            </div>
+        </tr>
+    </table>
+</div>

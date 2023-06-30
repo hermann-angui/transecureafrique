@@ -1,0 +1,132 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="rounded text-body-emphasis">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="eGihjF">
+                    <div style="display:contents">
+                        <h1 class="sc-afcf0985-0 hWWVP">VTC</h1>
+                    </div>
+                    <div style="display:contents">
+                        <p class="sc-ff3d7efc-0 jjzkEl">Votre macaron à </p>
+                        <p class="fs-4 fw-bolder">10100 FCFA</p>
+                    </div>
+                    <a tabindex="0" href="/auth" class="sc-29f394f2-0 ePNbYx" rel="follow">
+                        <span class="sc-440a794-0 hrlawX">Faire une demande</span>
+                        <svg viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg" name="common/ArrowRight" aria-hidden="true"
+                             focusable="false" ml="2" class="sc-3e8a2c25-0 flYPBY">
+                            <path
+                                    d="m1.178 15.057-.08-.147c-.289-.6-.256-1.349.164-1.818l4.851-5.061L1.3 3.007l-.047-.04c-.565-.54-.565-1.537 0-2.077l.06-.05-.05.048A1.523 1.523 0 0 1 2.357.4c.395 0 .631.125.878.372l5.188 5.415c.473.526.748 1.185.748 1.843 0 .658-.275 1.317-.732 1.825L3.327 15.19l-.093.082c-.61.454-1.475.454-1.972-.1l-.084-.115z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active w-100" style="background-position:center;background-repeat: no-repeat; background-image: url('{{ asset('frontend/assets/img/banner_front.jpg') }}'); height: 400px; width:100%">
+                        <div style="background-size:cover;background-position:center;background-repeat: no-repeat; background-image: url('{{ asset('frontend/assets/img/banner_front.jpg') }}'); height: 400px; width:100%">
+                        </div>
+                    </div>
+                    <div class="carousel-item w-100" style="background-position:center;background-repeat: no-repeat; background-image: url('{{ asset('frontend/assets/img/banner_back.jpg') }}'); height: 400px; width:100%">
+                        <div style="background-size:cover;background-position:center;background-repeat: no-repeat; background-image: url('{{ asset('frontend/assets/img/banner_back.jpg') }}'); height: 400px; width:100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mt-3 justify-content-center m-auto">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="card box">
+                    <div class="card-body">
+                        <a href="#why_macaron" class="text-decoration-none text-success text-center">
+                            <div class="d-block d-flex justify-content-center align-items-center m-auto">
+                                <img src="{{ asset('frontend/assets/img/question_mark.png') }}" width="60" height="60">
+                            </div>
+                            <div class="px-2">
+                                <span class="fw-bolder">POURQUOI LE MACARON ?</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="card box">
+                    <div class="card-body">
+                        <a href="{{ path('auth') }}" class="text-decoration-none text-success text-center">
+                            <div class="d-block d-flex justify-content-center align-items-center m-auto">
+                                <img src="{{ asset('frontend/assets/img/macaron_thumbnail.jpg') }}" width="60" height="60">
+                            </div>
+                            <div class="px-2"><span class="fw-bolder">OBTENIR SON MACARON</span></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="card box">
+                    <div class="card-body">
+                        <a href="{{ path('demande_search') }}" class="text-decoration-none text-success text-center">
+                            <div class="d-block d-flex justify-content-center align-items-center m-auto">
+                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="60px" height="60px" viewBox="0,0,256,256"><defs><linearGradient x1="89.37" y1="6.652" x2="422.017" y2="504.411" gradientUnits="userSpaceOnUse" id="color-1"><stop offset="0" stop-color="#ffe53b"></stop><stop offset="1" stop-color="#ff2525"></stop></linearGradient><linearGradient x1="796.37589" y1="962.95212" x2="7432.70343" y2="11437.23087" gradientUnits="userSpaceOnUse" id="color-2"><stop offset="0" stop-color="#ffe53b"></stop><stop offset="1" stop-color="#ff2525"></stop></linearGradient><linearGradient x1="32291.76858" y1="-4034.01648" x2="119225.17837" y2="126049.95059" gradientUnits="userSpaceOnUse" id="color-3"><stop offset="0" stop-color="#ffe53b"></stop><stop offset="1" stop-color="#ff2525"></stop></linearGradient><linearGradient x1="23549.42906" y1="-2866.0557" x2="86737.21214" y2="91560.22035" gradientUnits="userSpaceOnUse" id="color-4"><stop offset="0" stop-color="#ffe53b"></stop><stop offset="1" stop-color="#ff2525"></stop></linearGradient><linearGradient x1="-3491.02178" y1="11488.88817" x2="40647.18785" y2="77535.54416" gradientUnits="userSpaceOnUse" id="color-5"><stop offset="0" stop-color="#ffe53b"></stop><stop offset="1" stop-color="#ff2525"></stop></linearGradient></defs><g fill-opacity="0" fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,256v-256h256v256z" id="bgRectangle"></path></g><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(0.5,0.5)"><g><path d="M256.0044,4.9967c-60.4637,-0.01497 -118.8979,21.81145 -164.5459,61.4614c-2.50119,2.17365 -2.7667,5.96336 -0.59305,8.46455c2.17365,2.50119 5.96336,2.7667 8.46455,0.59305c43.46448,-37.75264 99.10338,-58.53416 156.6744,-58.519c131.7851,0 239,107.2148 239,239c0,131.7852 -107.2149,239 -239,239c-131.7851,0 -239,-107.2148 -239,-239c-0.09286,-48.11988 14.42787,-95.13374 41.6406,-134.82c1.87225,-2.7342 1.1735,-6.46845 -1.5607,-8.3407c-2.7342,-1.87225 -6.46845,-1.1735 -8.3407,1.5607c-73.10336,107.0059 -52.72852,252.07258 47.02328,334.80071c99.75179,82.72813 246.08395,75.91819 337.72132,-15.71671c71.78564,-71.78548 93.26022,-179.74514 54.41017,-273.5375c-38.85005,-93.79236 -130.37386,-154.94658 -231.89397,-154.9465z" fill="url(#color-1)"></path><path d="M64.1714,103.4948c2.54489,2.12222 6.32831,1.77963 8.4506,-0.7652c2.5362,-3.0415 5.127,-5.9888 7.7,-8.7612c1.48295,-1.56699 2.01045,-3.80951 1.38152,-5.87326c-0.62892,-2.06375 -2.31742,-3.63095 -4.42225,-4.10457c-2.10483,-0.47362 -4.30188,0.21928 -5.75417,1.81472c-2.7168,2.9268 -5.4487,6.0352 -8.1206,9.2388c-2.12236,2.54482 -1.7799,6.32832 0.7649,8.4507z" fill="url(#color-2)"></path><path d="M377.582,319.2994c50.9712,-50.9721 50.9712,-133.9091 0,-184.8813c-50.9712,-50.9722 -133.91,-50.9717 -184.8813,0c-50.9713,50.9717 -50.9717,133.9092 0,184.8813c51.08732,50.97199 133.79398,50.97199 184.8813,0zM201.186,142.9034c33.95677,-33.95677 85.025,-44.11488 129.39167,-25.73761c44.36666,18.37727 73.29449,61.67083 73.29449,109.69296c0,48.02213 -28.92783,91.31569 -73.29449,109.69296c-44.36666,18.37727 -95.4349,8.21917 -129.39167,-25.73761c-22.36051,-22.21625 -34.93471,-52.43466 -34.93471,-83.95535c0,-31.52069 12.5742,-61.7391 34.93471,-83.95535z" fill="url(#color-3)"></path><path d="M352.2407,159.7594c-37.05032,-37.01798 -97.09184,-37.0005 -134.1206,0.03905c-37.02876,37.03954 -37.02876,97.08107 0,134.12061c37.02876,37.03954 97.07028,37.05702 134.1206,0.03905c17.95471,-17.71112 28.06229,-41.87921 28.06229,-67.09935c0,-25.22014 -10.10758,-49.38823 -28.06229,-67.09935zM285.1407,309.7101c-39.52458,-0.02803 -73.52577,-27.97097 -81.21117,-66.74117c-7.6854,-38.7702 13.08529,-77.57055 49.61039,-92.67388c36.5251,-15.10333 78.63274,-2.30353 100.57329,30.57209c21.94054,32.87561 17.60377,76.67152 -10.3583,104.60566c-15.51682,15.58299 -36.62299,24.31053 -58.6138,24.2372z" fill="url(#color-4)"></path><path d="M222.7192,327.8834c-15.67044,-9.71994 -28.88162,-22.93108 -38.6016,-38.6015c-0.96414,-1.55968 -2.58855,-2.59287 -4.40987,-2.80488c-1.82133,-0.21201 -3.63961,0.42045 -4.93623,1.71698l-71.7615,71.7622c-13.52022,13.54463 -13.50989,35.48212 0.02308,49.01402c13.53297,13.53189 35.47046,13.54048 49.01402,0.01918l71.76,-71.76c1.29656,-1.29661 1.92905,-3.11493 1.71704,-4.93628c-0.21201,-1.82135 -1.24523,-3.44578 -2.80494,-4.40992zM143.5634,400.5021c-5.72032,5.76304 -14.0858,8.02702 -21.93183,5.93549c-7.84603,-2.09153 -13.97453,-8.21922 -16.06712,-16.06496c-2.09259,-7.84575 0.17027,-16.21154 5.93255,-21.93263l66.56,-66.5606c8.75816,12.45866 19.60677,23.3073 32.0654,32.0655z" fill="url(#color-5)"></path></g></g></g></svg>
+                            </div>
+                            <div class="px-2">
+                                <span class="fw-bolder">SUIVRE SA DEMANDE</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container bg-gradient bg-body-tertiary mt-4" id="aboutus">
+        <div class="row">
+            <div class="col-md-5 py-1">
+                <img src="{{ asset('frontend/assets/img/uber-driver.jpg') }}"  width="100%" alt="">
+            </div>
+    {#        <div class="separator_a"></div>#}
+            <div class="col-md-5 bg-gradient py-1">
+                <div class="bg-gradient d-flex justify-content-center">
+                    <div><h1>Qui sommes-nous ?</h1></p>
+                    <p>Depuis près de 15 ans, nous accompagnons tous nos clients dans le développement de logiciels spécifiques à leur activité et à leur organisation.
+                        Force de propositions et riches d’une maîtrise des sujets du monde de l’entreprise, nous concevons des logiciels sur mesure qui répondent avec précision aux spécificités et exigences de tous nos clients.
+                        Notre savoir faire est reconnu dans la réalisation de logiciels ergonomiques et performants mais aussi dans l’analyse fonctionnelle et l’acompagnement au changement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4" id="why_macaron">
+        <div class="col-12">
+            <div style="width:500px;font-weight:bolder; font-size: 0.6em; border-bottom:5px solid #0f735d; padding: 5px 5px 5px 5px;"><h2>Pourquoi le macron ?</h2></div>
+            <div style="border-radius:5px;margin-top: 10px; background-color: #e7e7e7; border-left: 2px solid #ff7b00;">
+                <div class="px-3 py-3">
+                    Vu le décret N° 2021-860 du 15 Décembre 2021 portant réglementation des transports publics particuliers de personnes.
+                    Toute entreprise de VTC est tenue d’afficher sur les véhicules automobiles qu’elle utilise une signalétique laissant apparaitre de manière évidente la mention Voiture de Transport avec Chauffeur (VTC), délivrée par les services compétents du ministère en charge du transport routier.
+                    Chaque véhicule doit obligatoirement afficher une signalétique distinctive (MACARON) “Voiture de Transport avec Chauffeur“ VTC délivrée par la direction des Transports et de la Mobilité Urbaine du district Autonome d’Abidjan.
+                    Les véhicules VTC doivent comporter deux macarons permettant aux forces de l’ordre et aux usagers de distinguer rapidement un véhicule VTC d’un autre type de véhicules.
+                    Les macarons affichent le sigle VTC, le logo du district d'abidjan et un Q.R code.
+                    Ce Q.R code regroupant un certain nombre d’informations, en cas de contrôle, pourra être scanné par les forces de l’ordre, la police municipale, la police spécialisée dans les transports terrestres ou la police du District d’Abidjan.
+                    Cette méthode leur permettra de savoir rapidement si vous exercez en toute légalité.
+                    <br>Comment positionner les macarons sur les pare-brises ?
+                    •	Sur le pare-brise avant, un macaron doit être apposé dans l’angle en bas à gauche du conducteur.
+                    •	Sur le pare-brise arrière, un macaron doit être apposé dans l’angle en bas à droite côté passager, donc à l’opposé du conducteur.
+                    <br>NB : La direction des Transports Terrestres et de la Mobilité Urbaines du District Autonome d’Abidjan, précise bien que ces macarons << doivent être collés de manière à être lisibles depuis l’extérieur de votre véhicule >>.
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('frontend/libs/inputmask/dist/bindings/inputmask.binding.js') }}"></script>
+    <script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
+    </div>
+    <div class="my-4"></div>
+{% endblock %}
+
