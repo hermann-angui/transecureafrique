@@ -14,14 +14,14 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            pattern: ^/admin
-            security: true
+#            pattern: ^/admin
+#            security: true
             lazy: true
-            custom_authenticator: App\Security\FormLoginAuthenticator
-            logout:
-                path: admin_logout
+#            custom_authenticator: App\Security\FormLoginAuthenticator
+#            logout:
+#                path: admin_logout
                 # where to redirect after logout
-                target: admin_login
+#                target: admin_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -40,7 +40,7 @@ security:
 #        - { path: ^(/admin/register|/admin/demande|/admin/macaron|/admin/setting), roles: ROLE_SUPERADMIN }
 #         - { path: ^(?!/(admin/login)), roles: ROLE_USER }
 #        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USERADMIN }
-        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USER }
+#        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USER }
 when@test:
     security:
         password_hashers:
