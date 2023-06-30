@@ -12,3 +12,15 @@ app/public/tmp/
 app/public/backend/media/*
 app/public/frontend/media/*
 app/public/media/*
+
+database
+codebase/var
+codebase/vendor
+
+codebase/public/users/*
+codebase/public/uploads/*
+codebase/public/members/*
+codebase/public/tmp/
+codebase/public/backend/media/*
+codebase/public/frontend/media/*
+codebase/public/media/*

@@ -2,10 +2,7 @@
 
 namespace App\Helper;
 
-use App\Entity\User;
-use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Routing\RouterInterface;
 
 class UserHelper implements AssetHelperInterface
 {

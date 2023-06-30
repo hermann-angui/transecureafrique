@@ -6,6 +6,52 @@ networks:
     external: true
 
 services:
+  traefik:
+    image: traefik:2.4.8
+    command:
+      # Try to enable this if something isn't working.
+      # Chances are, Traefik will tell you why.
+      # Be careful in production as it exposes the traffic you might not want to expose.
+      #--log.level=DEBUG
+
+      - --entrypoints.http.address=:80
+      - --entrypoints.https.address=:443
+
+      - --providers.docker=true
+
+      - --api=true
+
+      # LetsEncrypt Staging Server - uncomment when testing
+      # - --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
+
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http
+      - --certificatesresolvers.letsencrypt.acme.email=${EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+    labels:
+      # Redirect all HTTP traffic to HTTPS
+      - traefik.http.routers.to-https.rule=HostRegexp(`{host:.+}`)
+      - traefik.http.routers.to-https.entrypoints=http
+      - traefik.http.routers.to-https.middlewares=to-https
+
+      - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)
+      - traefik.http.routers.traefik.entrypoints=https
+      - traefik.http.routers.traefik.middlewares=auth
+      - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.tls=true
+      - traefik.http.routers.traefik.tls.certresolver=${CERT_RESOLVER}
+
+      - traefik.http.middlewares.to-https.redirectscheme.scheme=https
+      - traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD_HASH}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./data/letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - internal
+      - proxy
 
   db:
     image: mariadb:10.5
@@ -19,8 +65,6 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
-    ports:
-      - 3306:3306
     networks:
       - internal
 
@@ -28,13 +72,18 @@ services:
     image: phpmyadmin/phpmyadmin
     depends_on:
       - db
-    ports:
-      - 83:80
+#    labels:
+#      - traefik.http.routers.pma.https.rule=Host(`${PMA_DOMAIN}`)
+#      - traefik.http.routers.pma.https.entrypoints=https
+#      - traefik.http.routers.pma.https.tls=true
+#      - traefik.http.routers.pma.https.tls.certresolver=${CERT_RESOLVER}
     environment:
       UPLOAD_LIMIT: 300M
     networks:
       - internal
       - proxy
+    ports:
+      - 1000:80
 
   app:
     container_name: app
@@ -67,5 +116,8 @@ services:
     networks:
       - internal
       - proxy
-    ports:
-      - 82:80
+    labels:
+      - traefik.http.routers.https.rule=Host(`${DOMAIN}`) || Host(`pay.${DOMAIN}`) || Host(`www.${DOMAIN}`)
+      - traefik.http.routers.https.entrypoints=https
+      - traefik.http.routers.https.tls=true
+      - traefik.http.routers.https.tls.certresolver=${CERT_RESOLVER}

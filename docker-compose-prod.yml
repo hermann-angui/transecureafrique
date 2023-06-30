@@ -63,7 +63,7 @@ services:
       MYSQL_PASSWORD: QT6e5APtSYaU
       MYSQL_DATABASE: sfp_macaron_db
     volumes:
-      - ./db:/var/lib/mysql
+      - ./database:/var/lib/mysql
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     networks:
       - internal
@@ -97,7 +97,7 @@ services:
       - TZ=Africa/Abidjan
       - DATABASE_URL=mysql://root:QT6e5APtSYaU@db:3306/sfp_macaron_db?serverVersion=14
     volumes:
-      - ./app:/var/www/html
+      - ./codebase:/var/www/html
     networks:
       - internal
 
@@ -107,7 +107,7 @@ services:
     build:
       context: ./docker/nginx
     volumes:
-      - ./app:/var/www/html
+      - ./codebase:/var/www/html
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/sites/:/etc/nginx/sites-available
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d

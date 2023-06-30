@@ -6,7 +6,6 @@ namespace App\Entity;
 use App\Repository\OtpCodeRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: OtpCodeRepository::class)]
 #[ORM\Table(name: '`otpcode`')]

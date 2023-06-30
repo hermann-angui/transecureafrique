@@ -7,7 +7,6 @@ use App\Entity\Macaron;
 use App\Entity\Payment;
 use App\Helper\CsvReaderHelper;
 use App\Helper\PasswordHelper;
-use App\Service\Demande\DemandeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
