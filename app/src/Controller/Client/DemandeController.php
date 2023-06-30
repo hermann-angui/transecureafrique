@@ -5,6 +5,7 @@ namespace App\Controller\Client;
 use App\Entity\Demande;
 use App\Entity\Payment;
 use App\Repository\DemandeRepository;
+use App\Repository\PaymentRepository;
 use App\Service\Demande\DemandeService;
 use App\Service\Payment\PaymentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,29 +98,38 @@ class DemandeController extends AbstractController
     }
 
     #[Route(path: '/search', name: 'demande_search')]
-    public function searchDemande(Request $request, DemandeRepository $demandeRepository): Response
+    public function searchDemande(Request $request, DemandeRepository $demandeRepository, PaymentRepository $paymentRepository): Response
     {
         $term = $request->get('search_receipt_term');
         $criteria = $request->get('search_receipt_criteria');
 
-        if($term && $criteria){
-            if($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
-            if($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
-            if($criteria === 'numero_recu') $demande = $demandeRepository->findOneBy(['reference' => $term]);
-            if($demande){
-                if($demande->getMacaron()){
-                    $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
-                    return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
-                }else{
-                    $payment = $demande->getPayment();
-                    return $this->redirectToRoute('demande_display_receipt' , ['id' => $payment->getId()]);
-                }
-            }else{
+        if($term && $criteria) {
+            if ($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
+            if ($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
+            if ($criteria === 'numero_recu') $payment = $paymentRepository->findOneBy(['receipt_number' => $term]);
+            if ($payment) {
+                //  if($payment->getStatus()==="SUCCEEDED"){
+                //      $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
+                //      return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
+                //   }else{
+                return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
+            }
+            if ($demande) {
+                // if($payment->getStatus()==="SUCCEEDED"){
+                //     $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
+                //     return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
+                // }else{
+                $payment = $demande->getPayment();
+                return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
+                // }
+            }
+            else {
                 $warning = "Cette demande est introuvable!";
-                return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
+                return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning]);
             }
         }
-        return $this->render('frontend/bs/search-demande.html.twig');
+         return $this->render('frontend/bs/search-demande.html.twig');
+
     }
 
     #[Route('/receipt-pdf/{id}', name: 'download_receipt_pdf', methods: ['GET'])]
