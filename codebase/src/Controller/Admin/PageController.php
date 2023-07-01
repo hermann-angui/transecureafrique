@@ -17,8 +17,7 @@ class PageController extends AbstractController
     #[Route(path: '', name: 'admin_index')]
     public function index(Request $request, DemandeRepository $demandeRepository): Response
     {
-        $demande =  $demandeRepository->findAll();
-        return $this->render('admin/pages/index.html.twig', ["demande" => $demande]);
+        return $this->render('admin/pages/index.html.twig');
     }
 
     #[Route('/upload/carte_grise', name: 'admin_upload_carte_grise', methods: ['GET', 'POST'])]

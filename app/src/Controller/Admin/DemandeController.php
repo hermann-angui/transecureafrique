@@ -43,7 +43,7 @@ class DemandeController extends AbstractController
         ]);
     }
 
-    #[Route('/demande/dt', name: 'admin_demande_dt', methods: ['GET'])]
+    #[Route('/dt', name: 'admin_demande_dt', methods: ['GET'])]
     public function datatable(Request $request, Connection $connection, DemandeRepository $demandeRepository)
     {
         date_default_timezone_set("Africa/Abidjan");

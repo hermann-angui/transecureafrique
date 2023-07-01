@@ -34,7 +34,7 @@ class DistrictController extends AbstractController
         return $this->render('admin/district/index.html.twig', $stats);
     }
 
-    #[Route('/data', name: 'admin_dstrict_dt', methods: ['GET'])]
+    #[Route('/data', name: 'admin_district_dt', methods: ['GET'])]
     public function datatable(Request $request, Connection $connection)
     {
         date_default_timezone_set("Africa/Abidjan");
