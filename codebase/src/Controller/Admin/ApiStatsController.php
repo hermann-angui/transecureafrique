@@ -77,7 +77,6 @@ class ApiStatsController extends AbstractController
             "legend" => array_column( $group_by_marque, "name"),
             "series" => $group_by_marque
         ];
-       // return $this->json($stats);
 
         $presentation =  json_encode($stats, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $response = new Response($presentation);

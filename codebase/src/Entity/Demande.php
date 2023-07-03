@@ -100,7 +100,7 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $status;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true, unique: true)]
     private ?string $macaron_qrcode_number = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true, unique: true)]
@@ -124,6 +124,9 @@ class Demande
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
+
+    #[ORM\OneToOne(inversedBy: 'user', targetEntity: User::class)]
+    private ?User $lastEditor = null;
 
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
     private Collection $optcodes;
@@ -810,5 +813,24 @@ class Demande
         $this->receipt_number = $receipt_number;
         return $this;
     }
+
+    /**
+     * @return User|null
+     */
+    public function getLastEditor(): ?User
+    {
+        return $this->lastEditor;
+    }
+
+    /**
+     * @param User|null $lastEditor
+     * @return Demande
+     */
+    public function setLastEditor(?User $lastEditor): Demande
+    {
+        $this->lastEditor = $lastEditor;
+        return $this;
+    }
+
 
 }

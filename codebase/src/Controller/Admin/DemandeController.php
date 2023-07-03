@@ -85,8 +85,8 @@ class DemandeController extends AbstractController
                 'dt' => 'numero_vin_chassis'
             ],
             [
-                'db' => 'reference',
-                'dt' => 'reference'
+                'db' => 'receipt_number',
+                'dt' => 'receipt_number'
             ],
             [
                 'db'        => 'id',
@@ -96,9 +96,6 @@ class DemandeController extends AbstractController
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
                                           <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                      </li>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='Edit'>
-                                         <a href='/admin/demande/$id/edit' class='btn btn-sm btn-soft-success'><i class='mdi mdi-pencil-outline'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -114,32 +111,47 @@ class DemandeController extends AbstractController
         );
 
         $whereResult = '';
-        if(!empty($params['numero_carte_grise'])){
-            $whereResult .= " numero_carte_grise LIKE '%". $params['numero_carte_grise'] . "%' AND";
+
+        if(!empty($params["quicksearch"])){
+            //  $params["search"]["value"] = $params["quicksearch"];
+            //  $params["search"]["regex"] = "true";
+            $fullSearchValue = trim($params['quicksearch']);
+            $whereResult .= "( receipt_number LIKE '%" . $fullSearchValue . "%' OR ";
+            $whereResult .= " numero_carte_grise LIKE '%" . $fullSearchValue. "%' OR ";
+            $whereResult .= " numero_recepisse LIKE '%" . $fullSearchValue. "%' OR ";
+            $whereResult .= " numero_immatriculation LIKE '%" . $fullSearchValue . "%' OR ";
+            $whereResult .= " numero_vin_chassis LIKE '%" . $fullSearchValue . "%' )";
+            $whereResult .= " AND (status = 'PAYE') ";
+        }else{
+            if(!empty($params['numero_carte_grise'])){
+                $whereResult .= " numero_carte_grise LIKE '%". trim($params['numero_carte_grise']) . "%' AND";
+            }
+            if(!empty($params['numero_recepisse'])) {
+                $whereResult .= " numero_recepisse LIKE '%". trim($params['numero_recepisse']) . "%' AND";
+            }
+            if(!empty($params['numero_immatriculation'])) {
+                $whereResult .= " numero_immatriculation LIKE '%". trim($params['numero_immatriculation']) . "%' AND";
+            }
+            if(!empty($params['numero_vin_chassis'])) {
+                $whereResult .= " numero_vin_chassis LIKE '%". trim($params['numero_vin_chassis']) . "%' AND";
+            }
+            if(!empty($params['identite_proprietaire'])) {
+                $whereResult .= " identite_proprietaire LIKE '%". trim($params['identite_proprietaire']) . "%' AND";
+            }
+            if(!empty($params['identite_proprietaire_piece'])) {
+                $whereResult .= " identite_proprietaire_piece LIKE '%". trim($params['identite_proprietaire_piece']) . "%' AND";
+            }
+            if(!empty($params['numero_telephone_proprietaire'])) {
+                $whereResult .= " numero_telephone_proprietaire LIKE '%". trim($params['numero_telephone_proprietaire']) . "%' AND";
+            }
+            if(!empty($params['receipt_number'])) {
+                $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%' AND";
+            }
+            $whereResult .= " status = 'PAYE'";
         }
-        if(!empty($params['numero_recepisse'])) {
-            $whereResult .= " numero_recepisse LIKE '%". $params['numero_recepisse']. "%' AND";
-        }
-        if(!empty($params['numero_immatriculation'])) {
-            $whereResult .= " numero_immatriculation LIKE '%". $params['numero_immatriculation']. "%' AND";
-        }
-        if(!empty($params['numero_vin_chassis'])) {
-            $whereResult .= " numero_vin_chassis LIKE '%". $params['numero_vin_chassis']. "%' AND";
-        }
-        if(!empty($params['identite_proprietaire'])) {
-            $whereResult .= " identite_proprietaire LIKE '%". $params['identite_proprietaire']. "%' AND";
-        }
-        if(!empty($params['identite_proprietaire_piece'])) {
-            $whereResult .= " identite_proprietaire_piece LIKE '%". $params['identite_proprietaire_piece']. "%' AND";
-        }
-        if(!empty($params['numero_telephone_proprietaire'])) {
-            $whereResult .= " numero_telephone_proprietaire LIKE '%". $params['numero_telephone_proprietaire']. "%' AND";
-        }
-        if(!empty($params['reference'])) {
-            $whereResult .= " reference LIKE '%". $params['reference']. "%' AND";
-        }
-        $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
-        $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $whereResult);
+
+       // $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
+        $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, trim($whereResult));
 
         return new JsonResponse($response);
     }
@@ -147,7 +159,11 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
     public function show(Demande $demande): Response
     {
-        return $this->render('admin/demande/show.html.twig', ['demande' => $demande]);
+        if(!$demande->getPayment()) return $this->redirectToRoute('admin_index');
+        return $this->render('admin/demande/show.html.twig', [
+            'demande' => $demande,
+            'document' => $demande->getNumeroCarteGrise() ? 'carte_grise': 'recepisse'
+        ]);
     }
 
     #[Route('/{id}/edit/ajax', name: 'admin_demande_edit_ajax', methods: ['GET', 'POST'])]
@@ -164,8 +180,11 @@ class DemandeController extends AbstractController
             }
         }
 
-        $demande = $demandeService->update($demande, $data);
-        return $this->json("ok");
+        $data['user'] = $user = $this->getUser();
+        $result = $demandeService->update($demande, $data);
+        if($result instanceof Demande) return $this->json("ok");
+        elseif(is_string($result)) return $this->json($result);
+        else return $this->json("error");
     }
 
     #[Route('/{id}/edit', name: 'admin_demande_edit', methods: ['GET', 'POST'])]

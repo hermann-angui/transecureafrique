@@ -3,6 +3,27 @@
 {% block stylesheet %}
     {{ parent() }}
     <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+<style>
+    #quick_search .app-search{padding:calc(32px * .5) 0}
+    #quick_search .app-search .form-control{
+        border: none;
+        height: 60px;
+        padding-left: 59px;
+        padding-right: 20px;
+        background-color: var(--bs-topbar-search-bg);
+    }
+
+    #quick_search .app-search span {
+        position: absolute;
+        z-index: 10;
+        font-size: 26px;
+        line-height: 38px;
+        left: 13px;
+        top: 13px;
+        color: var(--bs-gray-600);
+    }
+</style>
+
 {% endblock %}
 
 
@@ -15,7 +36,7 @@
         {{ include('admin/_partials/header.html.twig') }}
 
         <!-- ========== Left Sidebar Start ========== -->
-        {{ include('admin/_partials/left-sidebar.html.twig')}}
+{#        {{ include('admin/_partials/left-sidebar.html.twig')}}#}
         <!-- Left Sidebar End -->
 
         <!-- ============================================================== -->
@@ -50,9 +71,9 @@
 
                                         <div class="flex-shrink-0 align-self-center">
                                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
-                                                            <span class="avatar-title">
-                                                                <i class="bx bx-copy-alt font-size-24"></i>
-                                                            </span>
+                                                <span class="avatar-title">
+                                                    <i class="bx bx-copy-alt font-size-24"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -127,35 +148,48 @@
                                     <div class="d-flex align-items-center">
                                         <h5 class="mb-0 card-title flex-grow-1"></h5>
                                         <div class="flex-shrink-0">
-                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" ><span class="fa fa-download fa-1x"></span>Télécharger la liste</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body border-bottom">
-                                    <div class="row g-3">
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="reference" placeholder="Numéro du reçu">
+                                    <div class="row" id="quick_search_block">
+                                        <div class="col-xxl-10 col-lg-10 col-md-10">
+                                            <div class="app-search d-none d-lg-block">
+                                                <div class="position-relative">
+                                                    <input type="search" id="quicksearch" class="form-control py-3" placeholder="Recherche rapide">
+                                                    <span class="bx bx-search-alt"></span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro récépissé">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_immatriculation" placeholder="N° Immatriculation">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="identite_proprietaire" placeholder="Propriétaire">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Contact Propriétaire">
-                                        </div>
-
                                     </div>
+                                    <div id="adv_search" class="visually-hidden">
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-xxl-2 col-lg-3 col-md-3">
+                                                <input type="search" class="form-control" id="receipt_number" placeholder="Numéro du reçu">
+                                            </div>
+                                            <div class="col-xxl-2 col-lg-3 col-md-3">
+                                                <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
+                                            </div>
+                                            <div class="col-xxl-2 col-lg-3 col-md-3">
+                                                <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro récépissé">
+                                            </div>
+                                            <div class="col-xxl-2 col-lg-3 col-md-3">
+                                                <input type="search" class="form-control" id="numero_immatriculation" placeholder="N° Immatriculation">
+                                            </div>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-xxl-2 col-lg-4 col-md-4">
+                                                <input type="search" class="form-control" id="identite_proprietaire" placeholder="Propriétaire">
+                                            </div>
+                                            <div class="col-xxl-2 col-lg-4 col-md-4">
+                                                <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
+                                            </div>
+                                            <div class="col-xxl-2 col-lg-4 col-md-4">
+                                                <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Contact Propriétaire">
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -196,7 +230,7 @@
 
         var datatable = initDatatable();
 
-        $("#numero_carte_grise,#numero_recepisse,#numero_immatriculation,#numero_chassis,#reference,#numero_telephone_proprietaire").change(function (e) {
+        $("#numero_carte_grise,#numero_recepisse,#numero_immatriculation,#numero_chassis,#receipt_number,#quicksearch,#numero_telephone_proprietaire").change(function (e) {
                 datatable.draw();
         });
 
@@ -221,7 +255,8 @@
                         d.identite_proprietaire = $("#identite_proprietaire").val();
                         d.identite_proprietaire_piece = $("#identite_proprietaire_piece").val();
                         d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
-                        d.reference = $("#reference").val();
+                        d.receipt_number = $("#receipt_number").val();
+                        d.quicksearch = $("#quicksearch").val();
                     }
                 },
                 "columns": [
@@ -237,7 +272,7 @@
                     { "data": "identite_proprietaire" },
                     { "data": "identite_proprietaire_piece" },
                     { "data": "numero_vin_chassis" },
-                    { "data": "reference" },
+                    { "data": "receipt_number" },
                     { "data": "" },
                 ],
                 "order": [[1, 'asc']]

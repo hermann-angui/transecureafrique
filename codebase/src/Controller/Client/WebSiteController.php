@@ -80,9 +80,7 @@ class WebSiteController extends AbstractController
     #[Route(path: '/otp', name: 'otp')]
     public function otp(Request $request, OtpService $otpService /*, InfoBipService $infoBipService*/): Response
     {
-        $phoneNumber = $request->get('numerotelInput');
-        if(!$phoneNumber) return $this->redirectToRoute('auth');
-        $phoneNumber = trim(str_replace("-", "", substr($phoneNumber, strlen(self::CIV_CODE))));
+        $phoneNumber = trim(str_replace("-", "", substr($request->get('numerotelInput'), strlen(self::CIV_CODE))));
         if (!$phoneNumber) return $this->redirectToRoute('auth');
         $otpCode = $otpService->getByPhone($phoneNumber);
         if (!$otpCode){

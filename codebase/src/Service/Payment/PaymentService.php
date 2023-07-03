@@ -22,7 +22,7 @@ class PaymentService
 
     public function generateReference() {
         $now = new \DateTime();
-        $year = $now->format("Y");
+        $year = $now->format("y");
         return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
     }
 

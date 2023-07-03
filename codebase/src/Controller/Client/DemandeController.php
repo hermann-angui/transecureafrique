@@ -36,17 +36,13 @@ class DemandeController extends AbstractController
             $document = $request->get("document");
             $authid = $request->get("authid");
             if(empty($document && $authid)) return $this->redirectToRoute('demande_select_type');
-            return $this->render('frontend/bs/formulaire_advanced.html.twig', [
-                "document" => $document,
-                "authid" => $authid
-            ]);
+            return $this->render('frontend/bs/formulaire_advanced.html.twig', ["document" => $document, "authid" => $authid]);
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
             $res = $demandeService->create($data);
             if(is_array($res) && !empty($res)) return $this->json('duplicate');
             elseif($res instanceof Demande) return $this->json($res->getId());
             else return $this->json('nodata');
-           // return $this->redirectToRoute('demande_recap', ['id' => $demande?->getId()]);
         }
 
         return $this->redirectToRoute('auth');
@@ -107,7 +103,7 @@ class DemandeController extends AbstractController
             if ($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
             if ($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
             if ($criteria === 'numero_recu') $payment = $paymentRepository->findOneBy(['receipt_number' => $term]);
-            if ($payment) {
+            if ($payment->getStatus()==="SUCCEEDED") {
                 //  if($payment->getStatus()==="SUCCEEDED"){
                 //      $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
                 //      return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
@@ -129,7 +125,6 @@ class DemandeController extends AbstractController
             }
         }
          return $this->render('frontend/bs/search-demande.html.twig');
-
     }
 
     #[Route('/receipt-pdf/{id}', name: 'download_receipt_pdf', methods: ['GET'])]

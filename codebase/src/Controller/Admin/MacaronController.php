@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Demande;
 use App\Entity\Macaron;
 use App\Form\MacaronType;
 use App\Helper\DataTableHelper;
+use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
 use App\Service\Macaron\MacaronService;
 use Doctrine\DBAL\Connection;
@@ -23,6 +25,34 @@ class MacaronController extends AbstractController
     public function index(Request $request, MacaronRepository $macaronRepository): Response
     {
         return $this->render('admin/macaron/index.html.twig');
+    }
+
+    #[Route('/generate/{id}', name: 'admin_macaron_generate', methods: ['GET', 'POST'])]
+    public function generate(Demande $demande, MacaronRepository $macaronRepository, DemandeRepository $demandeRepository): Response
+    {
+        if(!$demande->getPayment()) return $this->json('no_payment');
+        if(!$demande->getNumeroTelephoneProprietaire()) return $this->json('no_telproprio');
+        if(!$demande->getMacaronQrcodeNumber()) return $this->json('no_qrcode');
+        if(!$demande->getCarteGriseImage()) return $this->json('no_qrcode');
+        if(!$demande->getRecepisseImage()) return $this->json('no_qrcode');
+
+        $macaron = new Macaron();
+        $macaron->setLastEditor($this->getUser());
+        $macaron->setReference($demande->getReference());
+        $macaron->setMacaronQrcodeNumber($demande->getMacaronQrcodeNumber());
+        $macaron->setStatus("COMPLETED");
+        $macaron->setDemande($demande);
+        $macaron->setNumeroTelephoneProprietaire($demande->getNumeroTelephoneProprietaire());
+        $macaron->setValidityTo(new \DateTime());
+        $macaron->setValidityFrom(new \DateTime('last day of December this year'));
+        $macaron->setCreatedAt(new \DateTime());
+        $macaron->setModifiedAt(new \DateTime());
+        $macaronRepository->add($macaron, true);
+
+        $demande->setStatus("CLOSED");
+        $demandeRepository->add($demande, true);
+
+        return $this->json("ok");
     }
 
     #[Route('/new', name: 'admin_macaron_new', methods: ['GET', 'POST'])]

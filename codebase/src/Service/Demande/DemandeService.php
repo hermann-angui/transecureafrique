@@ -118,70 +118,79 @@ class DemandeService
         }
     }
 
-    public function update(?Demande &$demande, array $data): ?Demande
+    public function update(?Demande &$demande, array $data): Demande|string|null
     {
-        if(empty($data)) return null;
-        if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
-        if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
-        if(array_key_exists("numero_immatriculation", $data)) $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
+        try{
+            if(empty($data)) return null;
+            if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper($data["numero_carte_grise"]));
+            if (array_key_exists("numero_recepisse", $data)) $demande->setNumeroRecepisse(strtoupper($data["numero_recepisse"]));
+            if(array_key_exists("numero_immatriculation", $data)) $demande->setNumeroImmatriculation(strtoupper($data["numero_immatriculation"]));
 
-        if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)){
-            try{
-                $date = \DateTime::createFromFormat("d/m/Y",$data["date_de_premiere_mise_en_cirulation"]);
-                if(!$date) throw new \Exception();
-                $demande->setDateDePremiereMiseEnCirulation($date);
-            }catch(\Exception $e){
-                $demande->setDateDePremiereMiseEnCirulation(null);
+            if(array_key_exists("date_de_premiere_mise_en_cirulation", $data)){
+                try{
+                    $date = \DateTime::createFromFormat("d/m/Y",$data["date_de_premiere_mise_en_cirulation"]);
+                    if(!$date) throw new \Exception();
+                    $demande->setDateDePremiereMiseEnCirulation($date);
+                }catch(\Exception $e){
+                    $demande->setDateDePremiereMiseEnCirulation(null);
+                }
             }
-        }
 
-        if(array_key_exists("date_d_edition", $data)) {
-            try{
-                $date = \DateTime::createFromFormat("d/m/Y", $data["date_d_edition"]);
-                if(!$date) throw new \Exception();
-                $demande->setDateDEdition($date);
-            }catch(\Exception $e){
-                $demande->setDateDEdition(null);
+            if(array_key_exists("date_d_edition", $data)) {
+                try{
+                    $date = \DateTime::createFromFormat("d/m/Y", $data["date_d_edition"]);
+                    if(!$date) throw new \Exception();
+                    $demande->setDateDEdition($date);
+                }catch(\Exception $e){
+                    $demande->setDateDEdition(null);
+                }
             }
-        }
 
-        if(array_key_exists("identite_proprietaire", $data)) $demande->setIdentiteProprietaire(strtoupper(trim($data["identite_proprietaire"])));
-        if(array_key_exists("identite_proprietaire_piece", $data)) $demande->setIdentiteProprietairePiece(strtoupper(trim($data["identite_proprietaire_piece"])));
-        if(array_key_exists("marque_du_vehicule", $data)) $demande->setMarqueDuVehicule(strtoupper(trim($data["marque_du_vehicule"])));
-        if(array_key_exists("genre_vehicule", $data)) $demande->setGenreVehicule(strtoupper(trim($data["genre_vehicule"])));
-        if(array_key_exists("type_commercial", $data)) $demande->setTypeCommercial(strtoupper(trim($data["type_commercial"])));
-        if(array_key_exists("couleur_vehicule", $data)) $demande->setCouleurVehicule(strtoupper(trim($data["couleur_vehicule"])));
-        if(array_key_exists("carroserie_vehicule", $data)) $demande->setCarroserieVehicule(strtoupper(trim($data["carroserie_vehicule"])));
-        if(array_key_exists("energie_vehicule", $data)) $demande->setEnergieVehicule(strtoupper(trim($data["energie_vehicule"])));
-        if(array_key_exists("places_assises", $data)) $demande->setPlacesAssises(trim($data["places_assises"]));
-        if(array_key_exists("usage_vehicule", $data)) $demande->setUsageVehicule(trim($data["usage_vehicule"]));
-        if(array_key_exists("puissance_fiscale", $data)) $demande->setPuissanceFiscale(trim($data["puissance_fiscale"]));
-        if(array_key_exists("nombre_d_essieux", $data)) $demande->setNombreDEssieux(trim($data["nombre_d_essieux"]));
-        if(array_key_exists("cylindree", $data)) $demande->setCylindree(trim($data["cylindree"]));
-        if(array_key_exists("numero_vin_chassis", $data)) $demande->setNumeroVinChassis(strtoupper(trim($data["numero_vin_chassis"])));
-        if(array_key_exists("societe_de_credit", $data)) $demande->setSocieteDeCredit(strtoupper(trim($data["societe_de_credit"])));
-        if(array_key_exists("type_technique", $data))  $demande->setTypeTechnique(strtoupper(trim($data["type_technique"])));
-        if(array_key_exists("numero_d_immatriculation_precedent", $data))  $demande->setNumeroDImmatriculationPrecedent(strtoupper(trim($data["numero_d_immatriculation_precedent"])));
+            if(array_key_exists("identite_proprietaire", $data)) $demande->setIdentiteProprietaire(strtoupper(trim($data["identite_proprietaire"])));
+            if(array_key_exists("identite_proprietaire_piece", $data)) $demande->setIdentiteProprietairePiece(strtoupper(trim($data["identite_proprietaire_piece"])));
+            if(array_key_exists("marque_du_vehicule", $data)) $demande->setMarqueDuVehicule(strtoupper(trim($data["marque_du_vehicule"])));
+            if(array_key_exists("genre_vehicule", $data)) $demande->setGenreVehicule(strtoupper(trim($data["genre_vehicule"])));
+            if(array_key_exists("type_commercial", $data)) $demande->setTypeCommercial(strtoupper(trim($data["type_commercial"])));
+            if(array_key_exists("couleur_vehicule", $data)) $demande->setCouleurVehicule(strtoupper(trim($data["couleur_vehicule"])));
+            if(array_key_exists("carroserie_vehicule", $data)) $demande->setCarroserieVehicule(strtoupper(trim($data["carroserie_vehicule"])));
+            if(array_key_exists("energie_vehicule", $data)) $demande->setEnergieVehicule(strtoupper(trim($data["energie_vehicule"])));
+            if(array_key_exists("places_assises", $data)) $demande->setPlacesAssises(trim($data["places_assises"]));
+            if(array_key_exists("usage_vehicule", $data)) $demande->setUsageVehicule(trim($data["usage_vehicule"]));
+            if(array_key_exists("puissance_fiscale", $data)) $demande->setPuissanceFiscale(trim($data["puissance_fiscale"]));
+            if(array_key_exists("nombre_d_essieux", $data)) $demande->setNombreDEssieux(trim($data["nombre_d_essieux"]));
+            if(array_key_exists("cylindree", $data)) $demande->setCylindree(trim($data["cylindree"]));
+            if(array_key_exists("numero_vin_chassis", $data)) $demande->setNumeroVinChassis(strtoupper(trim($data["numero_vin_chassis"])));
+            if(array_key_exists("societe_de_credit", $data)) $demande->setSocieteDeCredit(strtoupper(trim($data["societe_de_credit"])));
+            if(array_key_exists("type_technique", $data))  $demande->setTypeTechnique(strtoupper(trim($data["type_technique"])));
+            if(array_key_exists("numero_d_immatriculation_precedent", $data))  $demande->setNumeroDImmatriculationPrecedent(strtoupper(trim($data["numero_d_immatriculation_precedent"])));
 
-        if(array_key_exists("macaron_qrcode_number", $data))  $demande->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
-        if(array_key_exists("numero_telephone_proprietaire", $data))  $demande->setNumeroTelephoneProprietaire(strtoupper(trim($data["numero_telephone_proprietaire"])));
+            if(array_key_exists("macaron_qrcode_number", $data))  $demande->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
+            if(array_key_exists("numero_telephone_proprietaire", $data))  $demande->setNumeroTelephoneProprietaire(strtoupper(trim($data["numero_telephone_proprietaire"])));
 
 
-        if(array_key_exists("recepisse_image", $data)) {
-            if(!empty($data["recepisse_image"])){
-                $fileName = $this->fileUploadHelper->upload($data["recepisse_image"], self::MEDIA_DIR);
-                if($fileName) $demande->setRecepisseImage($fileName->getFilename());
+            if(array_key_exists("recepisse_image", $data)) {
+                if(!empty($data["recepisse_image"])){
+                    $fileName = $this->fileUploadHelper->upload($data["recepisse_image"], self::MEDIA_DIR);
+                    if($fileName) $demande->setRecepisseImage($fileName->getFilename());
+                }
             }
-        }
-        if(array_key_exists("carte_grise_image", $data)) {
-            if(!empty($data["carte_grise_image"])){
-                $fileName = $this->fileUploadHelper->upload($data["carte_grise_image"], self::MEDIA_DIR);
-                if($fileName) $demande->setRecepisseImage($fileName->getFilename());
+            if(array_key_exists("carte_grise_image", $data)) {
+                if(!empty($data["carte_grise_image"])){
+                    $fileName = $this->fileUploadHelper->upload($data["carte_grise_image"], self::MEDIA_DIR);
+                    if($fileName) $demande->setRecepisseImage($fileName->getFilename());
+                }
             }
-        }
 
-        $this->demandeRepository->add($demande, true);
-        return $demande;
+            $demande->setLastEditor($data["user"]);
+
+            $this->demandeRepository->add($demande, true);
+            return $demande;
+        }catch (UniqueConstraintViolationException $e){
+            $keys = array_keys($data);
+            return $keys[0];
+        }catch (\Exception $e){
+            return null;
+        }
     }
 
     public function getGroupByMarque(){
@@ -202,8 +211,8 @@ class DemandeService
 
     public function generateReference() {
         $now = new \DateTime();
-        $year = $now->format("Y");
-        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 12));
+        $year = $now->format("y");
+        return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 8));
     }
 
     public function scheduleAppointment()

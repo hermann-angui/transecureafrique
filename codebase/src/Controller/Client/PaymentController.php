@@ -22,24 +22,6 @@ class PaymentController extends AbstractController
     {
         $status = strtoupper($payment->getStatus());
 
-//        if($request->get("test") === "1"){
-//            $response = [
-//               "status" => "SUCCEEDED",
-//               "reference" => "TEST",
-//               "montant" => "10100",
-//               "url" => "https://transecureafrica.com/payment/wave/checkout/success?ref=TEST",
-//            ];
-//            if($response) {
-//                $payment->setStatus($response["status"]);
-//                $payment->setReference($response["reference"]);
-//                $payment->setMontant($response["montant"]);
-//                $payment->setType("MOBILE_MONEY");
-//                $paymentRepository->add($payment, true);
-//                return $this->redirect($response["url"]);
-//            }
-//            else return $this->redirectToRoute('home');
-//        }
-
         if(in_array($status, ["SUCCEEDED","PROCESSING"])) {
             $status = "success";
             return $this->redirectToRoute('demande_display_receipt', [
@@ -78,7 +60,7 @@ class PaymentController extends AbstractController
                         if(strtoupper($data["payment_status"]) === "SUCCEEDED"){
                             $demande = $payment->getDemande();
                             $demande->setStatus("PAYE");
-                            $demande->setReceiptNumber("PAYE");
+                            $demande->setReceiptNumber($payment->getReceiptNumber());
                             $demandeRepository->add($demande, true);
                         }
                     }
