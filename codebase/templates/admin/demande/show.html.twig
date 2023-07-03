@@ -510,7 +510,6 @@
                     dataType: 'json'
                 },
                 success: function(response, newValue) {
-                    console.log(response);
                    switch(response){
                        case 'ok':
                            break;
@@ -588,6 +587,20 @@
                                          icon: "error"
                                     });
                                    break;
+                              case 'no_carte_grise_image':
+                                    Swal.fire({
+                                         title: "Erreur!",
+                                         html: "Attention! vous n'avez pas joint l'image scannée de la carte grise.",
+                                         icon: "error",
+                                    });
+                                   break;
+                              case 'no_recepisse_image':
+                                    Swal.fire({
+                                         title: "Erreur!",
+                                         html: "Attention! vous n'avez pas joint l'image scannée du récépissé.",
+                                         icon: "error",
+                                    });
+                                   break;
                               case 'no_telproprio':
                                     Swal.fire({
                                          title: "Erreur!",
@@ -612,11 +625,10 @@
                           }
                       });
                    }
-                })
+                });
             });
 
             function uploadImg(fileTagId, fileName){
-                console.log(fileTagId);
                   var fd = new FormData();
                   var files = $(fileTagId)[0].files;
 

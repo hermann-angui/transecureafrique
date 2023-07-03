@@ -33,8 +33,8 @@ class MacaronController extends AbstractController
         if(!$demande->getPayment()) return $this->json('no_payment');
         if(!$demande->getNumeroTelephoneProprietaire()) return $this->json('no_telproprio');
         if(!$demande->getMacaronQrcodeNumber()) return $this->json('no_qrcode');
-        if(!$demande->getCarteGriseImage()) return $this->json('no_qrcode');
-        if(!$demande->getRecepisseImage()) return $this->json('no_qrcode');
+        if(!$demande->getCarteGriseImage()) return $this->json('no_carte_grise_image');
+        if(!$demande->getRecepisseImage()) return $this->json('no_recepisse_image');
 
         $macaron = new Macaron();
         $macaron->setLastEditor($this->getUser());
