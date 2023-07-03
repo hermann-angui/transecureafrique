@@ -28,29 +28,36 @@ class MacaronController extends AbstractController
     }
 
     #[Route('/generate/{id}', name: 'admin_macaron_generate', methods: ['GET', 'POST'])]
-    public function generate(Demande $demande, MacaronRepository $macaronRepository, DemandeRepository $demandeRepository): Response
+    public function generate(Request $request, Demande $demande, MacaronRepository $macaronRepository, DemandeRepository $demandeRepository): Response
     {
         if(!$demande->getPayment()) return $this->json('no_payment');
         if(!$demande->getNumeroTelephoneProprietaire()) return $this->json('no_telproprio');
         if(!$demande->getMacaronQrcodeNumber()) return $this->json('no_qrcode');
-        if(!$demande->getCarteGriseImage()) return $this->json('no_carte_grise_image');
-        if(!$demande->getRecepisseImage()) return $this->json('no_recepisse_image');
 
-        $macaron = new Macaron();
-        $macaron->setLastEditor($this->getUser());
-        $macaron->setReference($demande->getReference());
-        $macaron->setMacaronQrcodeNumber($demande->getMacaronQrcodeNumber());
-        $macaron->setStatus("COMPLETED");
-        $macaron->setDemande($demande);
-        $macaron->setNumeroTelephoneProprietaire($demande->getNumeroTelephoneProprietaire());
-        $macaron->setValidityTo(new \DateTime());
-        $macaron->setValidityFrom(new \DateTime('last day of December this year'));
-        $macaron->setCreatedAt(new \DateTime());
-        $macaron->setModifiedAt(new \DateTime());
-        $macaronRepository->add($macaron, true);
+        if($request->get('doc') === 'carte_grise' && !$demande->getCarteGriseImage()){
+            return $this->json('no_carte_grise_image');
+        }
+        if($request->get('doc') === 'recepisse' && !$demande->getRecepisseImage()){
+            return $this->json('no_recepisse_image');
+        }
 
-        $demande->setStatus("CLOSED");
-        $demandeRepository->add($demande, true);
+        $macaron = $demande->getMacaron() ?:new Macaron();
+        if($macaron){
+            $macaron->setLastEditor($this->getUser());
+            $macaron->setReference($demande->getReference());
+            $macaron->setMacaronQrcodeNumber($demande->getMacaronQrcodeNumber());
+            $macaron->setStatus("COMPLETED");
+            $macaron->setDemande($demande);
+            $macaron->setNumeroTelephoneProprietaire($demande->getNumeroTelephoneProprietaire());
+            $macaron->setValidityTo(new \DateTime());
+            $macaron->setValidityFrom(new \DateTime('last day of December this year'));
+            $macaron->setCreatedAt(new \DateTime());
+            $macaron->setModifiedAt(new \DateTime());
+            $macaronRepository->add($macaron, true);
+
+            $demande->setStatus("CLOSED");
+            $demandeRepository->add($demande, true);
+        }
 
         return $this->json("ok");
     }
