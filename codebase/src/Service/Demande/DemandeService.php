@@ -177,7 +177,7 @@ class DemandeService
             if(array_key_exists("carte_grise_image", $data)) {
                 if(!empty($data["carte_grise_image"])){
                     $fileName = $this->fileUploadHelper->upload($data["carte_grise_image"], self::MEDIA_DIR);
-                    if($fileName) $demande->setRecepisseImage($fileName->getFilename());
+                    if($fileName) $demande->setCarteGriseImage($fileName->getFilename());
                 }
             }
 
