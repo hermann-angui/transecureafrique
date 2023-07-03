@@ -170,7 +170,10 @@
                     <div class="col-xl-12">
                         <div class="card">
                             <div class="card-body border-bottom">
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex justify-content-between">
+                                    <div class="flex-shrink-0">
+                                        <a href="{{ path('admin_demande_index') }}" class="btn-link"><span class="fa fa-long-arrow-alt-left fa-1x"></span> Revenir à la liste des demandes</a>
+                                    </div>
                                     <div class="flex-shrink-0">
                                         <a href="{{ path('admin_payment_show',{'id': demande.payment.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
                                     </div>
