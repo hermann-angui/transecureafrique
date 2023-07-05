@@ -142,23 +142,18 @@
              font-weight: bold;
         }
     </style>
-
 {% endblock %}
 
 
 {% block body %}
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
     <!-- Begin page -->
     <div id="layout-wrapper">
-
 
         {{ include('admin/_partials/header.html.twig') }}
 
         <!-- ========== Left Sidebar Start ========== -->
 {#        {{ include('admin/_partials/left-sidebar.html.twig')}}#}
         <!-- Left Sidebar End -->
-
 
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -326,7 +321,7 @@
                             <div id="verso" class="card rounded rounded-3 shadow-sm">
                                 <div class="card-body row">
                                     <div class="row">
-                                        <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:50px; width:75%"></div>
+                                        <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:40px; width:100%"></div>
                                     </div>
                                     <div class="row my-5">
                                         <div class="col-lg-6 col-md-6 col-sm-12">
@@ -541,10 +536,10 @@
                 }
             });
 
-
             $("#carte_grise_image_btn").click(function(){
                 uploadImg("input[name='carte_grise_image']", 'carte_grise_image')
             });
+
             $("#recepisse_image_btn").click(function(){
                 uploadImg("input[name='recepisse_image']", 'recepisse_image')
             });

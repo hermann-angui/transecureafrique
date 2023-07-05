@@ -104,17 +104,9 @@ class DemandeController extends AbstractController
             if ($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
             if ($criteria === 'numero_recu') $payment = $paymentRepository->findOneBy(['receipt_number' => $term]);
             if ($payment->getStatus()==="SUCCEEDED") {
-                //  if($payment->getStatus()==="SUCCEEDED"){
-                //      $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
-                //      return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
-                //   }else{
                 return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
             }
             if ($demande) {
-                // if($payment->getStatus()==="SUCCEEDED"){
-                //     $warning = "Vous avez déjà reçu votre macaron. Ce reçu est donc inaccessible";
-                //     return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning ]);
-                // }else{
                 $payment = $demande->getPayment();
                 return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
                 // }

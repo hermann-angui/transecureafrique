@@ -73,7 +73,6 @@ class MacaronController extends AbstractController
             $data = $request->request->all();
             $macaronService->createMacaron($macaron);
             return $this->redirectToRoute('admin_macaron_index');
-
         }
         return $this->renderForm('admin/macaron/new.html.twig', [
             'macaron' => $macaron,
@@ -82,7 +81,7 @@ class MacaronController extends AbstractController
     }
 
     #[Route('/macaron/dt', name: 'admin_macaron_dt', methods: ['GET'])]
-    public function datatable(Request $request, Connection $connection, MacaronRepository $macaronRepository)
+    public function datatable(Request $request, Connection $connection)
     {
         date_default_timezone_set("Africa/Abidjan");
         $params = $request->query->all();
@@ -93,27 +92,26 @@ class MacaronController extends AbstractController
         $columns = [
             [
                 'db' => 'id',
-                'dt' => 'id',
-            ],
-            [
-                'db' => 'macaron_qrcode_number',
-                'dt' => 'macaron_qrcode_number',
-            ],
-            [
-                'db' => 'numero_recepisse',
-                'dt' => 'numero_recepisse',
+                'dt' => 'DT_RowId',
+                'formatter' => function( $d, $row ) {
+                    return 'row_'.$d;
+                }
             ],
             [
                 'db' => 'reference',
                 'dt' => 'reference'
             ],
             [
-                'db' => 'status',
-                'dt' => 'status'
-            ],
-            [
                 'db' => 'numero_telephone_proprietaire',
                 'dt' => 'numero_telephone_proprietaire'
+            ],
+            [
+                'db' => 'macaron_qrcode_number',
+                'dt' => 'macaron_qrcode_number',
+            ],
+            [
+                'db' => 'status',
+                'dt' => 'status'
             ],
             [
                 'db' => 'validity_to',
@@ -125,7 +123,7 @@ class MacaronController extends AbstractController
             ],
             [
                 'db'        => 'id',
-                'dt'        => 'id',
+                'dt'        => '',
                 'formatter' => function($d, $row) {
                     $id = $row['id'];
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
@@ -160,6 +158,7 @@ class MacaronController extends AbstractController
     {
         return $this->render('admin/macaron/show.html.twig', [
             'macaron' => $macaron,
+            'payment' => $macaron?->getDemande()?->getPayment(),
         ]);
     }
 

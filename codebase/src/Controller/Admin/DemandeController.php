@@ -6,6 +6,8 @@ use App\Entity\Demande;
 use App\Form\DemandeType;
 use App\Helper\DataTableHelper;
 use App\Repository\DemandeRepository;
+use App\Repository\MacaronRepository;
+use App\Repository\PaymentRepository;
 use App\Service\Demande\DemandeService;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,9 +21,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class DemandeController extends AbstractController
 {
     #[Route('', name: 'admin_demande_index', methods: ['GET'])]
-    public function index(Request $request): Response
+    public function index(Request $request,
+                          PaymentRepository $paymentRepository,
+                          MacaronRepository $macaronRepository): Response
     {
-        return $this->render('admin/demande/index.html.twig');
+        $stats = [
+            "macarons" => $macaronRepository->count([]),
+            "demandes" => $paymentRepository->count([]),
+            "daily" => $paymentRepository->findTotalDaily(),
+            "weekly" => $paymentRepository->findTotalWeekly(),
+        ];
+        return $this->render('admin/demande/index.html.twig', ["stats"=> $stats]);
     }
 
     #[Route('/new', name: 'admin_demande_new', methods: ['GET', 'POST'])]

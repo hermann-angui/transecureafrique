@@ -17,21 +17,21 @@ security:
 #            pattern: ^/admin
 #            security: true
             lazy: true
-#            custom_authenticator: App\Security\FormLoginAuthenticator
-#            logout:
-#                path: admin_logout
-                # where to redirect after logout
-#                target: admin_login
+            custom_authenticator: App\Security\FormLoginAuthenticator
+            logout:
+                path: admin_logout
+            #     where to redirect after logout
+                target: admin_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-#    role_hierarchy:
-#        id:
-#            - ROLE_USER
-#            - ROLE_DISTRICT
-#            - ROLE_USERADMIN
+    role_hierarchy:
+        id:
+            - ROLE_USER
+            - ROLE_DISTRICT
+            - ROLE_USERADMIN
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:

@@ -99,7 +99,7 @@
             height: 48px;
             background-color: #f9f9f9;
             border-radius: 3px;
-            border: 1px solid #b2b2b2;
+            border: 1px solid #d7d7d7;
             box-shadow: none;
         }
 
@@ -107,6 +107,23 @@
             min-height: 500px;
             background: rgb(252,114,0);
             background: linear-gradient(40deg, rgba(252,114,0,1) 9%, rgba(244,130,0,0.8855917366946778) 17%, rgba(255,255,255,0.3701855742296919) 37%, rgba(255,255,255,0.4650542664670658) 73%, rgba(62,146,60,0.9398113905325444) 85%, rgba(4,113,2,1) 95%);
+        }
+
+        @media (max-width: 575.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
+        }
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
         }
 
         #left-wrapper{
@@ -143,14 +160,14 @@
             color: #fff;
             font-size: 25px;
             font-weight: bolder;
-            border: 1px solid #5e5e5e;
+            border: 1px solid #e5e5e5;
             border-radius: 0;
         }
 
         #left-wrapper .input:focus,
         #left-wrapper .input:focus-visible,
         #left-wrapper .input:focus-within{
-            border: 1px solid #888888;
+            border: 1px solid #e7e7e7;
         }
 
         #left-wrapper hr{
@@ -370,17 +387,6 @@
                                         <input type="text" name="numero_d_immatriculation_precedent" id="numero_d_immatriculation_precedent" class="input"/>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <div class="d-flex">
-                                        <div class="small px-2">Signature et cachet de l'autorité</div>
-                                        <div style="border-left: 2px solid #000; padding-left:5px;">Cette carte est strictement personnelle elle doit être présentée<br> à tout controle</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-5">
-                                <div style="background-repeat: no-repeat; background-image: url({{ asset('frontend/assets/img/stamp.jpg') }}); height:150px; width:75%"></div>
                             </div>
                         </div>
                     </div>

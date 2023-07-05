@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Macaron;
 use App\Helper\FileUploadHelper;
 use App\Repository\DemandeRepository;
+use App\Repository\MacaronRepository;
+use App\Repository\PaymentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +17,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class PageController extends AbstractController
 {
     #[Route(path: '', name: 'admin_index')]
-    public function index(Request $request, DemandeRepository $demandeRepository): Response
+    public function index(Request $request,
+                          PaymentRepository $paymentRepository,
+                          MacaronRepository $macaronRepository): Response
     {
-        return $this->render('admin/pages/index.html.twig');
+        if(!in_array("USER_DISTRICT", $this->getUser()->getRoles())){
+            return $this->redirectToRoute('admin_district_index');
+        }
+        if(!in_array("USER_SUPER_ADMIN", $this->getUser()->getRoles())){
+            return $this->redirectToRoute('admin_demande_index');
+        }
+        $stats = [
+            "macarons" => $macaronRepository->count([]),
+            "demandes" => $paymentRepository->count([]),
+            "daily" => $paymentRepository->findTotalDaily(),
+            "weekly" => $paymentRepository->findTotalWeekly(),
+        ];
+        return $this->render('admin/pages/index.html.twig', ["stats"=> $stats]);
     }
 
     #[Route('/upload/carte_grise', name: 'admin_upload_carte_grise', methods: ['GET', 'POST'])]

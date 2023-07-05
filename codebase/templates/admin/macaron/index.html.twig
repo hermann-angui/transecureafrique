@@ -32,8 +32,8 @@
                                 <h4 class="mb-sm-0 font-size-18">PAIEMENTS</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{path('admin_payment_index')}}">Accueil</a></li>
-                                        <li class="breadcrumb-item active">Liste des paiements</li>
+                                        <li class="breadcrumb-item"><a href="{{path('admin_macaron_index')}}">Accueil</a></li>
+                                        <li class="breadcrumb-item active">Liste des macarons</li>
                                     </ol>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                     <div class="d-flex align-items-center">
                                         <h5 class="mb-0 card-title flex-grow-1"></h5>
                                         <div class="flex-shrink-0">
-                                            <a href="{{ path('admin_macaron_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Télécharger</a>
+{#                                            <a href="{{ path('admin_macaron_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Télécharger</a>#}
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{ path('admin_payment_dt') }}',
+                    "url": '{{ path('admin_macaron_dt') }}',
                     "data": function (d) {
                         d.numero_chassis = $("#reference").val();
                     }
@@ -125,11 +125,11 @@
                         "defaultContent": ""
                     },
                     { "data": "reference" },
-                    { "data": "montant" },
+                    { "data": "numero_telephone_proprietaire" },
                     { "data": "status" },
-                    { "data": "operateur" },
-                    { "data": "code_payment_operateur" },
-                    { "data": "receipt_number" },
+                    { "data": "macaron_qrcode_number" },
+                    { "data": "validity_to" },
+                    { "data": "validity_from" },
                     { "data": "" }
                 ],
                 "order": [[1, 'asc']]

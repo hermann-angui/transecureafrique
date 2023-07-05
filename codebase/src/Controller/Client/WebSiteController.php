@@ -4,6 +4,7 @@ namespace App\Controller\Client;
 
 use App\Dtos\OtpRequest;
 use App\Repository\DemandeRepository;
+use App\Repository\MacaronRepository;
 use App\Repository\OtpCodeRepository;
 use App\Repository\PaymentRepository;
 use App\Service\Otp\OtpService;
@@ -25,13 +26,13 @@ class WebSiteController extends AbstractController
     #[Route(path: '/check/{macaron_qr_code_number}', name: 'check_macaron')]
     public function checkMacaron($macaron_qr_code_number,
                                  Request $request,
-                                 DemandeRepository $demandeRepository): Response
+                                 MacaronRepository $macaronRepository): Response
     {
-        $demande = $demandeRepository->findOneBy(["macaron_qrcode_number" => $macaron_qr_code_number]);
+        $macaron = $macaronRepository->findOneBy(["macaron_qrcode_number" => $macaron_qr_code_number]);
      //   if($demande?->getMacaron()){
-        if($demande){
+        if($macaron){
             $valid = "valid";
-            return $this->render("admin/macaron/check.html.twig", ["valid" => $valid, "demande" => $demande]);
+            return $this->render("admin/macaron/check.html.twig", ["valid" => $valid, "demande" => $macaron->getDemande()]);
         }
         return $this->render("admin/macaron/check.html.twig");
     }

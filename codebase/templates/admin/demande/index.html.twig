@@ -52,7 +52,7 @@
                                 <h4 class="mb-sm-0 font-size-18">Demande de macaron</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ path('admin_index') }}">Accueil</a></li>
                                         <li class="breadcrumb-item active">Liste des demandes</li>
                                     </ol>
                                 </div>
@@ -66,7 +66,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total Macarons en circulation</p>
-                                            <h4 class="mb-0">1235</h4>
+                                            <h4 class="mb-0">{{ stats.macarons }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -86,7 +86,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Total des demandes</p>
-                                            <h4 class="mb-0">35723</h4>
+                                            <h4 class="mb-0">{{ stats.demandes }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -106,7 +106,7 @@
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-muted fw-medium">Demandes du jour</p>
-                                            <h4 class="mb-0">162</h4>
+                                            <h4 class="mb-0">{{ stats.daily }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
@@ -125,8 +125,8 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Demandes du jour</p>
-                                            <h4 class="mb-0">162</h4>
+                                            <p class="text-muted fw-medium">Demandes hebdomadaires</p>
+                                            <h4 class="mb-0">{{ stats.weekly }}</h4>
                                         </div>
 
                                         <div class="flex-shrink-0 align-self-center">
