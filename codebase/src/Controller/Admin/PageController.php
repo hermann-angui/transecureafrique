@@ -21,12 +21,12 @@ class PageController extends AbstractController
                           PaymentRepository $paymentRepository,
                           MacaronRepository $macaronRepository): Response
     {
-        if(!in_array("USER_DISTRICT", $this->getUser()->getRoles())){
-            return $this->redirectToRoute('admin_district_index');
-        }
-        if(!in_array("USER_SUPER_ADMIN", $this->getUser()->getRoles())){
-            return $this->redirectToRoute('admin_demande_index');
-        }
+//        if(!in_array("USER_DISTRICT", $this->getUser()?->getRoles())){
+//            return $this->redirectToRoute('admin_district_index');
+//        }
+//        if(!in_array("USER_SUPER_ADMIN", $this->getUser()->getRoles())){
+//            return $this->redirectToRoute('admin_demande_index');
+//        }
         $stats = [
             "macarons" => $macaronRepository->count([]),
             "demandes" => $paymentRepository->count([]),
