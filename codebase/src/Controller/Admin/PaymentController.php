@@ -146,11 +146,7 @@ class PaymentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $payment->setStatus( $payment->getStatus());
-            $payment->setReference( $payment->getReference());
-            $payment->setMontant( $payment->getMontant());
-            $paymentService->storePayment($payment);
-
+            $paymentService->store($payment);
             return $this->redirectToRoute('admin_payment_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -164,12 +160,12 @@ class PaymentController extends AbstractController
     public function delete(Request $request, Payment $payment, PaymentRepository $paymentRepository): Response
     {
         if ( true /* $this->isCsrfTokenValid('delete'.$payment->getId(), $request->request->get('_token')) */ ) {
-            $paymentRepository->remove($payment, true);
-            $fileName = "/var/www/html/public/payment/" . $payment->getNumeroVinChassis() . "/";
+            $fileName = "/var/www/html/public/frontend/media/" . $payment->getReceiptNumber() . "_receipt.pdf";
             if(file_exists($fileName)) {
                 $fs =  new Filesystem();
                 $fs->remove($fileName);
             }
+            $paymentRepository->remove($payment, true);
         }
         return $this->redirectToRoute('admin_payment_index', [], Response::HTTP_SEE_OTHER);
     }

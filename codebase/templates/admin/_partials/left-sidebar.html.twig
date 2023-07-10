@@ -20,11 +20,9 @@
                     </a>
                     <ul class="sub-sub-menu mm-collapse" aria-expanded="false">
                         <li><a href="{{ path('admin_demande_index') }}" key="t-u">Demandes</a></li>
+                        <li><a href="{{ path('admin_payment_index') }}" key="t-u">Paiements</a></li>
                         <li><a href="{{ path('admin_macaron_index') }}" key="t-u">Macarons</a></li>
-                        {% if is_granted('ROLE_SUPERADMIN') %}
-                            <li><a href="{{ path('admin_payment_index') }}" key="t-u">Paiements</a></li>
-                            <li><a href="{{ path('admin_district_index') }}" key="t-u">Espace district</a></li>
-                        {% endif %}
+                        <li><a href="{{ path('admin_district_index') }}" key="t-u">Espace district</a></li>
                     </ul>
                 </li>
                 <li class="menu-title">Paramètres</li>

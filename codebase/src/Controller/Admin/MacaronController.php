@@ -49,8 +49,8 @@ class MacaronController extends AbstractController
             $macaron->setStatus("COMPLETED");
             $macaron->setDemande($demande);
             $macaron->setNumeroTelephoneProprietaire($demande->getNumeroTelephoneProprietaire());
-            $macaron->setValidityTo(new \DateTime());
-            $macaron->setValidityFrom(new \DateTime('last day of December this year'));
+            $macaron->setValidityFrom(new \DateTime());
+            $macaron->setValidityTo(new \DateTime('last day of December this year'));
             $macaron->setCreatedAt(new \DateTime());
             $macaron->setModifiedAt(new \DateTime());
             $macaronRepository->add($macaron, true);
@@ -170,11 +170,7 @@ class MacaronController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $macaron->setStatus( $macaron->getStatus());
-            $macaron->setReference( $macaron->getCompany());
-            $macaron->setMontant( $macaron->getTitre());
-            $macaronService->storeMacaron($macaron);
-
+            $macaronService->store($macaron);
             return $this->redirectToRoute('admin_macaron_index', [], Response::HTTP_SEE_OTHER);
         }
 

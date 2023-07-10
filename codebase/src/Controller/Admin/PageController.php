@@ -7,6 +7,7 @@ use App\Helper\FileUploadHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
 use App\Repository\PaymentRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,16 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PageController extends AbstractController
 {
     #[Route(path: '', name: 'admin_index')]
+    #[Security()]
     public function index(Request $request,
                           PaymentRepository $paymentRepository,
                           MacaronRepository $macaronRepository): Response
     {
-//        if(!in_array("USER_DISTRICT", $this->getUser()?->getRoles())){
-//            return $this->redirectToRoute('admin_district_index');
-//        }
-//        if(!in_array("USER_SUPER_ADMIN", $this->getUser()->getRoles())){
-//            return $this->redirectToRoute('admin_demande_index');
-//        }
         $stats = [
             "macarons" => $macaronRepository->count([]),
             "demandes" => $paymentRepository->count([]),

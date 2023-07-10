@@ -37,9 +37,7 @@ class DemandeService
     public function create(array $data): Demande|array|null
     {
         try{
-
             // Rechercher si existant avec carte grise, recepisse, immatriculation
-
             $demande = new Demande();
             $demande->setReference($this->generateReference());
             if (array_key_exists("numero_carte_grise", $data)) $demande->setNumeroCarteGrise(strtoupper(trim($data["numero_carte_grise"])));
@@ -109,6 +107,7 @@ class DemandeService
                 }
             }
             */
+
             $this->demandeRepository->add($demande, true);
             return $demande;
         }catch (UniqueConstraintViolationException $e){

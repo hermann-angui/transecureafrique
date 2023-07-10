@@ -25,4 +25,8 @@ class MacaronService
     {
         return $this->macaronRepository->count([]);
     }
+
+    public function store(Macaron $macaron){
+        $this->macaronRepository->add($macaron);
+    }
 }

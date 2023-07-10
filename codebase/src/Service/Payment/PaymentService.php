@@ -66,7 +66,7 @@ class PaymentService
      * @param Payment $payment
      * @return void
      */
-    public function save(Payment $payment): void
+    public function store(Payment $payment): void
     {
          $this->paymentRepository->add($payment, true);
     }

@@ -27,6 +27,19 @@
             <div class="page-content">
                 <div class="container-fluid">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">MACARONS</h4>
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="{{path('admin_macaron_index')}}">Accueil</a></li>
+                                        <li class="breadcrumb-item active">Fiche détails du macaron</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body border-bottom">
@@ -36,12 +49,16 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Fiche paiement : &nbsp;&nbsp;<strong class="badge bg-gradient bg-info">{{ payment.id }}</strong></h4>
-                                    <table class="table table-bordered px-5 w-75">
+                                    <h4 class="card-title mb-4">Fiche Macaron : &nbsp;&nbsp;<strong class="badge bg-gradient bg-info">{{ macaron.id }}</strong></h4>
+                                    <table class="table table-bordered px-5 w-75 fs-4">
                                         <tbody>
                                         <tr>
                                             <th style="width: 30%">Référence</th>
-                                            <td>{{ payment.reference }}</td>
+                                            <td>{{ macaron.reference }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 30%">Code QR</th>
+                                            <td>{{ macaron.MacaronQrcodeNumber }}</td>
                                         </tr>
                                         <tr>
                                             <th>Numéro reçu</th>
@@ -56,14 +73,26 @@
                                             <td>{{ payment.Montant }}</td>
                                         </tr>
 
+                                        <tr>
+                                            <th style="width: 30%">Date d'émission </th>
+                                            <td>{{ macaron.ValidityFrom | date('d/m/Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 30%">Expire le</th>
+                                            <td>{{ macaron.ValidityTo | date('d/m/Y') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width: 30%">Tel propriétaire</th>
+                                            <td>{{ macaron.NumeroTelephoneProprietaire }}</td>
+                                        </tr>
 
                                         <tr>
                                             <th>Opérateur</th>
                                             <td>{{ payment.Operateur }}</td>
                                         </tr>
                                         <tr>
-                                            <th>Date paiement</th>
-                                            <td>{{ payment.CreatedAt|date('d/m/Y') }}</td>
+                                            <th>Date d'enregistrement</th>
+                                            <td>{{ macaron.CreatedAt|date('d/m/Y') }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
