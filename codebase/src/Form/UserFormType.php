@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -49,6 +51,24 @@ class UserFormType extends AbstractType
                 'label' => 'Email',
                 'mapped' => true,
                 'required' => true
+            ])
+            ->add('photo', FileType::class, [
+                'label' => 'Photo',
+                'mapped' => true,
+                'required' => false
+            ])
+            ->add('role', ChoiceType::class, [
+                'label' => 'Role',
+                'mapped' => false,
+                'required' => false,
+                'choices' => [
+                    "AGENT" => "ROLE_AGENT",
+                    "DISTRICT" => "ROLE_DISTRICT",
+                    "ADMININISTRATEUR" => "ROLE_ADMIN",
+                    "SUPER ADMINISTRATEUR" => "ROLE_SUPER_ADMIN",
+                ],
+                'empty_data' => null,
+                'data' => null,
             ])
             ->add('password', RepeatedType::class, [
                 'label' => 'Mot de passe',

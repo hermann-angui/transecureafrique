@@ -27,7 +27,7 @@ class UserHelper implements AssetHelperInterface
     {
         try {
             if(!$destDirectory) return null;
-            $path = $this->uploadDirectory . "/public/users/" . $destDirectory . "/" ;
+            $path = $this->uploadDirectory . "/public/backend/users/" . $destDirectory . "/" ;
             if (!file_exists($path)) mkdir($path, 0777, true);
             return $path;
         } catch (\Exception $e) {

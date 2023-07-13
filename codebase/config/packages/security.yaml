@@ -14,33 +14,25 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            #            pattern: ^/admin
-            #            security: true
+            pattern: ^/admin
+            security: true
             lazy: true
             custom_authenticator: App\Security\FormLoginAuthenticator
             logout:
                 path: admin_logout
-                #     where to redirect after logout
+                # where to redirect after logout
                 target: admin_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-#    role_hierarchy:
-#        id:
-#            - ROLE_USER
-#            - ROLE_DISTRICT
-#            - ROLE_USERADMIN
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-#        - { path: ^(?!/admin/login), roles: PUBLIC_ACCESS }
-#        - { path: /admin/district, roles: ROLE_DISTRICT }
-#        - { path: ^(?!/admin/register|/admin/macaron|/admin/setting), roles: ROLE_USER }
-#         - { path: ^(?!/(admin/login)), roles: ROLE_USER }
-        - { path: ^(/(admin/login)), roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USER }
+        #       - { path: ^/admin, roles: ROLE_USER }
+        - { path: ^(?!/(admin/login|admin/register|reset-password)), roles: ROLE_USER }
 when@test:
     security:
         password_hashers:

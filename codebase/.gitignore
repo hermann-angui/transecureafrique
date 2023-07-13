@@ -12,6 +12,7 @@
 /public/users/
 /public/media/*
 /public/frontend/media
+/public/backend/users
 public/uploads/*
 public/members/
 ###< symfony/framework-bundle ###

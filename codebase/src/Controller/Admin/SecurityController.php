@@ -56,13 +56,35 @@ class SecurityController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-            $user->setRoles(['ROLE_USER']);
+
+
+            $roles[] = 'ROLE_USER';
+
+            switch($form->get('role')->getData()){
+                case 'ROLE_AGENT':
+                    break;
+                case 'ROLE_ADMIN':
+                    $roles[] = 'ROLE_ADMIN';
+                    break;
+                case 'ROLE_SUPER_ADMIN':
+                    $roles[] = 'ROLE_ADMIN';
+                    break;
+                default:
+                    break;
+            }
+            $user->setRoles($roles);
             $user->setCreatedAt(new \DateTime());
             $user->setModifiedAt(new \DateTime());
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+
+            $photo = $form->get('photo')->getData();
+            if($photo){
+                $fileName = $userHelper->uploadAsset($photo, $user->getId());
+                if($fileName) $user->setPhoto($fileName);
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 

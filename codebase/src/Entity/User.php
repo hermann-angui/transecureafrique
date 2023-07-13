@@ -36,6 +36,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $lastname;
 
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $photo;
+
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $created_at;
 
@@ -225,6 +228,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastConnection(?\DateTime $last_connection): User
     {
         $this->last_connection = $last_connection;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string|null $photo
+     * @return User
+     */
+    public function setPhoto(?string $photo): User
+    {
+        $this->photo = $photo;
         return $this;
     }
 

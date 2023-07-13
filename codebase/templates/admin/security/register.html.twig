@@ -4,6 +4,9 @@
 
 {% block stylesheet %}
     {{ parent() }}
+    <style>
+
+    </style>
 {% endblock %}
 
 
@@ -30,12 +33,24 @@
                                             {{ error.messageKey|trans(error.messageData, 'security') }}
                                         </div>
                                     {% endif %}
+                                <div class="row mb-3">
+                                    <div class="d-flex justify-content-center">
+                                        <label for="user_form_photo" class="d-block d-flex justify-content-center align-content-center">
+                                            <div>
+                                                <img id="imagePreview" src="{{ asset('frontend/assets/img/avatar/avatar.jpg') }}" alt="" width="100" class="rounded-circle">
+                                                <span class="d-block position-relative text-white" style="top:-40px;left:32px"><i class="mdi mdi-camera mdi-36px"></i></span>
+                                                {{ form_widget(registrationForm.photo, {'attr': {'class': 'visually-hidden'}}) }}
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
                                 {{ form_row(registrationForm.lastname) }}
                                 {{ form_row(registrationForm.firstname) }}
                                 {{ form_row(registrationForm.email, {'attr': {'class': 'required'}}) }}
+                                {{ form_row(registrationForm.role) }}
                                 {{ form_widget(registrationForm.password , {'attr': {'class': 'required'}}) }}
                                 {{ form_row(registrationForm.agreeTerms, {'attr': {'class': ' required'}}) }}
-                                <div class="mt-4 col-md-7">
+                                <div class="mt-4 d-flex justify-content-center">
                                     <input type="submit" value="Créer mon compte" class="btn btn-warning" id="btn-register">
                                 </div>
                                 {{ form_end(registrationForm) }}
@@ -53,6 +68,17 @@
 {{ parent() }}
   <script>
       $('document').ready(function() {
+
+          $("#user_form_photo").change(function(data){
+              var imageFile = data.target.files[0];
+              var reader = new FileReader();
+              reader.readAsDataURL(imageFile);
+
+              reader.onload = function(evt){
+                  $('#imagePreview').attr('src', evt.target.result);
+                  $('#imagePreview').fadeIn(650);
+              }
+          });
       });
 
   </script>
