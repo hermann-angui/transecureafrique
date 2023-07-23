@@ -45,7 +45,7 @@ class PaymentService
      */
     public function generateReceipt(?Payment $payment, string $viewTemplate)
     {
-        try{
+        try {
             $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $payment->getReceiptNumber();
             $content = $this->pdfGenerator->generateBarCode($qrCodeData, 50, 50);
             $folder = self::MEDIA_DIR . $payment->getReceiptNumber();
@@ -59,7 +59,6 @@ class PaymentService
             if(file_exists($folder . "_receipt.pdf")) \unlink($folder . "_receipt.pdf");
             return null;
         }
-
     }
 
     /**
