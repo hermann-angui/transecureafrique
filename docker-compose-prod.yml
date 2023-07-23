@@ -93,7 +93,7 @@ services:
     depends_on:
       - db
     environment:
-      - APP_ENV=dev
+      - APP_ENV=prod
       - TZ=Africa/Abidjan
       - DATABASE_URL=mysql://root:QT6e5APtSYaU@db:3306/sfp_macaron_db?serverVersion=14
     volumes:
