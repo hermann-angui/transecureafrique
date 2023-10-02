@@ -12,7 +12,7 @@ class PaymentService
 {
     private const WEBSITE_URL = "https://transecureafrica.com";
     private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
-    private const MONTANT = 100;
+    private const MONTANT = 10100;
 
     public function __construct(
         private PdfGenerator     $pdfGenerator,
