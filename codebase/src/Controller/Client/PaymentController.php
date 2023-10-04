@@ -31,6 +31,8 @@ class PaymentController extends AbstractController
         }
 
         $response = $waveService->makePayment($payment);
+
+        die;
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());

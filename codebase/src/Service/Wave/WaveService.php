@@ -47,6 +47,7 @@ class WaveService
             } else {
                 # You can now decode the response and use the checkout session. Happy coding ;)
                 $checkout_session = json_decode($response, true);
+                dump($checkout_session);
                 $waveResponse = new WaveCheckoutResponse();
 
                 $waveResponse->setAmount($checkout_session["amount"])
