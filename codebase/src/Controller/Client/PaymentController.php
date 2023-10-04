@@ -45,6 +45,7 @@ class PaymentController extends AbstractController
     #[Route(path: '/wave', name: 'wave_payment_checkout_webhook')]
     public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository, DemandeRepository $demandeRepository,): Response
     {
+        $path = "/var/www/html/var/log";
         $payload =  json_decode($request->getContent(), true);
         if(!empty($payload) && array_key_exists("data", $payload)) {
             $data =  $payload['data'];
@@ -66,6 +67,17 @@ class PaymentController extends AbstractController
                 }
             }
         }
+
+        try{
+
+            if(!file_exists($path)) {
+                mkdir($path, 0777, true);
+                file_put_contents($path . "/wave_payment_checkout_webhook" . date("YmdH:i:s") . ".log", $request->getContent());
+            }
+        }catch(\Exception $e){
+            return $this->json($payload);
+        }
+
         return $this->json($payload);
     }
 
@@ -74,7 +86,7 @@ class PaymentController extends AbstractController
                                                       PaymentRepository $paymentRepository): Response
     {
         $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
-        if ($payment && strtoupper(trim($status)) === "SUCCESS") {
+        if ($payment && (strtoupper(trim($status)) === "SUCCESS")) {
             return $this->redirectToRoute('demande_display_receipt', [
                 "id" => $payment->getId(),
                 "status" => $status]

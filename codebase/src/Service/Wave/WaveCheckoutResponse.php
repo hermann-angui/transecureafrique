@@ -10,11 +10,11 @@ final class WaveCheckoutResponse
     private string $amount;
 
     private string $currency;
-    private string $checkout_status;
-    private string $client_reference;
-    private string $last_payment_error;
-    private string $payment_status;
-    private string $transaction_id ;
+    private ?string $checkout_status;
+    private ?string $client_reference;
+    private ?string $last_payment_error;
+    private ?string $payment_status;
+    private ?string $transaction_id ;
     private \DateTime $when_completed;
     private \DateTime $when_created;
     private \DateTime $when_expires;
