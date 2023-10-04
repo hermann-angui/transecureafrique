@@ -30,13 +30,13 @@ class Payment
     private ?string $type = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $status;
+    private ?string $status;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $operateur;
+    private ?string $operateur;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $code_payment_operateur;
+    private ?string $code_payment_operateur;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $created_at;
@@ -149,45 +149,45 @@ class Payment
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getStatus()
+    public function getStatus() : ?string
     {
         return $this->status;
     }
 
     /**
-     * @param mixed $status
+     * @param ?string $status
      * @return Payment
      */
-    public function setStatus($status)
+    public function setStatus(?string $status)
     {
         $this->status = $status;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getOperateur()
+    public function getOperateur() : ?string
     {
         return $this->operateur;
     }
 
     /**
-     * @param mixed $operateur
+     * @param string $operateur
      * @return Payment
      */
-    public function setOperateur($operateur)
+    public function setOperateur(?string $operateur)
     {
         $this->operateur = $operateur;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCodePaymentOperateur()
+    public function getCodePaymentOperateur() : ?string
     {
         return $this->code_payment_operateur;
     }
@@ -196,7 +196,7 @@ class Payment
      * @param mixed $code_payment_operateur
      * @return Payment
      */
-    public function setCodePaymentOperateur($code_payment_operateur)
+    public function setCodePaymentOperateur(?string $code_payment_operateur)
     {
         $this->code_payment_operateur = $code_payment_operateur;
         return $this;
