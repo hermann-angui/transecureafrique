@@ -50,7 +50,7 @@ class PaymentController extends AbstractController
         try{
             if(!file_exists($path)) {
                 mkdir($path, 0777, true);
-                file_put_contents($path . "/wave_payment_callback_$status" . date("YmdH:i:s") . ".log", $request->get("ref"));
+                file_put_contents($path . "/wave_payment_callback_$status/" . date("YmdH:i:s") . ".log", $request->get("ref"));
             }
         }catch(\Exception $e){
 
