@@ -60,7 +60,7 @@ class WaveService
                             ->setWhenExpires(new \DateTime($checkout_session["when_expires"]))
                             ->setWaveLaunchUrl($checkout_session["wave_launch_url"]);
 
-               if(array_key_exists("transaction_id", $checkout_session) && isset($checkout_session['transaction_id'])) $waveResponse->setTransactionId($checkout_session["transaction_id"]);
+             //  if(array_key_exists("transaction_id", $checkout_session) && isset($checkout_session['transaction_id'])) $waveResponse->setTransactionId($checkout_session["transaction_id"]);
                 return $waveResponse;
            }
         }catch(\Exception $e){
