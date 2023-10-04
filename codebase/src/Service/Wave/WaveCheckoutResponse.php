@@ -14,6 +14,7 @@ final class WaveCheckoutResponse
     private string $client_reference;
     private string $last_payment_error;
     private string $payment_status;
+    private string $transaction_id ;
     private \DateTime $when_completed;
     private \DateTime $when_created;
     private \DateTime $when_expires;
@@ -217,5 +218,22 @@ final class WaveCheckoutResponse
         $this->when_expires = $when_expires;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTransactionId(): ?string
+    {
+        return $this->transaction_id;
+    }
+
+    /**
+     * @param string $transaction_id
+     */
+    public function setTransactionId(?string $transaction_id): void
+    {
+        $this->transaction_id = $transaction_id;
+    }
+
 
 }

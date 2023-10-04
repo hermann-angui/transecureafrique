@@ -58,7 +58,8 @@ class WaveService
                             ->setWhenCreated(new \DateTime($checkout_session["when_created"]))
                             ->setWhenCompleted(new \DateTime($checkout_session["when_completed"]))
                             ->setWhenExpires(new \DateTime($checkout_session["when_expires"]))
-                            ->setWaveLaunchUrl($checkout_session["wave_launch_url"]);
+                            ->setWaveLaunchUrl($checkout_session["wave_launch_url"])
+                            ->setTransactionId($checkout_session["transaction_id"]);
                 return $waveResponse;
            }
         }catch(\Exception $e){

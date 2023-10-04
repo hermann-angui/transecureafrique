@@ -34,6 +34,7 @@ class PaymentController extends AbstractController
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());
             $payment->setMontant($response->getAmount());
+            $payment->setCodePaymentOperateur($response->getTransactionId());
             $payment->setType("MOBILE_MONEY");
             $paymentRepository->add($payment, true);
             return $this->redirect($response->getWaveLaunchUrl());
@@ -52,10 +53,8 @@ class PaymentController extends AbstractController
                 if ($payment) {
                     $payment->setStatus(strtoupper($data["payment_status"]));
                     $payment->setMontant($data["amount"]);
-                    $payment->setCodePaymentOperateur(trim($data["transaction_id"]));
                     $payment->setModifiedAt(new \DateTime());
                     $paymentRepository->add($payment, true);
-
                     if(array_key_exists("payment_status", $data)){
                         if(strtoupper($data["payment_status"]) === "SUCCEEDED"){
                             $demande = $payment->getDemande();
