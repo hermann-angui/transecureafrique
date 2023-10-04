@@ -22,7 +22,7 @@ class PaymentController extends AbstractController
     {
         $status = strtoupper($payment->getStatus());
 
-        if(in_array($status, ["SUCCEEDED","PROCESSING"])) {
+        if(in_array($status, ["SUCCEEDED"])) {
             $status = "success";
             return $this->redirectToRoute('demande_display_receipt', [
                     "id" => $payment->getId(),
