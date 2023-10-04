@@ -42,6 +42,31 @@ class PaymentController extends AbstractController
         else return $this->redirectToRoute('home');
     }
 
+    #[Route(path: '/wave/checkout/{status}', name: 'wave_payment_callback')]
+    public function wavePaymentCheckoutStatusCallback($status, Request $request,
+                                                      PaymentRepository $paymentRepository): Response
+    {
+        $path = "/var/www/html/var/log";
+        try{
+            if(!file_exists($path)) {
+                mkdir($path, 0777, true);
+                file_put_contents($path . "/wave_payment_callback_$status" . date("YmdH:i:s") . ".log", $request->get("ref"));
+            }
+        }catch(\Exception $e){
+
+        }
+
+        $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
+        if ($payment && (strtoupper(trim($status)) === "SUCCESS")) {
+            return $this->redirectToRoute('demande_display_receipt', [
+                    "id" => $payment->getId(),
+                    "status" => $status]
+            );
+        }else{
+            return $this->redirectToRoute('home');
+        }
+    }
+
     #[Route(path: '/wave', name: 'wave_payment_checkout_webhook')]
     public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository, DemandeRepository $demandeRepository,): Response
     {
@@ -81,20 +106,7 @@ class PaymentController extends AbstractController
         return $this->json($payload);
     }
 
-    #[Route(path: '/wave/checkout/{status}', name: 'wave_payment_callback')]
-    public function wavePaymentCheckoutStatusCallback($status, Request $request,
-                                                      PaymentRepository $paymentRepository): Response
-    {
-        $payment = $paymentRepository->findOneBy(["reference" => $request->get("ref")]);
-        if ($payment && (strtoupper(trim($status)) === "SUCCESS")) {
-            return $this->redirectToRoute('demande_display_receipt', [
-                "id" => $payment->getId(),
-                "status" => $status]
-            );
-        }else{
-            return $this->redirectToRoute('home');
-        }
-    }
+
 
 
 }
