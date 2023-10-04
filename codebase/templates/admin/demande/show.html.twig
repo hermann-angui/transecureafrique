@@ -141,6 +141,15 @@
              font-size: 1.5em;
              font-weight: bold;
         }
+
+        body[data-topbar=dark] .app-search .form-control {
+            background-color: var(--bs-topbar-search-bg) !important;
+            color: #fff
+        }
+
+        body[data-topbar=dark] .app-search input.form-control::-webkit-input-placeholder, body[data-topbar=dark] .app-search span {
+            color: inherit;
+        }
     </style>
 {% endblock %}
 
@@ -151,49 +160,48 @@
 
         {{ include('admin/_partials/header.html.twig') }}
 
-        <!-- ========== Left Sidebar Start ========== -->
-{#        {{ include('admin/_partials/left-sidebar.html.twig')}}#}
-        <!-- Left Sidebar End -->
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content" style="margin-top:70px;">
+        <div class="main-content">
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-body border-bottom">
-                                <div class="d-flex justify-content-between">
-                                    <div class="flex-shrink-0">
-                                        <a href="{{ path('admin_demande_index') }}" class="btn-link"><span class="fa fa-long-arrow-alt-left fa-1x"></span> Revenir à la liste des demandes</a>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <a href="{{ path('admin_payment_show',{'id': demande.payment.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
+            <div class="page-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body border-bottom">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="flex-shrink-0">
+                                            <a href="{{ path('admin_demande_index') }}" class="btn-link"><span class="fa fa-long-arrow-alt-left fa-1x"></span> Revenir à la liste des demandes</a>
+                                        </div>
+                                        {% if demande.payment.id is defined %}
+                                        <div class="flex-shrink-0">
+                                            <a href="{{ path('admin_payment_show',{'id': demande.payment.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <h4 class="card-title mb-4">FICHE DEMANDE DE MACARON : <strong class="text-primary text-decoration-underline"> N° RECU : {{ demande.ReceiptNumber }}</strong></h4>
-                                    </div>
-                                    <div class="col-2">
-                                        <strong class="badge badge-pill bg-success font-size-15">{{ demande.Status }}</strong>
-                                    </div>
-                                    <div class="col-4">
-                                        DATE DU RENDEZ-VOUS: <strong class="badge badge-pill bg-info font-size-12"> {{ demande.DateRendezVous|date('d/m/Y') }}</strong>
-                                    </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            N° RECU : <strong class="badge badge-pill bg-info font-size-12"> {{ demande.ReceiptNumber ?? 'n/a' }}</strong>
+                                        </div>
+                                        <div class="col-2">
+                                            STATUT : <strong class="badge badge-pill bg-success font-size-15">{{ demande.Status ?? 'n/a' }}</strong>
+                                        </div>
+                                        <div class="col-4">
+                                            DATE DU RENDEZ-VOUS: <strong class="badge badge-pill bg-info font-size-12"> {{ demande.DateRendezVous|date('d/m/Y') }}</strong>
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="container-fluid d-flex m-auto">
+                <div class="container-fluid d-flex m-auto">
                     <div class="row d-flex m-auto">
                         <div class="col-xl-12 col-md-12">
                             <div class="card rounded rounded-3 shadow-sm">
@@ -213,272 +221,274 @@
                         </div>
                         <div class="col-xl-12 col-md-12">
                             {% if document == 'carte_grise' %}
-                            <div id="recto" class="card rounded rounded-3 shadow-sm">
-                                <div class="card-body row">
-                                    <div id="left-wrapper" class="col-lg-4 col-md-3 col-sm-6 text-white rounded-left rounded-start-4">
-                                        <div class="block mt-4">
-                                            <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
-                                            <a href="javascript: void(0);" id="numero_immatriculation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro d'immatriculation" class="editable editable-click"> {{ demande.NumeroImmatriculation }}</a>
-                                        </div>
-                                        <div class="block">
-                                            <label class="label-lg" for="numero_carte_grise">Numéro de Carte Grise<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
-                                            <a href="javascript: void(0);" id="numero_carte_grise" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de la carte grise" class="editable editable-click">{{ demande.NumeroCarteGrise }}</a>
-                                        </div>
-                                        <hr>
-                                        <div class="block">
-                                            <label class="label-sm" for="date_premire_mise_en_circulation">Date de 1ère mise en circulation</label>
-                                            <a href="javascript: void(0);" id="date_de_premiere_mise_en_cirulation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date de première mise en cirulation">{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}</a>
-                                        </div>
-                                        <hr>
-                                        <div class="block">
-                                            <label class="label-sm" for="date_d_edition">Date d'édition</label>
-                                            <a href="javascript: void(0);" id="date_d_edition" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDEdition|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date d'édition">{{ demande.DateDEdition|date('d/m/Y') }}</a></td>
-                                        </div>
-                                    </div>
-                                    <div id="right-wrapper" class="col-lg-8 col-md-8 col-sm-6">
-                                        <div class="row">
-                                            <div class="col-lg-2 col-md-2 col-sm-12">
-                                                <img src="{{ asset('frontend/assets/img/amoirie_1.png') }}" height="70" width="70" alt="armoirie"/>
+                                <div id="recto" class="card rounded rounded-3 shadow-sm">
+                                    <div class="card-body row">
+                                        <div id="left-wrapper" class="col-lg-4 col-md-3 col-sm-6 text-white rounded-left rounded-start-4">
+                                            <div class="block mt-4">
+                                                <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                                                <a href="javascript: void(0);" id="numero_immatriculation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro d'immatriculation" class="editable editable-click"> {{ demande.NumeroImmatriculation }}</a>
                                             </div>
-                                            <div class="col-lg-10 col-md-10 col-sm-12">
-                                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                                    <span class="font-size-12 fw-bolder lh-1">REPUBLIQUE DE COTE D'IVOIRE</span>
-                                                    <span class="font-size-12 fw-bolder">MINISTERE DES TRANSPORTS</span>
-                                                    <span class="fs-2 fw-bolder">CARTE GRISE</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="block">
-                                                <label class="label-sm" for="identite_proprietaire">Identité du propriètaire</label><br>
-                                                <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a><br>
-                                                <a href="javascript: void(0);" id="identite_proprietaire_piece" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire Piece" class="editable editable-click">{{ demande.IdentiteProprietairePiece }}</a>
+                                                <label class="label-lg" for="numero_carte_grise">Numéro de Carte Grise<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                                                <a href="javascript: void(0);" id="numero_carte_grise" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de la carte grise" class="editable editable-click">{{ demande.NumeroCarteGrise }}</a>
+                                            </div>
+                                            <hr>
+                                            <div class="block">
+                                                <label class="label-sm" for="date_premire_mise_en_circulation">Date de 1ère mise en circulation</label>
+                                                <a href="javascript: void(0);" id="date_de_premiere_mise_en_cirulation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date de première mise en cirulation">{{ demande.DateDePremiereMiseEnCirulation|date('d/m/Y') }}</a>
+                                            </div>
+                                            <hr>
+                                            <div class="block">
+                                                <label class="label-sm" for="date_d_edition">Date d'édition</label>
+                                                <a href="javascript: void(0);" id="date_d_edition" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDEdition|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Date d'édition">{{ demande.DateDEdition|date('d/m/Y') }}</a></td>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="block">
-                                                    <label class="label-sm" for="marque_du_vehicule">Marque</label>
-                                                    <a href="javascript: void(0);" id="marque_du_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Marque de vehicule" class="editable editable-click">{{ demande.MarqueDuVehicule }}</a>
+                                        <div id="right-wrapper" class="col-lg-8 col-md-8 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-2 col-sm-12">
+                                                    <img src="{{ asset('frontend/assets/img/amoirie_1.png') }}" height="70" width="70" alt="armoirie"/>
                                                 </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="type_commercial">Type commercial</label>
-                                                    <a href="javascript: void(0);" id="type_commercial" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.TypeCommercial }}</a>
-                                                </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="couleur_vehicule">Couleur</label>
-                                                    <a href="javascript: void(0);" id="couleur_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CouleurVehicule }}</a>
-                                                </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="carroserie_vehicule">Carroserie</label>
-                                                    <a href="javascript: void(0);" id="carroserie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CarroserieVehicule }}</a>
-                                                </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="energie_vehicule">Energie</label><br>
-                                                    <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-value="" data-title="Energie du véhicule">{{ demande.EnergieVehicule }}</a>
-                                                    {#                                                    <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-title="Energie de vehicule" class="editable editable-click">{{ demande.EnergieVehicule }}</a>#}
-                                                </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="identite_proprietaire">Places assises</label>
-                                                    <a href="javascript: void(0);" id="places_assises" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Paces assises" class="editable editable-click">{{ demande.PlacesAssises }}</a>
-                                                    <span>P.T.A.C (Kg)</span>
+                                                <div class="col-lg-10 col-md-10 col-sm-12">
+                                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                                        <span class="font-size-12 fw-bolder lh-1">REPUBLIQUE DE COTE D'IVOIRE</span>
+                                                        <span class="font-size-12 fw-bolder">MINISTERE DES TRANSPORTS</span>
+                                                        <span class="fs-2 fw-bolder">CARTE GRISE</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 d-flex flex-column justify-content-between">
+                                            <div class="row">
                                                 <div class="block">
-                                                    <label class="label-sm" for="genre_vehicule">Genre</label>
-                                                    <a href="javascript: void(0);" id="genre_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.GenreVehicule }}</a>
+                                                    <label class="label-sm" for="identite_proprietaire">Identité du propriètaire</label><br>
+                                                    <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a><br>
+                                                    <a href="javascript: void(0);" id="identite_proprietaire_piece" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Identite Proprietaire Piece" class="editable editable-click">{{ demande.IdentiteProprietairePiece }}</a>
                                                 </div>
-                                                <div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     <div class="block">
-                                                        <label class="label-sm" for="usage_vehicule">Usage du véhicule</label>
-                                                        <a href="javascript: void(0);" id="usage_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Usage de vehicule" class="editable editable-click">{{ demande.UsageVehicule }}</a>
+                                                        <label class="label-sm" for="marque_du_vehicule">Marque</label>
+                                                        <a href="javascript: void(0);" id="marque_du_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Marque de vehicule" class="editable editable-click">{{ demande.MarqueDuVehicule }}</a>
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="type_commercial">Type commercial</label>
+                                                        <a href="javascript: void(0);" id="type_commercial" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.TypeCommercial }}</a>
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="couleur_vehicule">Couleur</label>
+                                                        <a href="javascript: void(0);" id="couleur_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CouleurVehicule }}</a>
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="carroserie_vehicule">Carroserie</label>
+                                                        <a href="javascript: void(0);" id="carroserie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CarroserieVehicule }}</a>
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="energie_vehicule">Energie</label><br>
+                                                        <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-value="" data-title="Energie du véhicule">{{ demande.EnergieVehicule }}</a>
+                                                        {#                                                    <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-title="Energie de vehicule" class="editable editable-click">{{ demande.EnergieVehicule }}</a>#}
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="identite_proprietaire">Places assises</label>
+                                                        <a href="javascript: void(0);" id="places_assises" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Paces assises" class="editable editable-click">{{ demande.PlacesAssises }}</a>
                                                         <span>P.T.A.C (Kg)</span>
                                                     </div>
+                                                </div>
+                                                <div class="col-md-4 d-flex flex-column justify-content-between">
                                                     <div class="block">
-                                                        <label class="label-sm" for="puissance_fiscale">Puissance fiscale (CV)</label>
-                                                        <a href="javascript: void(0);" id="puissance_fiscale" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Puissance fiscale" class="editable editable-click">{{ demande.PuissanceFiscale }}</a>
-                                                        <span>P.V (Kg)</span>
+                                                        <label class="label-sm" for="genre_vehicule">Genre</label>
+                                                        <a href="javascript: void(0);" id="genre_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.GenreVehicule }}</a>
+                                                    </div>
+                                                    <div>
+                                                        <div class="block">
+                                                            <label class="label-sm" for="usage_vehicule">Usage du véhicule</label>
+                                                            <a href="javascript: void(0);" id="usage_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Usage de vehicule" class="editable editable-click">{{ demande.UsageVehicule }}</a>
+                                                            <span>P.T.A.C (Kg)</span>
+                                                        </div>
+                                                        <div class="block">
+                                                            <label class="label-sm" for="puissance_fiscale">Puissance fiscale (CV)</label>
+                                                            <a href="javascript: void(0);" id="puissance_fiscale" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Puissance fiscale" class="editable editable-click">{{ demande.PuissanceFiscale }}</a>
+                                                            <span>P.V (Kg)</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4 d-flex flex-column justify-content-end">
+                                                    <div class="block">
+                                                        <label class="label-sm" for="nombre_d_essieux">Nombre d'essieux</label>
+                                                        <a href="javascript: void(0);" id="nombre_d_essieux" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.NombreDEssieux }}</a>
+                                                    </div>
+                                                    <div class="block">
+                                                        <label class="label-sm" for="cylindree">Cylindree (CV)</label>
+                                                        <a href="javascript: void(0);" id="cylindree" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.Cylindree }}</a>
+                                                        <span>C.U (Kg)</span>
                                                     </div>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-md-4 d-flex flex-column justify-content-end">
-                                                <div class="block">
-                                                    <label class="label-sm" for="nombre_d_essieux">Nombre d'essieux</label>
-                                                    <a href="javascript: void(0);" id="nombre_d_essieux" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.NombreDEssieux }}</a>
-                                                </div>
-                                                <div class="block">
-                                                    <label class="label-sm" for="cylindree">Cylindree (CV)</label>
-                                                    <a href="javascript: void(0);" id="cylindree" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Nombre essieux" class="editable editable-click">{{ demande.Cylindree }}</a>
-                                                    <span>C.U (Kg)</span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="verso" class="card rounded rounded-3 shadow-sm">
-                                <div class="card-body row">
-                                    <div class="row">
-                                        <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:40px; width:100%"></div>
-                                    </div>
-                                    <div class="row my-5">
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="block  mb-4">
-                                                <label class="label-sm" for="numero_vin_chassis">Numéro du vin/chassis<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label><br>
-                                                <a href="javascript: void(0);" id="numero_vin_chassis" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de chassis" class="editable editable-click"> {{ demande.NumeroVinChassis }}</a>
-                                            </div>
-                                            <div class="block  mb-4">
-                                                <label class="label-sm" for="societe_de_credit">Société de crédit</label><br>
-                                                <a href="javascript: void(0);" id="societe_de_credit" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer société de credit" class="editable editable-click"> {{ demande.SocieteDeCredit }}</a>
-                                            </div>
+                                <div id="verso" class="card rounded rounded-3 shadow-sm">
+                                    <div class="card-body row">
+                                        <div class="row">
+                                            <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:40px; width:100%"></div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="block mb-4">
-                                                <label class="label-sm" for="type_technique">Type technique</label>
-                                                <a href="javascript: void(0);" id="type_technique" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer type technique" class="editable editable-click"> {{ demande.TypeTechnique }}</a>
+                                        <div class="row my-5">
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <div class="block  mb-4">
+                                                    <label class="label-sm" for="numero_vin_chassis">Numéro du vin/chassis<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label><br>
+                                                    <a href="javascript: void(0);" id="numero_vin_chassis" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de chassis" class="editable editable-click"> {{ demande.NumeroVinChassis }}</a>
+                                                </div>
+                                                <div class="block  mb-4">
+                                                    <label class="label-sm" for="societe_de_credit">Société de crédit</label><br>
+                                                    <a href="javascript: void(0);" id="societe_de_credit" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer société de credit" class="editable editable-click"> {{ demande.SocieteDeCredit }}</a>
+                                                </div>
                                             </div>
-                                            <div class="block mb-4">
-                                                <label class="label-sm" for="numero_d_immatriculation_precedent">Numéro d'immatriculation précédent</label>
-                                                <a href="javascript: void(0);" id="numero_d_immatriculation_precedent" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer d'immatriculation precedent" class="editable editable-click"> {{ demande.NumeroDImmatriculationPrecedent }}</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-4 border-bottom border-1">
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
-                                            <div class="d-flex">
-                                                <div class="small px-2">Signature et cachet de l'autorité</div>
-                                                <div style="border-left: 2px solid #000; padding-left:5px;">Cette carte est strictement personnelle elle doit être présentée<br> à tout controle</div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                                <div class="block mb-4">
+                                                    <label class="label-sm" for="type_technique">Type technique</label>
+                                                    <a href="javascript: void(0);" id="type_technique" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer type technique" class="editable editable-click"> {{ demande.TypeTechnique }}</a>
+                                                </div>
+                                                <div class="block mb-4">
+                                                    <label class="label-sm" for="numero_d_immatriculation_precedent">Numéro d'immatriculation précédent</label>
+                                                    <a href="javascript: void(0);" id="numero_d_immatriculation_precedent" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer d'immatriculation precedent" class="editable editable-click"> {{ demande.NumeroDImmatriculationPrecedent }}</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row border-bottom border-1">
-                                        <div>Scan de la carte grise : </div>
-                                        <div class="mx-2">
-                                            <img src="{{ demande.carteGriseImage ? asset("frontend/media/") ~ demande.carteGriseImage : '' }}" width="150">
+                                        <div class="row mb-4 border-bottom border-1">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="d-flex">
+                                                    <div class="small px-2">Signature et cachet de l'autorité</div>
+                                                    <div style="border-left: 2px solid #000; padding-left:5px;">Cette carte est strictement personnelle elle doit être présentée<br> à tout controle</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="mx-5">
-                                            <input type="file" name="carte_grise_image" id="carte_grise_image" class="inputfile" />
-                                            <label for="carte_grise_image">Choisir une image</label>
-                                            <button class="ml-3 btn btn-link" id="carte_grise_image_btn">uploader</button>
+                                        <div class="row border-bottom border-1">
+                                            <div>Scan de la carte grise : </div>
+                                            <div class="mx-2">
+                                                <img src="{{ demande.carteGriseImage ? asset("frontend/media/") ~ demande.carteGriseImage : '' }}" width="150">
+                                            </div>
+                                            <div class="mx-5">
+                                                <input type="file" name="carte_grise_image" id="carte_grise_image" class="inputfile" />
+                                                <label for="carte_grise_image">Choisir une image</label>
+                                                <button class="ml-3 btn btn-link" id="carte_grise_image_btn">uploader</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row justify-content-center mt-5">
-                                        <button class="btn btn-dark w-50" id="generate_macaron">GENERER LE MACARON</button>
+                                        <div class="row justify-content-center mt-5">
+                                            <button class="btn btn-dark w-50" id="generate_macaron">GENERER LE MACARON</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             {% endif %}
                             {% if document == 'recepisse' %}
-                            <div class="card rounded rounded-3 shadow-sm">
-                                <div class="card-body row">
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-1 col-md-4">
-                                            M.
+                                <div class="card rounded rounded-3 shadow-sm">
+                                    <div class="card-body row">
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-1 col-md-4">
+                                                M.
+                                            </div>
+                                            <div class="col-xl-8 col-md-8">
+                                                <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer identité propriétaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-8 col-md-8">
-                                            <a href="javascript: void(0);" id="identite_proprietaire" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer identité propriétaire" class="editable editable-click">{{ demande.IdentiteProprietaire }}</a>
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-1 col-md-1">
+                                                Marque :
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                <a href="javascript: void(0);" id="marque_du_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Marque de vehicule" class="editable editable-click">{{ demande.MarqueDuVehicule }}</a>
+                                            </div>
+                                            <div class="col-xl-1 col-md-1">
+                                                Genre :
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                <a href="javascript: void(0);" id="genre_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.GenreVehicule }}</a>
+                                            </div>
+                                            <div class="col-xl-1 col-md-1">
+                                                Carosserie :
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                <a href="javascript: void(0);" id="carroserie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CarroserieVehicule }}</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-1 col-md-1">
-                                            Marque :
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-2 col-md-2">
+                                                Type :
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                <a href="javascript: void(0);" id="type_commercial" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.TypeCommercial }}</a>
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                Numéro de série (N° Chassis):
+                                            </div>
+                                            <div class="col-xl-4 col-md-4">
+                                                <a href="javascript: void(0);" id="numero_vin_chassis" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de chassis" class="editable editable-click">{{ demande.NumeroVinChassis }}</a>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            <a href="javascript: void(0);" id="marque_du_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Marque de vehicule" class="editable editable-click">{{ demande.MarqueDuVehicule }}</a>
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-2 col-md-2">
+                                                Source d'énergie :
+                                            </div>
+                                            <div class="col-xl-3 col-md-3">
+                                                <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-value="" data-title="Energie du véhicule">{{ demande.EnergieVehicule }}</a>
+                                            </div>
+                                            <div class="col-xl-2 col-md-2">
+                                                Nombre de places :
+                                            </div>
+                                            <div class="col-xl-2 col-md-2">
+                                                <a href="javascript: void(0);" id="places_assises" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Paces assises" class="editable editable-click">{{ demande.PlacesAssises }}</a>
+                                            </div>
+                                            <div class="col-xl-1 col-md-1">
+                                                Puissance :
+                                            </div>
+                                            <div class="col-xl-2 col-md-2">
+                                                <a href="javascript: void(0);" id="puissance_fiscale" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Puissance fiscale" class="editable editable-click">{{ demande.PuissanceFiscale }}</a>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-1 col-md-1">
-                                            Genre :
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-4 col-md-4">
+                                                Numéro de la série (N° Récépissé) :
+                                            </div>
+                                            <div class="col-xl-6 col-md-6">
+                                                <a href="javascript: void(0);" id="numero_recepisse" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Numéro de la série" class="editable editable-click">{{ demande.NumeroRecepisse }}</a>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            <a href="javascript: void(0);" id="genre_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.GenreVehicule }}</a>
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-3 col-md-3">
+                                                Le présent récépissé est délivré le :
+                                            </div>
+                                            <div class="col-xl-5 col-md-5">
+                                                <a href="javascript: void(0);" id="date_d_edition" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDEdition|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1" class="editable editable-click"  data-title="Date d'édition">{{ demande.DateDEdition|date('d/m/Y') }}</a></td>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-1 col-md-1">
-                                            Carosserie :
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div class="col-xl-2 col-md-2">
+                                                Numéro immatriculation :
+                                            </div>
+                                            <div class="col-xl-4 col-md-4">
+                                                <a href="javascript: void(0);" id="numero_immatriculation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro d'immatriculation" class="editable editable-click"> {{ demande.NumeroImmatriculation }}</a>
+                                            </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            <a href="javascript: void(0);" id="carroserie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Couleur de vehicule" class="editable editable-click">{{ demande.CarroserieVehicule }}</a>
+                                        <div class="row py-2 border-bottom border-1">
+                                            <div> Scan du récépissé : </div>
+                                            <div class="mx-2">
+                                                <img src="{{ demande.recepisseImage ? asset("frontend/media/") ~ demande.recepisseImage : '' }}" width="150">
+                                            </div>
+                                            <div class="mx-5">
+                                                <input type="file" name="recepisse_image" id="recepisse_image" class="inputfile" />
+                                                <label for="recepisse_image">Choisir une image</label>
+                                                <button class="ml-3 btn btn-link" id="recepisse_image_btn">uploader</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-2 col-md-2">
-                                            Type :
+                                        <div class="row justify-content-center mt-5">
+                                            <button class="btn btn-dark w-50" id="generate_macaron">GENERER LE MACARON</button>
                                         </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            <a href="javascript: void(0);" id="type_commercial" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Genre de vehicule" class="editable editable-click">{{ demande.TypeCommercial }}</a>
-                                        </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            Numéro de série (N° Chassis):
-                                        </div>
-                                        <div class="col-xl-4 col-md-4">
-                                            <a href="javascript: void(0);" id="numero_vin_chassis" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro de chassis" class="editable editable-click">{{ demande.NumeroVinChassis }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-2 col-md-2">
-                                            Source d'énergie :
-                                        </div>
-                                        <div class="col-xl-3 col-md-3">
-                                            <a href="javascript: void(0);" id="energie_vehicule" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="select" data-pk="1" data-value="" data-title="Energie du véhicule">{{ demande.EnergieVehicule }}</a>
-                                        </div>
-                                        <div class="col-xl-2 col-md-2">
-                                            Nombre de places :
-                                        </div>
-                                        <div class="col-xl-2 col-md-2">
-                                            <a href="javascript: void(0);" id="places_assises" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Paces assises" class="editable editable-click">{{ demande.PlacesAssises }}</a>
-                                        </div>
-                                        <div class="col-xl-1 col-md-1">
-                                            Puissance :
-                                        </div>
-                                        <div class="col-xl-2 col-md-2">
-                                            <a href="javascript: void(0);" id="puissance_fiscale" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Puissance fiscale" class="editable editable-click">{{ demande.PuissanceFiscale }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-4 col-md-4">
-                                            Numéro de la série (N° Récépissé) :
-                                        </div>
-                                        <div class="col-xl-6 col-md-6">
-                                            <a href="javascript: void(0);" id="numero_recepisse" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Numéro de la série" class="editable editable-click">{{ demande.NumeroRecepisse }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-3 col-md-3">
-                                            Le présent récépissé est délivré le :
-                                        </div>
-                                        <div class="col-xl-5 col-md-5">
-                                            <a href="javascript: void(0);" id="date_d_edition" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="combodate" data-value="{{ demande.DateDEdition|date('d/m/Y') }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1" class="editable editable-click"  data-title="Date d'édition">{{ demande.DateDEdition|date('d/m/Y') }}</a></td>
-                                        </div>
-                                    </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div class="col-xl-2 col-md-2">
-                                            Numéro immatriculation :
-                                        </div>
-                                        <div class="col-xl-4 col-md-4">
-                                            <a href="javascript: void(0);" id="numero_immatriculation" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Entrer le numéro d'immatriculation" class="editable editable-click"> {{ demande.NumeroImmatriculation }}</a>
                                     </div>
                                 </div>
-                                    <div class="row py-2 border-bottom border-1">
-                                        <div> Scan du récépissé : </div>
-                                        <div class="mx-2">
-                                            <img src="{{ demande.recepisseImage ? asset("frontend/media/") ~ demande.recepisseImage : '' }}" width="150">
-                                        </div>
-                                        <div class="mx-5">
-                                            <input type="file" name="recepisse_image" id="recepisse_image" class="inputfile" />
-                                            <label for="recepisse_image">Choisir une image</label>
-                                            <button class="ml-3 btn btn-link" id="recepisse_image_btn">uploader</button>
-                                        </div>
-                                    </div>
-                                    <div class="row justify-content-center mt-5">
-                                         <button class="btn btn-dark w-50" id="generate_macaron">GENERER LE MACARON</button>
-                                    </div>
-                                </div>
-                            </div>
                             {% endif %}
                         </div>
                     </div>
+                </div>
             </div>
+
         </div>
         <!-- end main content-->
     </div>

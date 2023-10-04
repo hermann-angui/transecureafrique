@@ -18,6 +18,7 @@ class PaymentController extends AbstractController
     #[Route(path: '/do/{id}', name: 'do_payment')]
     public function doPayment(Request $request, Payment $payment,
                               WaveService $waveService,
+                              DemandeRepository $demandeRepository,
                               PaymentRepository $paymentRepository): Response
     {
         $status = strtoupper($payment->getStatus());
@@ -26,17 +27,23 @@ class PaymentController extends AbstractController
             $status = "success";
             return $this->redirectToRoute('demande_display_receipt', [
                     "id" => $payment->getId(),
-                    "status" => $status]
+                    "status" => $status
+                ]
             );
         }
 
         $response = $waveService->makePayment($payment);
         if($response) {
-            $payment->setStatus($response->getPaymentStatus());
+            $payment->setStatus(strtoupper($response->getPaymentStatus()));
             $payment->setReference($response->getClientReference());
             $payment->setMontant($response->getAmount());
             $payment->setType("MOBILE_MONEY");
             $paymentRepository->add($payment, true);
+
+            $demande = $payment->getDemande();
+            $demande->setStatus(strtoupper($response->getPaymentStatus()));
+            $demandeRepository->add($demande, true);
+
             return $this->redirect($response->getWaveLaunchUrl());
         }
         else return $this->redirectToRoute('home');
@@ -46,11 +53,11 @@ class PaymentController extends AbstractController
     public function wavePaymentCheckoutStatusCallback($status, Request $request,
                                                       PaymentRepository $paymentRepository): Response
     {
-        $path = "/var/www/html/var/log";
+        $path = "/var/www/html/var/log/wave_payment_callback/$status/";
         try{
             if(!file_exists($path)) {
                 mkdir($path, 0777, true);
-                file_put_contents($path . "/wave_payment_callback_$status/" . date("YmdH:i:s") . ".log", $request->get("ref"));
+                file_put_contents($path . "log_". date("YmdH:i:s") . ".log", $request->get("ref"));
             }
         }catch(\Exception $e){
 
@@ -70,7 +77,6 @@ class PaymentController extends AbstractController
     #[Route(path: '/wave', name: 'wave_payment_checkout_webhook')]
     public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository, DemandeRepository $demandeRepository,): Response
     {
-        $path = "/var/www/html/var/log";
         $payload =  json_decode($request->getContent(), true);
         if(!empty($payload) && array_key_exists("data", $payload)) {
             $data =  $payload['data'];
@@ -81,23 +87,21 @@ class PaymentController extends AbstractController
                     $payment->setMontant($data["amount"]);
                     $payment->setModifiedAt(new \DateTime());
                     $paymentRepository->add($payment, true);
-                    if(array_key_exists("payment_status", $data)){
-                        if(strtoupper($data["payment_status"]) === "SUCCEEDED"){
+                    if( array_key_exists("payment_status", $data) && (strtoupper($data["payment_status"]) === "SUCCEEDED") ){
                             $demande = $payment->getDemande();
                             $demande->setStatus("PAYE");
                             $demande->setReceiptNumber($payment->getReceiptNumber());
                             $demandeRepository->add($demande, true);
-                        }
                     }
                 }
             }
         }
 
         try{
-
+            $path = "/var/www/html/var/log/wave_payment_checkout_webhook/";
             if(!file_exists($path)) {
                 mkdir($path, 0777, true);
-                file_put_contents($path . "/wave_payment_checkout_webhook" . date("YmdH:i:s") . ".log", $request->getContent());
+                file_put_contents($path . "log_" . date("YmdH:i:s") . ".log", $request->getContent());
             }
         }catch(\Exception $e){
             return $this->json($payload);

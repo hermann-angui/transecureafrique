@@ -180,7 +180,7 @@ class DemandeService
                 }
             }
 
-            $demande->setLastEditor($data["user"]);
+           // $demande->setLastEditor($data["user"]);
 
             $this->demandeRepository->add($demande, true);
             return $demande;

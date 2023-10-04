@@ -131,7 +131,7 @@ class DemandeController extends AbstractController
             $whereResult .= " numero_recepisse LIKE '%" . $fullSearchValue. "%' OR ";
             $whereResult .= " numero_immatriculation LIKE '%" . $fullSearchValue . "%' OR ";
             $whereResult .= " numero_vin_chassis LIKE '%" . $fullSearchValue . "%' )";
-            $whereResult .= " AND (status = 'PAYE') ";
+         //   $whereResult .= " AND (status = 'PAYE') ";
         }else{
             if(!empty($params['numero_carte_grise'])){
                 $whereResult .= " numero_carte_grise LIKE '%". trim($params['numero_carte_grise']) . "%' AND";
@@ -155,9 +155,9 @@ class DemandeController extends AbstractController
                 $whereResult .= " numero_telephone_proprietaire LIKE '%". trim($params['numero_telephone_proprietaire']) . "%' AND";
             }
             if(!empty($params['receipt_number'])) {
-                $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%' AND";
+                $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%'";
             }
-            $whereResult .= " status = 'PAYE'";
+          //  $whereResult .= " status != 'SUCCEEDED'";
         }
 
        // $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
@@ -190,7 +190,7 @@ class DemandeController extends AbstractController
             }
         }
 
-        $data['user'] = $user = $this->getUser();
+    // $demande->setLastEditor($this->getUser());
         $result = $demandeService->update($demande, $data);
         if($result instanceof Demande) return $this->json("ok");
         elseif(is_string($result)) return $this->json($result);

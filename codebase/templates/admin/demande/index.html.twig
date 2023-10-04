@@ -22,6 +22,14 @@
         top: 13px;
         color: var(--bs-gray-600);
     }
+    body[data-topbar=dark] .app-search .form-control {
+        background-color: var(--bs-topbar-search-bg) !important;
+        color: #777474
+    }
+
+    body[data-topbar=dark] .app-search input.form-control::-webkit-input-placeholder, body[data-topbar=dark] .app-search span {
+        color: inherit;
+    }
 </style>
 
 {% endblock %}

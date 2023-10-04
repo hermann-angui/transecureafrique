@@ -76,7 +76,7 @@ services:
       - TZ=Africa/Abidjan
       - DATABASE_URL=mysql://root:QT6e5APtSYaU@db:3306/sfp_macaron_db?serverVersion=14
       - REMOTE_HOST=host.docker.internal
-    #      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./codebase:/var/www/html
     networks:
