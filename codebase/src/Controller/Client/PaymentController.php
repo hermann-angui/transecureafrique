@@ -31,13 +31,10 @@ class PaymentController extends AbstractController
         }
 
         $response = $waveService->makePayment($payment);
-
-        die;
         if($response) {
             $payment->setStatus($response->getPaymentStatus());
             $payment->setReference($response->getClientReference());
             $payment->setMontant($response->getAmount());
-          //  $payment->setCodePaymentOperateur($response->getTransactionId());
             $payment->setType("MOBILE_MONEY");
             $paymentRepository->add($payment, true);
             return $this->redirect($response->getWaveLaunchUrl());
