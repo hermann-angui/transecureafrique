@@ -2,7 +2,7 @@
 
 namespace App\Service\Wave;
 
-use App\Entity\Payment;
+use App\Entity\Demande;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -72,12 +72,12 @@ class WaveService
      * @param UserInterface|null $user
      * @return string|void
      */
-    public function makePayment(?Payment $payment) : ?WaveCheckoutResponse
+    public function makePayment(?Demande $demande) : ?WaveCheckoutResponse
     {
         try{
             $waveCheckoutRequest = new WaveCheckoutRequest();
             $waveCheckoutRequest->setCurrency("XOF")
-                ->setAmount($payment->getMontant())
+                ->setAmount($demande->getMontant())
                 ->setClientReference(Uuid::v4()->toRfc4122())
                 ->setSuccessUrl(self::SUCCESS_URL);
 

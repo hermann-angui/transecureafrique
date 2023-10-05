@@ -79,17 +79,8 @@ class DemandeController extends AbstractController
     #[Route(path: '/payment/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
     public function demandePayment(Demande $demande, Request $request, PaymentService $paymentService, DemandeService $demandeService): Response
     {
-        if (!$demande->getPayment()) {
-            $data = [
-                "montant" => $demande->getMontant(),
-                "operateur" => "WAVE",
-                "type" => $request->get('type'),
-                "demande" => $demande
-            ];
-            $paymentService->create($data);
-        }
         return $this->render('frontend/bs/payment.html.twig', [
-            "payment" => $demande->getPayment()
+            "demande" => $demande
         ]);
     }
 
@@ -105,14 +96,8 @@ class DemandeController extends AbstractController
             if ($criteria === 'numero_recu') $payment = $paymentRepository->findOneBy(['receipt_number' => $term]);
             if ($payment->getStatus()==="SUCCEEDED") {
                 return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
-            }
-            if ($demande) {
-                $payment = $demande->getPayment();
-                return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
-                // }
-            }
-            else {
-                $warning = "Cette demande est introuvable!";
+            } else {
+                $warning = "Votre demande est en cours de traitement ....";
                 return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning]);
             }
         }

@@ -189,17 +189,16 @@
                                         </div>
                                         <div class="d-flex mx-2 px-3">
                                             <div>
-                                                <img src="{{ asset('frontend/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
+                                                <img src="{{ asset('frontend/demande/img/payment_error.png') }}" alt="wave-money" width="100" height="100">
                                             </div>
-                                            <div class="px-3">
-                                                Faites votre paiement via wave money.
-                                                <h5>Coût du macaron: <br><span class="font-size-24 fw-bolder">10 100F FCFA</span></h5>
+                                            <div class="alert alert-danger">
+                                                ATTENTION!!! Votre paiement n'a pas abouti, veuillez relancer le processus.
                                             </div>
                                         </div>
                                         <div class="mx-3 py-4">
                                             <a class="btn btn-warning w-75" tabindex="0" href="{{ path('do_payment', {id: demande.id, type: "wave_money"}) }}">
                                                 <span class="sc-440a794-0 hrlawX">
-                                                    <span>Payer</span>
+                                                    <span>Relancer le paiment</span>
                                                 </span>
                                             </a>
                                         </div>

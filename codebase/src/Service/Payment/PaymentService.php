@@ -20,7 +20,7 @@ class PaymentService
     {
     }
 
-    public function generateReference() {
+    public static function generateReference() {
         $now = new \DateTime();
         $year = $now->format("y");
         return $year . strtoupper(substr(Uuid::v4()->toRfc4122(), 0, 6));
@@ -49,6 +49,7 @@ class PaymentService
             $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $payment->getReceiptNumber();
             $content = $this->pdfGenerator->generateBarCode($qrCodeData, 50, 50);
             $folder = self::MEDIA_DIR . $payment->getReceiptNumber();
+            if(!file_exists(self::MEDIA_DIR)) mkdir(self::MEDIA_DIR, 0777, true);
             file_put_contents( $folder . "_barcode.png", $content);
             $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $payment->getDemande()]);
             file_put_contents($folder . "_receipt.pdf", $content);

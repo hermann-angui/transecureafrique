@@ -29,7 +29,6 @@ class WebSiteController extends AbstractController
                                  MacaronRepository $macaronRepository): Response
     {
         $macaron = $macaronRepository->findOneBy(["macaron_qrcode_number" => $macaron_qr_code_number]);
-     //   if($demande?->getMacaron()){
         if($macaron){
             $valid = "valid";
             return $this->render("admin/macaron/check.html.twig", ["valid" => $valid, "demande" => $macaron->getDemande()]);

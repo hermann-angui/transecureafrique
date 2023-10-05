@@ -190,7 +190,7 @@ class DemandeController extends AbstractController
             }
         }
 
-    // $demande->setLastEditor($this->getUser());
+    //  $demande->setLastEditor($this->getUser());
         $result = $demandeService->update($demande, $data);
         if($result instanceof Demande) return $this->json("ok");
         elseif(is_string($result)) return $this->json($result);
