@@ -125,9 +125,6 @@ class Demande
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', targetEntity: User::class)]
-    private ?User $lastEditor = null;
-
     #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
     private Collection $optcodes;
 
@@ -811,24 +808,6 @@ class Demande
     public function setReceiptNumber(?string $receipt_number): Demande
     {
         $this->receipt_number = $receipt_number;
-        return $this;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getLastEditor(): ?User
-    {
-        return $this->lastEditor;
-    }
-
-    /**
-     * @param User|null $lastEditor
-     * @return Demande
-     */
-    public function setLastEditor(?User $lastEditor): Demande
-    {
-        $this->lastEditor = $lastEditor;
         return $this;
     }
 

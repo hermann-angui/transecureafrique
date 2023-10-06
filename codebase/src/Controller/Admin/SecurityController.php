@@ -67,7 +67,7 @@ class SecurityController extends AbstractController
                     $roles[] = 'ROLE_ADMIN';
                     break;
                 case 'ROLE_SUPER_ADMIN':
-                    $roles[] = 'ROLE_ADMIN';
+                    $roles[] = 'ROLE_SUPER_ADMIN';
                     break;
                 default:
                     break;

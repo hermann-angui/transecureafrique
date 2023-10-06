@@ -43,7 +43,7 @@ class MacaronController extends AbstractController
 
         $macaron = $demande->getMacaron() ?:new Macaron();
         if($macaron){
-            $macaron->setLastEditor($this->getUser());
+         //   $macaron->setLastEditor($this->getUser());
             $macaron->setReference($demande->getReference());
             $macaron->setMacaronQrcodeNumber($demande->getMacaronQrcodeNumber());
             $macaron->setStatus("COMPLETED");

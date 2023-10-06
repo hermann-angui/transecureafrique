@@ -44,9 +44,6 @@ class Macaron
     #[ORM\OneToOne(inversedBy: 'macaron', cascade: ['persist', 'remove'])]
     private ?Demande $demande = null;
 
-    #[ORM\OneToOne(inversedBy: 'user', targetEntity: User::class)]
-    private ?User $lastEditor = null;
-
     public function __construct()
     {
         $this->created_at = new \DateTime();
@@ -199,24 +196,6 @@ class Macaron
     public function setNumeroTelephoneProprietaire(?string $numero_telephone_proprietaire): Macaron
     {
         $this->numero_telephone_proprietaire = $numero_telephone_proprietaire;
-        return $this;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getLastEditor(): ?User
-    {
-        return $this->lastEditor;
-    }
-
-    /**
-     * @param User|null $lastEditor
-     * @return Macaron
-     */
-    public function setLastEditor(?User $lastEditor): Macaron
-    {
-        $this->lastEditor = $lastEditor;
         return $this;
     }
 
