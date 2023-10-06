@@ -4,15 +4,15 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
+public/bundles/
 /var/
 /vendor/
 
 
-/public/users/
-/public/media/*
-/public/frontend/media
-/public/backend/users
+public/users/
+public/media/*
+public/frontend/media
+public/backend/users
 public/uploads/*
 public/members/
 ###< symfony/framework-bundle ###
