@@ -30,24 +30,7 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('demande_display_receipt', ["id" => $demande->getPayment()->getId(), "status" => "success"]);
         }
 
-//        $isTestEnv = false;
-//        if($isTestEnv == true) {
-//            $response = new WaveCheckoutResponse();
-//            $ref= Uuid::v4()->toRfc4122();
-//            $response->setAmount('10100')
-//                ->setPaymentStatus("processing")
-//                ->setCurrency("XOF")
-//                ->setClientReference($ref)
-//                ->setCheckoutSessionId("cos-18qq25rgr100a")
-//                ->setCheckoutStatus('succeeded')
-//                ->setWhenCreated(new \DateTime())
-//                ->setWhenCompleted(new \DateTime())
-//                ->setWhenExpires(new \DateTime())
-//                ->setWaveLaunchUrl("http://sfp-macaron.develop/payment/wave/checkout/success?ref=" . $ref);
-//        }
-///     else {
-            $response = $waveService->makePayment($demande);
-//        }
+        $response = $waveService->makePayment($demande);
 
         if($response && !$demande->getPayment()) {
             $payment = new Payment();
@@ -58,8 +41,9 @@ class PaymentController extends AbstractController
             $payment->setType("MOBILE_MONEY");
             $payment->setReceiptNumber(PaymentService::generateReference());
             $payment->setDemande($demande);
+            $payment->setCreatedAt(new \DateTime('now'));
+            $payment->setModifiedAt(new \DateTime('now'));
             $paymentRepository->add($payment, true);
-
             $demande->setStatus(strtoupper($response->getPaymentStatus()));
             $demandeRepository->add($demande, true);
             return $this->redirect($response->getWaveLaunchUrl());
@@ -86,8 +70,8 @@ class PaymentController extends AbstractController
 
             return $this->redirectToRoute('demande_display_receipt', ["id" => $payment->getId(), "status" => $status]);
         }else{
-           $demande = $payment->getDemande();
-           $payment->setDemande(null);
+            $demande = $payment->getDemande();
+            $payment->setDemande(null);
             $paymentRepository->remove($payment, true);
             return $this->redirectToRoute('demande_paiement', ['id' => $demande->getId() ]);
         }
@@ -96,7 +80,7 @@ class PaymentController extends AbstractController
     #[Route(path: '/wave', name: 'wave_payment_checkout_webhook')]
     public function callbackWavePayment(Request $request,  PaymentRepository $paymentRepository, DemandeRepository $demandeRepository,): Response
     {
-        $payload =  json_decode($request->getContent(), true);
+         $payload =  json_decode($request->getContent(), true);
         if(!empty($payload) && array_key_exists("data", $payload)) {
             $data =  $payload['data'];
             if (!empty($data) && array_key_exists("client_reference", $data)) {
@@ -113,18 +97,17 @@ class PaymentController extends AbstractController
                         $demande->setReceiptNumber($payment->getReceiptNumber());
                         $demandeRepository->add($demande, true);
                     }
+                    try{
+                        $path = "/var/www/html/var/log/wave_payment_checkout_webhook/";
+                        if(!file_exists($path)) mkdir($path, 0777, true);
+                        file_put_contents($path . "log_" . date("YmdHis") . ".log", $request->getContent(), FILE_APPEND);
+
+                    }catch(\Exception $e){
+                    }
                 }
             }
         }
 
-        try{
-            $path = "/var/www/html/var/log/wave_payment_checkout_webhook/";
-            if(!file_exists($path)) mkdir($path, 0777, true);
-            file_put_contents($path . "log_" . date("YmdHis") . ".log", $request->getContent());
-
-        }catch(\Exception $e){
-            return $this->json($payload);
-        }
         return $this->json($payload);
     }
 

@@ -72,8 +72,11 @@ class DemandeController extends AbstractController
     #[Route(path: '/receipt/{id}', name: 'demande_display_receipt', methods: ['POST', 'GET'])]
     public function demandeShowReceipt(?Payment $payment, PaymentService $paymentService): Response
     {
-        $paymentService->generateReceipt($payment, 'frontend/bs/receipt-pdf.html.twig');
-        return $this->render('frontend/bs/display-receipt.html.twig', ['payment' => $payment]);
+        if(in_array($payment->getStatus(), ["SUCCEEDED", "PAYE", "CLOSED"])){
+            $paymentService->generateReceipt($payment, 'frontend/bs/receipt-pdf.html.twig');
+            return $this->render('frontend/bs/display-receipt.html.twig', ['payment' => $payment]);
+        }
+        return $this->redirectToRoute('auth');
     }
 
     #[Route(path: '/payment/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
