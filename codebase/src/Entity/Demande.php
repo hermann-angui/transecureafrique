@@ -52,6 +52,12 @@ class Demande
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string  $type_commercial;
 
+    #[ORM\Column(type: 'boolean',  nullable: true)]
+    private ?bool $groupe = false;
+
+    #[ORM\Column(type: 'string', length: 300, nullable: true)]
+    private ?string $groupe_id;
+
     #[ORM\Column(type: 'string', length: 255,  nullable: true)]
     private ?string $couleur_vehicule;
 
@@ -110,30 +116,27 @@ class Demande
     private ?string $recepisse_image = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTime $date_rendez_vous;
+    private ?DateTime $date_rendez_vous;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTime $created_at;
+    private ?DateTime $created_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private DateTime $modified_at;
-
-
-    #[ORM\OneToOne(inversedBy: 'demande', targetEntity: Payment::class)]
-    private ?Payment $payment = null;
+    private ?DateTime $modified_at;
 
     #[ORM\OneToOne(mappedBy: 'demande', cascade: ['persist', 'remove'])]
     private ?Macaron $macaron = null;
 
-    #[ORM\OneToMany(mappedBy: 'demande', targetEntity: OtpCode::class)]
-    private Collection $optcodes;
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?Payment $payment = null;
 
+    #[ORM\ManyToOne(inversedBy: 'demandes')]
+    private ?OtpCode $otpCode = null;
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->modified_at = new \DateTime();
-        $this->optcodes = new ArrayCollection();
     }
 
     /**
@@ -631,7 +634,7 @@ class Demande
     /**
      * @return Date
      */
-    public function getDateRendezVous(): \DateTime
+    public function getDateRendezVous(): ?\DateTime
     {
         return $this->date_rendez_vous;
     }
@@ -656,34 +659,12 @@ class Demande
 
 
     /**
-     * @param DateTime $date_rendez_vous
+     * @param ?DateTime $date_rendez_vous
      * @return Demande
      */
     public function setDateRendezVous(?\DateTime $date_rendez_vous): Demande
     {
         $this->date_rendez_vous = $date_rendez_vous;
-        return $this;
-    }
-
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
-    public function setPayment(?Payment $payment): self
-    {
-//        // unset the owning side of the relation if necessary
-//        if ($payment === null && $this->payment !== null) {
-//            $this->payment->setDemande(null);
-//        }
-//
-//        // set the owning side of the relation if necessary
-//        if ($payment !== null && $payment->getDemande() !== $this) {
-//            $payment->setDemande($this);
-//        }
-
-        $this->payment = $payment;
-
         return $this;
     }
 
@@ -764,36 +745,6 @@ class Demande
     }
 
     /**
-     * @return Collection<int, OtpCode>
-     */
-    public function getOptcodes(): Collection
-    {
-        return $this->optcodes;
-    }
-
-    public function addOptcode(OtpCode $optcode): self
-    {
-        if (!$this->optcodes->contains($optcode)) {
-            $this->optcodes[] = $optcode;
-            $optcode->setDemande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOptcode(OtpCode $optcode): self
-    {
-        if ($this->optcodes->removeElement($optcode)) {
-            // set the owning side to null (unless already changed)
-            if ($optcode->getDemande() === $this) {
-                $optcode->setDemande(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getReceiptNumber(): ?string
@@ -811,5 +762,64 @@ class Demande
         return $this;
     }
 
+    /**
+     * @return bool|null
+     */
+    public function getGroupe(): ?bool
+    {
+        return $this->groupe;
+    }
+
+    /**
+     * @param bool|null $groupe
+     * @return Demande
+     */
+    public function setGroupe(?bool $groupe): Demande
+    {
+        $this->groupe = $groupe;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGroupeId(): ?string
+    {
+        return $this->groupe_id;
+    }
+
+    /**
+     * @param string|null $groupe_id
+     * @return Demande
+     */
+    public function setGroupeId(?string $groupe_id): Demande
+    {
+        $this->groupe_id = $groupe_id;
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): static
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getOtpCode(): ?OtpCode
+    {
+        return $this->otpCode;
+    }
+
+    public function setOtpCode(?OtpCode $otpCode): static
+    {
+        $this->otpCode = $otpCode;
+
+        return $this;
+    }
 
 }

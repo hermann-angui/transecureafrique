@@ -1,0 +1,512 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Demandes de macaron{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+
+    <style>
+        div.choix-selected {
+            background-color: #e6f9f5;
+        }
+        div.choix:hover {
+            background-color: #e6f9f5;
+            cursor: pointer;
+        }
+        body #__next{
+            background-color: #f2f3f2
+        }
+        .liste-etapes {
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #d7d7d7;
+            box-shadow: none;
+        }
+
+        #card-wrapper{
+            min-height: 500px;
+            background: rgb(252,114,0);
+            background: linear-gradient(40deg, rgba(252,114,0,1) 9%, rgba(244,130,0,0.8855917366946778) 17%, rgba(255,255,255,0.3701855742296919) 37%, rgba(255,255,255,0.4650542664670658) 73%, rgba(62,146,60,0.9398113905325444) 85%, rgba(4,113,2,1) 95%);
+        }
+
+        @media (max-width: 575.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
+        }
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
+        }
+
+        #left-wrapper{
+            min-height:475px;
+            background-color: #4f4f50;
+        }
+
+        #right-wrapper{
+            min-height:475px;
+        }
+
+        #left-wrapper .block{
+            margin-bottom: 50px;
+        }
+
+        #left-wrapper .block .label-lg {
+            color: #b7b7b7;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: auto;
+        }
+
+        #left-wrapper .block .label-sm {
+            color: #adadad;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            max-width: 150px;
+        }
+
+        #left-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #fff;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #e5e5e5;
+            border-radius: 0;
+        }
+
+        #left-wrapper .input:focus,
+        #left-wrapper .input:focus-visible,
+        #left-wrapper .input:focus-within{
+            border: 1px solid #e7e7e7;
+        }
+
+        #left-wrapper hr{
+            border: 1px solid #ffffff;
+        }
+
+
+        #right-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
+
+        #right-wrapper .input:focus,
+        #right-wrapper .input:focus-visible,
+        #right-wrapper.input:focus-within{
+            border: 1px solid #888888;
+        }
+
+        #right-wrapper .block{
+            margin-bottom: 5px;
+        }
+
+        #right-wrapper .block .label-lg {
+            color: #282828;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 100px;
+        }
+
+        #right-wrapper .block .label-sm {
+            color: #282828;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 150px;
+        }
+
+        #verso .input {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
+    </style>
+{#    <style>
+        .btn-check:checked+.btn,
+        .btn.active, .btn.show,
+        .btn:first-child:active,
+        :not(.btn-check)+.btn:active,
+        .btn:hover {
+            color: #ffffff;;
+            background-color: #e16a00;
+            border: 1px solid #e16a00;
+        }
+        .btn {
+            font-size: 16px;
+            font-weight: 600;
+            padding: 4px 10px 12px;
+            color: #ffffff;
+            border: 1px solid #ff7b00;
+            border-radius: 3px;
+            background-color: #ff7b00;
+        }
+
+        .btn-sm{
+            font-size: 10px;
+            font-weight: 300;
+            padding: 4px 4px 3px;
+        }
+        .bg-green {
+            background-color: #0f735d !important;
+            border: 1px solid #0f735d !important;
+            color: #ffff;
+        }
+        .bg-success {
+            background-color: #53ab00 !important;
+            border: #53ab00 !important;
+            color: #ffff !important;
+        }
+        .bg-danger {
+            background-color: #e31212 !important;
+            border: #e31212 !important;
+            color: #ffff !important;
+        }
+        .bg-warning {
+            background-color: #ff7b00 !important;
+            border: #ff7b00 !important;
+            color: #ffff !important;
+        }
+        .bg-info {
+            background-color: #4151e6!important;
+            border: #4151e6!important;
+            color: #ffff !important;
+        }
+        .bg-light-gray {
+            background-color: #595959 !important;
+            border: #595959 !important;
+            color: #ffff !important;
+        }
+        .bg-dark-gray {
+            background-color: #2d2d2d !important;
+            border: #2d2d2d !important;
+            color: #ffff !important;
+        }
+    </style>#}
+{% endblock %}
+
+{% block body %}
+<div class="main container" style="height:70vh">
+    <div class="row justify-content-center align-items-center">
+        <div class="d-flex justify-content-between my-5">
+            <div><h2 class="fs-4">DEMANDES DE MACARONS</h2></div>
+            <div><button class="btn btn-success btn-sm" id="ajouter_demande"><i class="fa fa-plus-circle"></i> Ajouter une demande</button></div>
+        </div>
+        <div class="row">
+            <div class="table-responsive small">
+                <table class="table table-striped" id="table-demande">
+                    <thead>
+                    <tr class="bg-soft">
+                        <th scope="col">N° CARTE GRISE</th>
+                        <th scope="col">N° RECEPISSE</th>
+                        <th scope="col">N° IMMATRICULATION</th>
+                        <th scope="col">N° VIN CHASSIS</th>
+                        <th scope="col">MONTANT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end bg-light border border-light p-3">
+                    <div class="fs-3 fw-bold">TOTAL : </div>
+                    <div class="fs-3 fw-bold px-3" id="total_id"> 0 <span>CFA</span></div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center m-auto py-2 w-100">
+                <input id="btn-paiement" type="button" class="btn btn-warning" value="Passer au paiement" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="demandeTypeModal" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="demandeModal">Nouvelle demande</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mt-5 justify-content-center">
+                    <h3> Quel document avez-vous en votre possession ?</h3>
+                    <div class="card col-md-4 col-sm-6 border-2 my-2 choix choix-selected" style="border-color:#0f735d;" id="choix1">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center align-content-center align-items-center flex-column">
+                                <img style="width:62px;height:62px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NiA1NiIgZmlsbD0iIzAwNmE1MyI+Cgk8cGF0aCBkPSJNMzQuMzksNDYuODhjMCwuMzYtLjI5LC42NS0uNjUsLjY1aC0xMS4zNmMtLjM2LDAtLjY1LS4yOS0uNjUtLjY1cy4yOS0uNjUsLjY1LS42NWgxMS4zNmMuMzYsMCwuNjUsLjI5LC42NSwuNjVabTEzLjYzLDBjMCwyLjgzLTIuMyw1LjEyLTUuMTIsNS4xMnMtNS4xMi0yLjMtNS4xMi01LjEyLDIuMy01LjEyLDUuMTItNS4xMiw1LjEyLDIuMyw1LjEyLDUuMTJabS0xLjMsMGMwLTIuMTEtMS43MS0zLjgyLTMuODItMy44MnMtMy44MiwxLjcxLTMuODIsMy44MiwxLjcxLDMuODIsMy44MiwzLjgyLDMuODItMS43MSwzLjgyLTMuODJabTcuOTMtLjAxYzAsLjE3LS4wNiwuMzQtLjE5LC40Ny0uMTIsLjEyLS4yOSwuMi0uNDYsLjJoLTJjLS4zNiwwLS42NS0uMjktLjY1LS42NXMuMjktLjY1LC42NS0uNjVoMS4zMmMtLjUtOS42MS03LjkyLTEwLjAzLTExLjUyLTEwLjIzbC0uNTgtLjAzSDguMDRjLS4xNCwuMDgtLjI4LC4xNC0uNDQsLjE4LTQuMzEsMS4yMS00Ljg3LDcuOTYtNC45NCwxMC4wOGguOTVjLjM2LDAsLjY1LC4yOSwuNjUsLjY1cy0uMjksLjY1LS42NSwuNjVoLTEuNjFjLS4zNSwwLS42NC0uMjgtLjY1LS42MywwLS40Mi0uMTctMTAuMyw1Ljg5LTEyLC4wNS0uMDEsLjEtLjAzLC4xNS0uMDYsLjA1LS4wNCwuMS0uMDgsLjE2LS4xMSwuMDgtLjA3LC4xMy0uMTcsLjE0LS4yOCwuMi0yLjUsMS45LTEwLjY5LDE1LjM0LTExLjA4aDMuMWMxMS4yNiwwLDE0LjI2LDguMzEsMTQuOTIsMTAuODYsLjA4LC4zLC4xMiwuMzksLjE1LC40MSwwLDAsLjAzLC4wMSwuMSwuMDJsLjU4LC4wM2MzLjc2LC4yMSwxMi41NywuNzEsMTIuNzcsMTIuMTdaTTIxLjY4LDI0Ljc0Yy0xMS4wOSwuODMtMTIuNTMsNy42Ny0xMi43LDkuODIsMCwuMDMsMCwuMDctLjAxLC4xaDEyLjcxdi05LjkyWm0xOC4xMyw5Ljkycy0uMDItLjA3LS4wMy0uMWMtLjYtMi4zMy0zLjM0LTkuODktMTMuNjctOS44OWgtMy4xNHY5Ljk5aDE2LjgzWm0tMjEuNiwxMi4yMmMwLDIuODMtMi4zLDUuMTItNS4xMiw1LjEycy01LjEyLTIuMy01LjEyLTUuMTIsMi4zLTUuMTIsNS4xMi01LjEyLDUuMTIsMi4zLDUuMTIsNS4xMlptLTEuMywwYzAtMi4xMS0xLjcyLTMuODItMy44Mi0zLjgycy0zLjgyLDEuNzEtMy44MiwzLjgyLDEuNzIsMy44MiwzLjgyLDMuODIsMy44Mi0xLjcxLDMuODItMy44MlpNMzIuMTMsNS41NmwuMDMsLjAzYy42NSwuNjYsLjM2LDEuMjMtLjAxLDEuNmwtLjA0LC4wNGMtLjExLC4xMy0uMTYsLjI5LS4xNiwuNDUsMCwuMTYsLjA4LC4zMiwuMjEsLjQzLC4xMiwuMTEsLjI5LC4xOCwuNDUsLjE3LC4xNywwLC4zMy0uMDcsLjQ1LS4xOCwuNjMtLjYsMS41MS0uMDksMS43MiwuMSwuMTIsLjEyLC4yOSwuMTgsLjQ2LC4xOCwuMTcsMCwuMzQtLjA3LC40Ni0uMTksLjEyLS4xMiwuMTktLjI4LC4xOS0uNDUsMC0uMTctLjA3LS4zMy0uMTktLjQ1LS44LS43OS0uMTMtMS42MywwLTEuNzksLjExLS4xMywuMTctLjI5LC4xNy0uNDYsMC0uMTctLjA4LS4zMy0uMi0uNDQtLjEyLS4xMS0uMjktLjE4LS40Ni0uMTctLjE3LDAtLjMzLC4wNy0uNDYsLjE5LS4yOSwuMjgtLjU3LC40Mi0uODUsLjQyLS40MiwwLS43Ny0uMzEtLjgzLS4zN2gtLjAxcy0uMDEtLjAyLS4wMS0uMDNjLS4xMi0uMTItLjI5LS4xOS0uNDYtLjE5LS4xNywwLS4zNCwuMDYtLjQ2LC4xOC0uMDYsLjA2LS4xMSwuMTMtLjE1LC4yMS0uMDQsLjA4LS4wNSwuMTYtLjA1LC4yNXMuMDIsLjE3LC4wNSwuMjVjLjAzLC4wOCwuMDgsLjE1LC4xNCwuMjFabTkuNzIsMjMuNDRjMS4yNCwuNzcsMi4yNywxLjgzLDMuMDEsMy4xLC43OC0xLjI1LDEuODMtMi4xOSwyLjk0LTIuODgtMS4yLS43NS0yLjE5LTEuOC0yLjg5LTMuMDUtLjgxLDEuMjQtMS45LDIuMTYtMy4wNiwyLjgzWm0tOC4wMi0xMy4zMmMtLjE2LC4xNy0uMjUsLjQtLjI1LC42NCwwLC4yNCwuMSwuNDcsLjI3LC42NHMuMzksLjI2LC42MywuMjZjNC4wNSwwLDQuMzIsMy43NCw0LjMzLDQuMTcsLjAyLC40OSwuNDEsLjg3LC44OCwuODdoLjAyYy4yMywwLC40NS0uMSwuNjEtLjI3cy4yNS0uNCwuMjUtLjYzYzAtMy43NiwzLjY1LTQuMSw0LjA3LTQuMTIsLjIzLS4wMSwuNDQtLjEyLC42LS4yOSwuMTUtLjE3LC4yNC0uNCwuMjMtLjY0LDAtLjIzLS4xLS40Ni0uMjYtLjYyLS4xNi0uMTYtLjM4LS4yNi0uNjEtLjI2LTMuODcsMC00LjAyLTMuNzMtNC4wMi00LjE1LDAtLjI0LS4xLS40Ni0uMjYtLjYzLS4xNi0uMTctLjM4LS4yNi0uNjEtLjI2cy0uNDUsLjA5LS42MSwuMjVjLS4xNywuMTYtLjI2LC4zOC0uMjcsLjYydi4wMmMwLDMuODctMy45Miw0LjEyLTQuMzYsNC4xNC0uMjMsMC0uNDYsLjEtLjYyLC4yOFptLTE1LjctMS44M2MtLjA2LS4xNC0uMDgtLjI5LS4wNS0uNDQsLjAzLS4xNSwuMS0uMjksLjItLjQsLjI3LS4yOSwyLjU4LTIuOSwuMjMtNS4yNWgwYy0uMTQtLjE1LS4yMS0uMzUtLjIxLS41NSwwLS4yLC4wOS0uMzksLjIzLS41NHMuMzMtLjIyLC41NC0uMjNjLjIsMCwuNCwuMDcsLjU1LC4yaDBjLjA3LC4wNywxLjIyLDEuMTQsMi42NCwxLjE0LC44NSwwLDEuNjYtLjM4LDIuNDItMS4xNCwuMTQtLjE0LC4zNC0uMjMsLjU0LS4yM3MuNCwuMDcsLjU1LC4yMWMuMTUsLjE0LC4yNCwuMzMsLjI1LC41MywwLC4yLS4wNiwuNC0uMTksLjU1LS4yNCwuMjgtMi4zNCwyLjc4LS4wNSw1LjA3LC4xNCwuMTQsLjIzLC4zNCwuMjMsLjU0LDAsLjItLjA4LC40LS4yMiwuNTUtLjMsLjMxLS43OCwuMzItMS4wOSwuMDMtLjA1LS4wNC0xLjE4LTEuMDUtMi42My0xLjA1LS45MywwLTEuODIsLjQyLTIuNjQsMS4yNC0uMTUsLjE1LS4zNSwuMjMtLjU1LC4yMy0uMTUsMC0uMy0uMDUtLjQzLS4xMy0uMTMtLjA4LS4yMy0uMi0uMjktLjM0Wm0yLjc4LTIuNDJjLjM2LS4wOSwuNzQtLjE0LDEuMTItLjE0LC40MSwwLC44MSwuMDUsMS4yMSwuMTUtLjE2LS43NC0uMTQtMS41LC4wNS0yLjIzLS43NSwuMTgtMS41OCwuMTUtMi4yNy0uMDQsLjE2LC43OCwuMDgsMS41NS0uMTEsMi4yNVptLTguNiw3Ljk2bC4wMywuMDNjLjY1LC42NiwuMzYsMS4yMy0uMDEsMS42bC0uMDQsLjA0Yy0uMTEsLjEzLS4xNiwuMjktLjE2LC40NSwwLC4xNiwuMDgsLjMyLC4yMSwuNDMsLjEyLC4xMSwuMjksLjE4LC40NSwuMTcsLjE3LDAsLjMzLS4wNywuNDUtLjE4LC42My0uNiwxLjUxLS4wOSwxLjcyLC4xLC4xMiwuMTIsLjI5LC4xOCwuNDYsLjE4LC4xNywwLC4zNC0uMDcsLjQ2LS4xOSwuMTItLjEyLC4xOS0uMjgsLjE5LS40NSwwLS4xNy0uMDctLjMzLS4xOS0uNDUtLjgtLjc5LS4xMy0xLjYzLDAtMS43OCwuMTEtLjEzLC4xNy0uMjksLjE3LS40NiwwLS4xNy0uMDgtLjMzLS4yLS40NC0uMTItLjExLS4yOS0uMTgtLjQ2LS4xNy0uMTcsMC0uMzMsLjA3LS40NiwuMTktLjI5LC4yOC0uNTcsLjQyLS44NSwuNDItLjQyLDAtLjc3LS4zMS0uODMtLjM3aC0uMDFzLS4wMS0uMDItLjAxLS4wM2MtLjEyLS4xMi0uMjktLjE5LS40Ni0uMTktLjE3LDAtLjM0LC4wNi0uNDYsLjE4LS4wNiwuMDYtLjExLC4xMy0uMTUsLjIxLS4wMywuMDgtLjA1LC4xNi0uMDUsLjI1LDAsLjA5LC4wMiwuMTcsLjA1LC4yNSwuMDMsLjA4LC4wOCwuMTUsLjE0LC4yMVoiLz4KPC9zdmc+" alt="Un véhicule neuf" class="radio-button-img">
+                                <p class="small fw-bold mt-2" style="color:#0f735d">Mon récépissé d'immatriculation </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card col-md-4 col-sm-6 border-2 mx-md-2 my-2 choix" style="border-color:#0f735d;" id="choix2">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center align-content-center align-items-center flex-column">
+                                <img style="width:62px;height:62px" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1NiA1NiIgZmlsbD0iIzAwNmE1MyI+Cgk8cGF0aCBkPSJNNDIuOSw1MmMtMi44MywwLTUuMTItMi4zLTUuMTItNS4xMnMyLjMtNS4xMiw1LjEyLTUuMTIsNS4xMiwyLjMsNS4xMiw1LjEyLTIuMyw1LjEyLTUuMTIsNS4xMlptMC04Ljk1Yy0yLjExLDAtMy44MiwxLjcxLTMuODIsMy44MnMxLjcxLDMuODIsMy44MiwzLjgyLDMuODItMS43MSwzLjgyLTMuODItMS43MS0zLjgyLTMuODItMy44MlptLTI5LjgxLDguOTVjLTIuODMsMC01LjEyLTIuMy01LjEyLTUuMTJzMi4zLTUuMTIsNS4xMi01LjEyLDUuMTIsMi4zLDUuMTIsNS4xMi0yLjMsNS4xMi01LjEyLDUuMTJabTAtOC45NWMtMi4xMSwwLTMuODIsMS43MS0zLjgyLDMuODJzMS43MiwzLjgyLDMuODIsMy44MiwzLjgyLTEuNzEsMy44Mi0zLjgyLTEuNzItMy44Mi0zLjgyLTMuODJabTQwLjkyLDQuNDdoLTJjLS4zNiwwLS42NS0uMjktLjY1LS42NXMuMjktLjY1LC42NS0uNjVoMS4zMmMtLjUtOS42MS03LjkyLTEwLjAzLTExLjUyLTEwLjIzbC0uNTgtLjA0SDguMDVjLS4xNCwuMDgtLjI4LC4xNC0uNDQsLjE4LTQuMzEsMS4yMS00Ljg3LDcuOTYtNC45NCwxMC4wOGguOTVjLjM2LDAsLjY1LC4yOSwuNjUsLjY1cy0uMjksLjY1LS42NSwuNjVoLTEuNjFjLS4zNSwwLS42NC0uMjgtLjY1LS42MywwLS40Mi0uMTctMTAuMyw1Ljg5LTEyLC4wNS0uMDEsLjEtLjAzLC4xNS0uMDYsLjA1LS4wNCwuMS0uMDgsLjE1LS4xMSwuMDgtLjA3LC4xMy0uMTcsLjE0LS4yOCwuMi0yLjUsMS45LTEwLjY5LDE1LjM0LTExLjA4aDMuMWMxMS4yNiwwLDE0LjI3LDguMzEsMTQuOTIsMTAuODYsLjA4LC4zLC4xMiwuMzksLjE1LC40MWgwcy4wMywuMDEsLjEsLjAybC41OCwuMDNjMy43NiwuMjEsMTIuNTcsLjcxLDEyLjc3LDEyLjE3LDAsLjE3LS4wNiwuMzQtLjE5LC40Ny0uMTIsLjEyLS4yOSwuMi0uNDYsLjJoMFptLTMxLjAyLTEyLjg2aDE2LjgzbC0uMDMtLjFjLS42LTIuMzMtMy4zNC05Ljg5LTEzLjY3LTkuODloLTMuMTR2OS45OWguMDFabS0xNC4wMSwwaDEyLjcxdi05LjkyYy0xMS4wOSwuODMtMTIuNTMsNy42Ny0xMi43LDkuODIsMCwuMDMsMCwuMDctLjAxLC4xWm0yNC43NywxMi44N2gtMTEuMzZjLS4zNiwwLS42NS0uMjktLjY1LS42NXMuMjktLjY1LC42NS0uNjVoMTEuMzZjLjM2LDAsLjY1LC4yOSwuNjUsLjY1cy0uMjksLjY1LS42NSwuNjVaIi8+Cjwvc3ZnPg==" alt="Un véhicule neuf" class="radio-button-img">
+                                <p class="small fw-bold mt-2" style="color:#0f735d">Ma carte grise</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="btnsuivant">Suivant</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="demandeRecepisse" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="demandeModal">Nouvelle demande</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="demandeFrmRecepisse" method="post" enctype="multipart/form-data">
+                    <div class="alert alert-danger" role="alert" id="duplicate_alert" style="display: none;">
+                        <h2>ATTENTION!!!</h2>
+                        Une demande de macaron a déjà été faite pour ce véhicule.
+                        <br>Veuillez contactez le propriétaire ou le service client de transecureafrica  pour plus d'informations.
+                    </div>
+                    {{ include('frontend/bs/recepisse_form.html.twig') }}
+                    <input type="hidden" id="otpcode" name="otpcode" value="{{ otpcode ?? '' }}"/>
+                    <input type="hidden" id="demande_type" name="demande_type" value="{{ demande_type ?? '' }}"/>
+                    <input type="hidden" id="group_id" name="group_id" value="{{ group_id ?? '' }}"/>
+                    <input type="hidden" id="multiple_demande" name="multiple_demande" value="{{ multiple_demande ?? '' }}"/>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal" id="saveDemande">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="demandeCarteGriseModal" tabindex="-1" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-4" id="demandeModal">Nouvelle demande</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+                <div class="modal-body">
+                    <form id="demandeFrmCarteGriseModal" method="post" enctype="multipart/form-data">
+                        <div class="alert alert-danger" role="alert" id="duplicate_alert" style="display: none;">
+                            <h2>ATTENTION!!!</h2>
+                            Une demande de macaron a déjà été faite pour ce véhicule.
+                            <br>Veuillez contactez le propriétaire ou le service client de transecureafrica  pour plus d'informations.
+                        </div>
+                        {{ include('frontend/bs/carte_grise_form.html.twig') }}
+                        <input type="hidden" id="otpcode" name="otpcode" value="{{ otpcode ?? '' }}"/>
+                        <input type="hidden" id="demande_type" name="demande_type" value="{{ demande_type ?? '' }}"/>
+                        <input type="hidden" id="group_id" name="group_id" value="{{ group_id ?? '' }}"/>
+                        <input type="hidden" id="multiple_demande" name="multiple_demande" value="{{ multiple_demande ?? '' }}"/>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal" id="saveDemande">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+  {{ parent() }}
+  <script>
+  $(document).ready(function(){
+        var total = 0;
+        var group_id = '{{ group_id }}';
+        var demande_type = "recepisse";
+        var choix1 =  $("#choix1");
+        var choix2 =  $("#choix2");
+
+        choix1.click(function(e) {
+            choix1.addClass("choix-selected");
+            choix2.removeClass("choix-selected");
+            demande_type = "recepisse";
+        });
+
+        choix2.click(function(e) {
+            choix2.addClass("choix-selected");
+            choix1.removeClass("choix-selected");
+            demande_type = "carte_grise";
+        });
+
+        $("#ajouter_demande").click(function(){
+          $('#demandeTypeModal').modal('show');
+        });
+
+        $("#btnsuivant").click(function(){
+          if(demande_type == "recepisse")  $('#demandeRecepisse').modal('show');
+          if(demande_type == "carte_grise")  $('#demandeCarteGriseModal').modal('show');
+        });
+
+         $("#duplicate_alert").hide();
+         $("#date_d_edition").inputmask();
+         $("#date_de_premiere_mise_en_cirulation").inputmask();
+
+         $('#demandeFrmRecepisse').ajaxForm({
+            url: '{{ path('demande_save') }}',
+            dataType: 'json',
+            type: 'POST',
+            success: function(response) {
+              if(response.info==='nodata') return;
+              if(response.info==='duplicate'){
+                  $('#numero_immatriculation').focus({preventScroll: false});
+                  $("#duplicate_alert").show();
+              }
+              if(response.info==='success'){
+                  $("#duplicate_alert").hide();
+                  var d = response.data;
+                  console.log("row inserted" , d);
+                  var html ="<tr><td>" + d.numero_carte_grise + "</td><td>" + d.numero_recepisse + "</td><td>" + d.numero_immatriculation + "</td><td>" + d.numero_vin_chassis + "</td><td>" + d.montant + "</td><td><button data-id=" + d.id + " class='editbtn btn btn-sm btn-outline-dark'><i class='fa fa-1x fa-edit'></i></button> <button data-id=" + d.id + " class='btn btn-sm delbtn btn-outline-dark'><i class='fa fa-1x  fa-trash'></i></button></td></tr>";
+                  $("#table-demande tbody").append(html);
+                  $("#total_id").text(total+=10100);
+                  $('#btn-paiement').removeAttr('disabled');
+              }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+            }
+         });
+
+         $('#demandeFrmCarteGriseModal').ajaxForm({
+            url: '{{ path('demande_save') }}',
+            dataType: 'json',
+            type: 'POST',
+            success: function(response) {
+              if(response.info==='nodata') return;
+              if(response.info==='duplicate'){
+                  $('#numero_immatriculation').focus({preventScroll: false});
+                  $("#duplicate_alert").show();
+              }
+              if(response.info==='success'){
+                  $("#duplicate_alert").hide();
+                  var d = response.data;
+                  console.log("row inserted", d);
+                  var html ="<tr><td>" + d.numero_carte_grise + "</td><td>" + d.numero_recepisse + "</td><td>" + d.numero_immatriculation + "</td><td>" + d.numero_vin_chassis + "</td><td>" + d.montant + "</td><td><button data-id=" + d.id + " class='editbtn btn btn-sm btn-outline-dark'><i class='fa fa-1x fa-edit'></i></button> <button data-id=" + d.id + " class='btn btn-sm delbtn btn-outline-dark'><i class='fa fa-1x  fa-trash'></i></button></td></tr>";
+                  $("#table-demande tbody").append(html);
+                  $("#total_id").text(total+=10100);
+                  $('#btn-paiement').removeAttr('disabled');
+              }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+              console.log(xhr.responseText);
+            }
+         });
+
+         $('#btn-paiement').click(function(){
+            if(group_id) window.location.replace('/demande/payment/multiple/' + group_id);
+         })
+  });
+  </script>
+{% endblock %}

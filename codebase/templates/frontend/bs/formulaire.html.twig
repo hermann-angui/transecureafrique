@@ -1,0 +1,309 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}Nouvelle demande{% endblock %}
+
+{% block stylesheet %}
+    {{ parent() }}
+    <style>
+        body #__next{
+            background-color: #f2f3f2
+        }
+        .liste-etapes {
+            color: var(--text-color);
+            font-family: var(--font-text);
+            font-size: .875rem;
+            font-weight: 400;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .etape {
+            background-color: transparent;
+            border-radius: 3px;
+            padding: 56px 16px 0;
+            position: relative;
+            width: 176px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .icon {
+            top: 16px;
+            left: calc(50% - 16px);
+            width: 32px;
+            height: 32px;
+            border: 2px solid #006a53;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape.disabled .line {
+            background-color: #e0e0e0;
+        }
+        .etape .icon, .etape .line {
+            position: absolute;
+            background-color: #006a53;
+        }
+        .etape .line {
+            top: 31px;
+            left: -60px;
+            width: 120px;
+            height: 2px;
+            border-radius: 4px;
+            z-index: 1;
+        }
+        .etape.disabled .icon {
+            background-color: transparent;
+            color: #b2b2b2;
+            border-color: #e0e0e0;
+        }
+        .etape .icon, .etape .info {
+            text-align: center;
+            z-index: 2;
+        }
+        .etape .info {
+            color: #b2b2b2;
+            font-size: .875rem;
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .etape.active .info {
+            color: #444;
+            font-weight: 700;
+        }
+
+        .input, .select select {
+            width: 100%;
+            height: 48px;
+            background-color: #f9f9f9;
+            border-radius: 3px;
+            border: 1px solid #d7d7d7;
+            box-shadow: none;
+        }
+
+        #card-wrapper{
+            min-height: 500px;
+            background: rgb(252,114,0);
+            background: linear-gradient(40deg, rgba(252,114,0,1) 9%, rgba(244,130,0,0.8855917366946778) 17%, rgba(255,255,255,0.3701855742296919) 37%, rgba(255,255,255,0.4650542664670658) 73%, rgba(62,146,60,0.9398113905325444) 85%, rgba(4,113,2,1) 95%);
+        }
+
+        @media (max-width: 575.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
+        }
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            #card-wrapper{
+                background: none;
+            }
+            #left-wrapper{
+                background: none;
+            }
+        }
+
+        #left-wrapper{
+            min-height:475px;
+            background-color: #4f4f50;
+        }
+
+        #right-wrapper{
+            min-height:475px;
+        }
+
+        #left-wrapper .block{
+            margin-bottom: 50px;
+        }
+
+        #left-wrapper .block .label-lg {
+            color: #b7b7b7;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: auto;
+        }
+
+        #left-wrapper .block .label-sm {
+            color: #adadad;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            max-width: 150px;
+        }
+
+        #left-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #fff;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #e5e5e5;
+            border-radius: 0;
+        }
+
+        #left-wrapper .input:focus,
+        #left-wrapper .input:focus-visible,
+        #left-wrapper .input:focus-within{
+            border: 1px solid #e7e7e7;
+        }
+
+        #left-wrapper hr{
+            border: 1px solid #ffffff;
+        }
+
+
+        #right-wrapper .input{
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
+
+        #right-wrapper .input:focus,
+        #right-wrapper .input:focus-visible,
+        #right-wrapper.input:focus-within{
+            border: 1px solid #888888;
+        }
+
+        #right-wrapper .block{
+            margin-bottom: 5px;
+        }
+
+        #right-wrapper .block .label-lg {
+            color: #282828;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 100px;
+        }
+
+        #right-wrapper .block .label-sm {
+            color: #282828;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            max-width: 150px;
+        }
+
+        #verso .input {
+            background-color: rgba(255, 255, 255, 0);
+            color: #000000;
+            font-size: 25px;
+            font-weight: bolder;
+            border: 1px solid #c7c7c7;
+            border-radius: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div role="main" class="mx-3 mt-5">
+        <div class="liste-etapes is-clearfix">
+            <div class="etape active current"><!---->
+                <div class="icon">1</div> <!---->
+                <div class="info">Informations vehicule</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">2</div>
+                <div class="info">Récapitulatif</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">3</div> <!---->
+                <div class="info">Paiement</div>
+            </div>
+            <div class="etape disabled">
+                <div class="line"></div>
+                <div class="icon">4</div> <!---->
+                <div class="info">Reçu de paiement</div>
+            </div>
+        </div>
+
+        <div id="main" class="container row m-auto">
+            <h2 class="card-title mb-4">Informations du véhicule</h2>
+            <div class="alert alert-danger" role="alert" id="duplicate_alert" style="display: none;">
+                <h2>ATTENTION!!!</h2>
+                 Une demande de macaron a déjà été faite pour ce véhicule.
+                <br>Veuillez contactez le propriétaire ou le service client de transecureafrica  pour plus d'informations.
+            </div>
+            <form id="demandeFormulaire" method="post" enctype="multipart/form-data">
+                {% if demandeType == 'carte_grise' %}
+                     {{ include('frontend/bs/carte_grise_form.html.twig') }}
+                {% endif %}
+                {% if demandeType == 'recepisse' %}
+                    {{ include('frontend/bs/recepisse_form.html.twig') }}
+                    {#
+                    <div class="mb-3 form-group">
+                        <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en circulation</label>
+                        <input type="text" class="form-control input" name="date_de_premiere_mise_en_cirulation" id="date_de_premiere_mise_en_cirulation" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false">
+                    </div>
+                    #}
+                {% endif %}
+                <hr>
+                <div class="row justify-content-center pt-3 my-3">
+                    <input type="hidden" id="otpcode" name="otpcode" value="{{ otpcode ?? '' }}"/>
+                    <button class="btn btn-warning w-50" type="submit">Enregister</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script>
+      $(document).ready(function(){
+             $("#duplicate_alert").hide();
+             $("#date_d_edition").inputmask();
+             $("#date_de_premiere_mise_en_cirulation").inputmask();
+
+             $('#demandeFormulaire').ajaxForm({
+                url: '{{ path('demande_save') }}',
+                dataType: 'json',
+                type: 'POST',
+                success: function(response) {
+                  if(response.info==='nodata') return;
+                  if(response.info==='duplicate'){
+                      $('#numero_immatriculation').focus({preventScroll: false});
+                      $("#duplicate_alert").show();
+                  }
+                  if(response.info==='success'){
+                      $("#duplicate_alert").hide();
+                      console.log(response.demandeid);
+                      window.location.replace('/demande/recap/' + response.demandeid);
+                  }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                  console.log(xhr.responseText);
+                }
+             });
+      });
+    </script>
+{% endblock %}

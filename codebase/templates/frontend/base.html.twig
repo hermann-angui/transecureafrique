@@ -8,8 +8,8 @@
         <meta name="generator" content="">
         <title>{% block title %}Accueil{% endblock %}</title>
         {% block stylesheet %}
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
         <link  href="{{ asset('frontend/libs/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+        <link  href="{{ asset('frontend/libs/datatable/datatables.min.css') }}" rel="stylesheet" type="text/css">
         <link  href="{{ asset('frontend/libs/owl/assets/owl.carousel.min.css') }}" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
         <link  href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
@@ -320,9 +320,12 @@
 
 
 {% block javascript %}
+        <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
         <script src="{{ asset('frontend/libs/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('frontend/libs/inputmask/dist/jquery.inputmask.bundle.min.js') }}"></script>
         <script src="{{ asset('frontend/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('backend/libs/jquery.form/jquery.form.min.js') }}"></script>
+        <script src="{{ asset('frontend/libs/datatable/datatables.min.js') }}"></script>
         <script src="{{ asset('frontend/libs/owl/owl.carousel.min.js') }}"></script>
 {% endblock %}
 

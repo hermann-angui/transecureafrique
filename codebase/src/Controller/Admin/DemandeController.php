@@ -157,7 +157,7 @@ class DemandeController extends AbstractController
             if(!empty($params['receipt_number'])) {
                 $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%'";
             }
-          //  $whereResult .= " status != 'SUCCEEDED'";
+            $whereResult .= " (status = 'PROCESSING' OR status IS NULL) ";
         }
 
        // $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
@@ -169,7 +169,7 @@ class DemandeController extends AbstractController
     #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
     public function show(Demande $demande): Response
     {
-        if(!$demande->getPayment()) return $this->redirectToRoute('admin_index');
+       // if(!$demande->getPayment()) return $this->redirectToRoute('admin_index');
         return $this->render('admin/demande/show.html.twig', [
             'demande' => $demande,
             'document' => $demande->getNumeroCarteGrise() ? 'carte_grise': 'recepisse'

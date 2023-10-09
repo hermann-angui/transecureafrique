@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\OtpCodeRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OtpCodeRepository::class)]
@@ -38,13 +40,14 @@ class OtpCode
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $expired_at;
 
-    #[ORM\ManyToOne(inversedBy: 'optcodes')]
-    private ?Demande $demande = null;
+    #[ORM\OneToMany(mappedBy: 'otpCode', targetEntity: Demande::class)]
+    private Collection $demandes;
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->modified_at = new \DateTime();
+        $this->demandes = new ArrayCollection();
     }
 
     /**
@@ -178,15 +181,35 @@ class OtpCode
         return $this;
     }
 
-    public function getDemande(): ?Demande
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
     {
-        return $this->demande;
+        return $this->demandes;
     }
 
-    public function setDemande(?Demande $demande): self
+    public function addDemande(Demande $demande): static
     {
-        $this->demande = $demande;
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setOtpCode($this);
+        }
 
         return $this;
     }
+
+    public function removeDemande(Demande $demande): static
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getOtpCode() === $this) {
+                $demande->setOtpCode(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

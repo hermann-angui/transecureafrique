@@ -1,6 +1,6 @@
 {% extends 'frontend/base.html.twig' %}
 
-{% block title %}Code d'accès{% endblock %}
+{% block title %}Recu demande macaron{% endblock %}
 
 {% block stylesheet %}
     {% if app.environment != 'dev' %}
@@ -184,10 +184,11 @@
                 <h2>Afficher le reçu de paiement </h2>
                 <div class="gpm-alert gpm-alert--information gpm-alert--bgimg">
                     <div class="gpm-alert__title"><!---->
-                        <div style="font-weight: bold;">Votre paiement de <strong>{{ payment.demande.Montant }} f cfa </strong> a été effectué avec succès.</div>
+                        <div style="font-weight: bold;">Votre paiement de <strong>{{ payment.montant }} f cfa </strong> a été effectué avec succès.</div>
                         </div>
                         <div style="margin-top:20px;">
-                            <div>Nous vous prions de vous rendre à notre agence pour le retrait de votre macaron à la date indiqué sur votre reçu de paiement.</div>
+{#                            <div>Nous vous prions de vous rendre à notre agence pour le retrait de votre macaron à la date indiqué sur votre reçu de paiement.</div>#}
+                            <div>Vous êtes priés de vous rentre au <strong>Complexe sportif Angré</strong> de 9h à 17h pour le retrait de votre macaron.</div>
                             <div style="font-weight: bold;margin-top:20px;">
                                 NB: Documents obligatoires pour le retrait de votre macaron:
                             </div>

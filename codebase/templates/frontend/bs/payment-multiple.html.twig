@@ -192,15 +192,11 @@
                                                 <img src="{{ asset('frontend/demande/img/wave-logo.svg') }}" alt="wave-money" width="100" height="100">
                                             </div>
                                             <div class="px-3">
-                                                <h5>Coût du macaron: <br><span class="fs-3 fw-bolder">{{ demande.montant }} FCFA</span></h5>
+                                                <h5>Coût de votre demande: <br><span class="font-size-24 fw-bolder">{{  montant }} FCFA</span></h5>
                                             </div>
                                         </div>
                                         <div class="mx-3 py-4">
-                                            <a class="btn btn-warning w-75" tabindex="0" href="{{ path('do_payment', {id: demande.id, type: "wave_money"}) }}">
-                                                <span class="sc-440a794-0 hrlawX">
-                                                    <span>Payer</span>
-                                                </span>
-                                            </a>
+                                            <button id="payer" class="btn btn-warning w-75">Payer</button>
                                         </div>
                                     </div>
                                 </div>
@@ -218,6 +214,17 @@
 {{ parent() }}
 <script>
     $(document).ready(function(){
-    })
+       var data = {
+           'group_id': '{{ group_id }}',
+           'montant': '{{ montant }}' ,
+           'type': 'wave_money'
+       };
+
+       $("#payer").click(function(){
+            $.post("{{ path('do_payment_multiple') }}", data, function(d){
+                 console.log(d);
+            });
+       });
+    });
 </script>
 {% endblock %}

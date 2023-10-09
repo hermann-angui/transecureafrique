@@ -120,11 +120,10 @@ class PaymentController extends AbstractController
         if(!empty($params['operateur'])) {
             $whereResult .= " operateur LIKE '%". $params['operateur']. "%' AND";
         }
-        if(!empty($params['status'])) {
-            $whereResult .= " status LIKE '%". $params['status']. "%' AND";
-        }
 
-        $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
+        $whereResult .= " (status = 'SUCCEEDED' OR status = 'CLOSED')";
+
+       // $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
         $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, $whereResult);
 
         return new JsonResponse($response);

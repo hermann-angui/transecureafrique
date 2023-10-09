@@ -90,4 +90,22 @@ class WaveService
         }
     }
 
+    public function makeMultilePayment($groupId, $montant) : ?WaveCheckoutResponse
+    {
+        try{
+            $waveCheckoutRequest = new WaveCheckoutRequest();
+            $waveCheckoutRequest->setCurrency("XOF")
+                ->setAmount($montant)
+                ->setClientReference(Uuid::v4()->toRfc4122())
+                ->setSuccessUrl(self::SUCCESS_URL);
+
+            $waveResponse = $this->checkOutRequest($waveCheckoutRequest);
+            if($waveResponse) return $waveResponse;
+            else return null;
+
+        }catch(\Exception $e){
+            return null;
+        }
+    }
+
 }

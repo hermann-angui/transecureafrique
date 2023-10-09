@@ -78,7 +78,7 @@ class WebSiteController extends AbstractController
     }
 
     #[Route(path: '/otp', name: 'otp')]
-    public function otp(Request $request, OtpService $otpService /*, InfoBipService $infoBipService*/): Response
+    public function otp(Request $request, OtpService $otpService , DemandeRepository $demandeRepository): Response
     {
         $phoneNumber = trim(str_replace("-", "", substr($request->get('numerotelInput'), strlen(self::CIV_CODE))));
         if (!$phoneNumber) return $this->redirectToRoute('auth');
@@ -86,21 +86,14 @@ class WebSiteController extends AbstractController
         if (!$otpCode){
             $generatedCode = OtpService::generate(6);
             $otpCode = $otpService->create(new OtpRequest($generatedCode, $phoneNumber, null));
-        }
-        return $this->redirectToRoute('demande_select_type', ['authid' => $otpCode->getId()]);
-
-        /*
-        $existingOtp = $otpService->getByPhone($phoneNumber);
-        // $otpService->checkOtpValidity($existingOtp);
-        if (!$existingOtp){
-            $generatedCode = OtpService::generate(6);
-            $message = "Votre code de vérification transecureafrica.com : " . $generatedCode;
-            $result = $infoBipService->sendMessageTo($message, $phoneNumber);
-            if (!in_array($result["status"], ["REJECTED", "FAILED", "ERROR", "EXPIRED"])) {
-                $otpService->create(new OtpRequest($generatedCode, $phoneNumber, $result["messageId"]));
+           return $this->redirectToRoute('select_demande_type', ["id" => $otpCode->getId()]);
+        }else{
+            $demandes = $demandeRepository->findBy(['otpCode' => $otpCode]);
+            if(empty($demandes)){
+                return $this->redirectToRoute('select_demande_type', ["id" => $otpCode->getId()]);
+            }else{
+                return $this->redirectToRoute('demande_history', ["id" => $otpCode->getId()]);
             }
         }
-        return $this->render('frontend/bs/otp.html.twig', ["otp" => $existingOtp]);
-        */
     }
 }

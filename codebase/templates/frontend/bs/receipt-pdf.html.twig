@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center">
+<div style="display: flex; justify-content: center; align-items: center">
     <table>
         <tr style="border-bottom: 2px solid #211f1f; ">
             <td style="padding: 15px 15px;">
@@ -8,46 +8,33 @@
             <td style="padding: 15px 15px;">
                 <p style="font-weight: bolder; font-size: 25px; text-transform: capitalize">RECU DE PAIEMENT MACARON - VTC</p>
                 <p style="font-weight: bolder">Num Re&ccedil;u:   {{ payment.ReceiptNumber }}</p>
-                <p style="font-weight: bolder">Date de votre rendez-vous:  {{ demande.DateRendezVous | date('d/m/Y')}}</p>
+                <p style="font-weight: bolder"> Date de la demande : {{ demande.CreatedAt | date('d/m/Y')}}</p>
+                <p style="font-weight: bolder"> Moyen de paiement : {{ payment.Type }}</p>
+{#              <p style="font-weight: bolder">Date de votre rendez-vous:  {{ payment.DateRendezVous | date('d/m/Y')}}</p>#}
             </td>
         </tr>
-        <tr>
-            <td colspan="2" style="padding: 15px 15px; font-weight: bolder">
-                Date: {{ demande.CreatedAt | date('d/m/Y')}}
-            </td>
+    </table>
+    <br>
+    <table style="margin-top: 10px;border-collapse: collapse;table-layout: fixed;width: 100%;">
+        <tr style="border-collapse: collapse;">
+            <th style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">Num&eacute;ro vin/chassis</th>
+            <th style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">Marque du v&eacute;hicule</td>
+            <th style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">Type commercial</th>
+            <th style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">Montant (CFA)</th>
         </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Num&eacute;ro vin/chassis</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.NumeroVinChassis }}</td>
+        <tr  style="border-collapse: collapse;">
+            <td style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">{{ demande.NumeroVinChassis }}</td>
+            <td style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">{{ demande.MarqueDuVehicule }}</td>
+            <td style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">{{ demande.TypeCommercial }}</td>
+            <td style="border: 1px solid black; border-collapse: collapse; padding: 5px 5px;">{{ payment.Montant }}</td>
         </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Marque du v&eacute;hicule</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.MarqueDuVehicule }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Type commercial</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.TypeCommercial }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Montant (CFA)</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ demande.Montant }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Montant en lettres</td>
-            <td style="padding: 15px 15px; font-weight: bolder">Dix mille cents francs</td>
-        </tr>
-        <tr>
-            <td style="padding: 15px 15px;">Moyen de paiement</td>
-            <td style="padding: 15px 15px; font-weight: bolder">{{ payment.Type }}</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="margin-top:50px;padding: 15px 15px;text-align: center">
+        <tr  style="border-collapse: collapse;">
+            <td colspan="4" style="margin-top:50px;padding: 15px 15px;text-align: center">
                 <img src="/var/www/html/public/frontend/media/{{ payment.ReceiptNumber }}_barcode.png" width="150" height="150">
             </td>
         </tr>
-        <tr>
-            <td colspan="2" style="padding: 15px 15px; text-align: center">
-                <p>Rendez-vous &agrave; notre agence pour le retrait de votre macaron.</p>
+        <tr  style="border-collapse: collapse;">
+            <td colspan="4" style="padding: 15px 15px; text-align: center">
                 <p>Pour plus d'informations, contactez le service d'assistance : </p>
                 <div>
                     <ul style="text-align: center; list-style: none">
@@ -71,6 +58,7 @@
                         <li>Le num&eacute;ro de t&eacute;l&eacute;phone du propri&eacute;taire du v&eacute;hicule </li>
                     </ul>
                 </div>
+                <p style="font-weight: bold;margin-top:20px; color:black">Rendez-vous au stade de Angr&eacute; &agrave; partir de 9H pour le retrait de votre macaron.</p>
             </div>
         </tr>
     </table>

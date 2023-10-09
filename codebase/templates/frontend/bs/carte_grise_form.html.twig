@@ -1,0 +1,129 @@
+
+    <div id="recto" >
+        <div id="card-wrapper" class="container row m-auto border border-1 rounded-left rounded-4 shadow-sm">
+            <div id="left-wrapper" class="col-lg-4 col-md-5 col-sm-12 text-white rounded-left rounded-start-4 mx-2 my-3 p-3">
+                <div class="block mt-4">
+                    <label class="label-lg" for="numero_immatriculation">Numéro d'immatriculation<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                    <input type="text"  class="input" name="numero_immatriculation" id="numero_immatriculation" required>
+                </div>
+                <div class="block">
+                    <label class="label-lg" for="numero_carte_grise">Numéro de Carte Grise<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                    <input type="text"  class="input" name="numero_carte_grise" id="numero_carte_grise" required/>
+                </div>
+                <hr>
+                <div class="block">
+                    <label class="label-sm" for="date_premire_mise_en_circulation">Date de 1ère mise en circulation</label>
+                    <input type="text" class="input"  name="date_de_premiere_mise_en_cirulation" id="date_de_premiere_mise_en_cirulation" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false"/>
+                </div>
+                <hr>
+                <div class="block">
+                    <label class="label-sm" for="date_d_edition">Date d'édition</label>
+                    <input type="text" class="input"  name="date_d_edition" id="date_d_edition" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" im-insert="false"/>
+                </div>
+            </div>
+            <div id="right-wrapper" class="col-lg-7 col-md-6 col-sm-12 border border-1 mr-2 my-3 p-3">
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="block">
+                        <label class="label-sm" for="identite_proprietaire">Identité du propriètaire</label>
+                        <input type="text" id="identite_proprietaire"  name="identite_proprietaire" class="input"/>
+                        <input type="text" id="identite_proprietaire_piece" name="identite_proprietaire_piece" class="input"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="block">
+                            <label class="label-sm" for="marque_du_vehicule">Marque</label>
+                            <input type="text" id="marque_du_vehicule" class="input" name="marque_du_vehicule" id="identite_proprietaire_piece"/>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="type_commercial">Type commercial</label>
+                            <input type="text" name="type_commercial" id="type_commercial" class="input"/>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="couleur_vehicule">Couleur</label>
+                            <input type="text" name="couleur_vehicule" id="couleur_vehicule" class="input"/>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="carroserie_vehicule">Carroserie</label>
+                            <input type="text" name="carroserie_vehicule" id="carroserie_vehicule" class="input"/>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="energie_vehicule">Energie</label>
+                            <select id="energie_vehicule" class="input" name="energie_vehicule">
+                                <option value="ESSENCE" selected>ESSENCE</option>
+                                <option value="GAZOIL" >GASOIL</option>
+                            </select>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="identite_proprietaire">Places assises</label>
+                            <input type="number" name="places_assises" id="places_assises"  class="input"/>
+                            <span>P.T.A.C (Kg)</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-between">
+                        <div class="block">
+                            <label class="label-sm" for="genre_vehicule">Genre</label>
+                            <input type="text" name="genre_vehicule" id="genre_vehicule" class="input"/>
+                        </div>
+                        <div>
+                            <div class="block">
+                                <label class="label-sm" for="usage_vehicule">Usage du véhicule</label>
+                                <input type="text" name="usage_vehicule" id="usage_vehicule" class="input"/>
+                                <span>P.T.A.C (Kg)</span>
+                            </div>
+                            <div class="block">
+                                <label class="label-sm" for="puissance_fiscale">Puissance fiscale (CV)</label>
+                                <input type="text" name="puissance_fiscale" id="puissance_fiscale" class="input"/>
+                                <span>P.V (Kg)</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 d-flex flex-column justify-content-end">
+                        <div class="block">
+                            <label class="label-sm" for="nombre_d_essieux">Nombre d'essieu</label>
+                            <input type="number" name="nombre_d_essieux" id="nombre_d_essieux"  class="input"/>
+                        </div>
+                        <div class="block">
+                            <label class="label-sm" for="cylindree">Cylindree (CV)</label>
+                            <input type="number" name="cylindree" id="cylindree" class="input"/>
+                            <span>C.U (Kg)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="verso" class="container row m-auto">
+        <div class="border border-1 rounded-left rounded-4 mx-2 my-5 p-5 shadow-sm">
+            <div class="row">
+                <div style="background-image: url({{ asset('frontend/assets/img/barcode.gif') }}); height:50px; width:75%"></div>
+            </div>
+            <div class="row my-5">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="block  mb-4">
+                        <label class="label-sm" for="numero_vin_chassis">Numéro vin chassis<span class="text-danger"> * </span><span class="small text-danger"> (champ obligatoire) </span></label>
+                        <input type="text" name="numero_vin_chassis" id="numero_vin_chassis" class="input" required/>
+                    </div>
+                    <div class="block  mb-4">
+                        <label class="label-sm" for="societe_de_credit">Société de crédit</label>
+                        <input type="text" name="societe_de_credit" id="societe_de_credit" class="input"/>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="block mb-4">
+                        <label class="label-sm" for="type_technique">Type technique</label>
+                        <input type="text" name="type_technique" id="type_technique"  placeholder="" class="input"/>
+                    </div>
+                    <div class="block mb-4">
+                        <label class="label-sm" for="numero_d_immatriculation_precedent">Numéro d'immatriculation précédent</label>
+                        <input type="text" name="numero_d_immatriculation_precedent" id="numero_d_immatriculation_precedent" class="input"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

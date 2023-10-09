@@ -31,9 +31,9 @@ class PaymentService
      * @param string $viewTemplate
      * @return PdfResponse
      */
-    public function downloadPdfReceipt(?Payment $payment, string $viewTemplate){
+    public function downloadPdfReceipt(?Payment $payment){
         set_time_limit(0);
-        $content = $this->generateReceipt($payment, $viewTemplate);
+        $content = $this->generateReceipt($payment);
         return new PdfResponse($content, 'recu_macaron.pdf');
     }
 
@@ -43,7 +43,7 @@ class PaymentService
      * @param string $viewTemplate
      * @return string|null
      */
-    public function generateReceipt(?Payment $payment, string $viewTemplate)
+    public function generateReceipt(?Payment $payment)
     {
         try {
             $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $payment->getReceiptNumber();
@@ -51,10 +51,18 @@ class PaymentService
             $folder = self::MEDIA_DIR . $payment->getReceiptNumber();
             if(!file_exists(self::MEDIA_DIR)) mkdir(self::MEDIA_DIR, 0777, true);
             file_put_contents( $folder . "_barcode.png", $content);
-            $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $payment->getDemande()]);
-            file_put_contents($folder . "_receipt.pdf", $content);
-            if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
-            return $content ?? null;
+
+            if($payment->getGroupe() && $payment->getGroupeId()){
+
+            }else{
+                $viewTemplate = 'frontend/bs/receipt-pdf.html.twig';
+                $demandes = $payment->getDemandes();
+                $content = $this->pdfGenerator->generatePdf($viewTemplate, ['payment' => $payment, 'demande' => $demandes[0]]);
+                file_put_contents($folder . "_receipt.pdf", $content);
+                if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
+                return $content ?? null;
+            }
+
         }catch(\Exception $e){
             if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
             if(file_exists($folder . "_receipt.pdf")) \unlink($folder . "_receipt.pdf");

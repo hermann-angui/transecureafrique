@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use App\Repository\PaymentRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
@@ -38,19 +40,29 @@ class Payment
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $code_payment_operateur;
 
+    #[ORM\Column(type: 'boolean',  nullable: true)]
+    private ?bool $groupe = false;
+
+    #[ORM\Column(type: 'string', length: 300, nullable: true)]
+    private ?string $groupe_id;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $date_rendez_vous;
+
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $created_at;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private DateTime $modified_at;
 
-    #[ORM\OneToOne(mappedBy: 'payment', cascade: ['persist', 'remove'])]
-    private ?Demande $demande = null;
+    #[ORM\OneToMany(mappedBy: 'payment', targetEntity: Demande::class)]
+    private Collection $demandes;
 
     public function __construct()
     {
         $this->created_at = new \DateTime();
         $this->modified_at = new \DateTime();
+        $this->demandes = new ArrayCollection();
     }
 
     /**
@@ -202,28 +214,6 @@ class Payment
         return $this;
     }
 
-    public function getDemande(): ?Demande
-    {
-        return $this->demande;
-    }
-
-    public function setDemande(?Demande $demande): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($demande === null && $this->demande !== null) {
-            $this->demande->setPayment(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($demande !== null && $demande->getPayment() !== $this) {
-            $demande->setPayment($this);
-        }
-
-        $this->demande = $demande;
-
-        return $this;
-    }
-
     /**
      * @return string|null
      */
@@ -239,6 +229,90 @@ class Payment
     public function setReceiptNumber(?string $receipt_number): Payment
     {
         $this->receipt_number = $receipt_number;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demande>
+     */
+    public function getDemandes(): Collection
+    {
+        return $this->demandes;
+    }
+
+    public function addDemande(Demande $demande): static
+    {
+        if (!$this->demandes->contains($demande)) {
+            $this->demandes->add($demande);
+            $demande->setPayment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemande(Demande $demande): static
+    {
+        if ($this->demandes->removeElement($demande)) {
+            // set the owning side to null (unless already changed)
+            if ($demande->getPayment() === $this) {
+                $demande->setPayment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getGroupe(): ?bool
+    {
+        return $this->groupe;
+    }
+
+    /**
+     * @param bool|null $groupe
+     * @return Payment
+     */
+    public function setGroupe(?bool $groupe): Payment
+    {
+        $this->groupe = $groupe;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGroupeId(): ?string
+    {
+        return $this->groupe_id;
+    }
+
+    /**
+     * @param string|null $groupe_id
+     * @return Payment
+     */
+    public function setGroupeId(?string $groupe_id): Payment
+    {
+        $this->groupe_id = $groupe_id;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDateRendezVous(): ?DateTime
+    {
+        return $this->date_rendez_vous;
+    }
+
+    /**
+     * @param DateTime $date_rendez_vous
+     * @return Payment
+     */
+    public function setDateRendezVous(?DateTime $date_rendez_vous): Payment
+    {
+        $this->date_rendez_vous = $date_rendez_vous;
         return $this;
     }
 

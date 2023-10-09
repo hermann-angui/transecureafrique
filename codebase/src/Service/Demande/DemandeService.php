@@ -85,28 +85,16 @@ class DemandeService
             if(array_key_exists("macaron_qrcode_number", $data))  $demande->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
             if(array_key_exists("numero_telephone_proprietaire", $data))  $demande->setNumeroTelephoneProprietaire(strtoupper(trim($data["numero_telephone_proprietaire"])));
 
-
             $demande->setMontant(self::MONTANT);
 
-            // Appointment is after two day if saturday or sunday postpone to monday
-            $appointmentDate = new \DateTime();
-            $appointmentDate->modify("+2 day");
-            $d = $appointmentDate->format('N');
-            if($d == 6) $appointmentDate->modify("+2 day");
-            if($d == 7) $appointmentDate->modify("+1 day ");
-            $demande->setDateRendezVous($appointmentDate);
+            if(array_key_exists("group_id", $data)) {
+                $demande->setGroupe(true);
+                $demande->setGroupeId($data['group_id']);
+            }
+
 
             $otpCode = $this->otpCodeRepository->find($data["otpcode"]);
-            $demande->addOptcode($otpCode);
-
-            /*
-            if (array_key_exists("authid", $data)) {
-                $otpCode = $this->otpCodeRepository->find($data["authid"]);
-                if ($otpCode && !$demande->getOtpCode()) {
-                    $demande->setOtpCode($otpCode);
-                }
-            }
-            */
+            $demande->setOtpCode($otpCode);
 
             $this->demandeRepository->add($demande, true);
             return $demande;
@@ -180,8 +168,6 @@ class DemandeService
                 }
             }
 
-           // $demande->setLastEditor($data["user"]);
-
             $this->demandeRepository->add($demande, true);
             return $demande;
         }catch (UniqueConstraintViolationException $e){
@@ -226,4 +212,42 @@ class DemandeService
 
         return $appointmentDate;
     }
+
+    public function checkDuplicateEntry($data)
+    {
+        $doublons = [
+            "numero_carte_grise" => null,
+            "numero_immatriculation" => null,
+            "numero_recepisse" => null,
+            "numero_vin_chassis" => null,
+        ];
+        if(array_key_exists("numero_recepisse", $data)){
+            $demande = $this->demandeRepository->findOneByNumeroRecepisseOrNumeroVinChassis(
+                $data['numero_recepisse'],
+                $data['numero_vin_chassis'],
+            );
+            if($demande) {
+                if ($demande->getNumeroCarteGrise() === $data['numero_carte_grise'] && !empty($data['numero_carte_grise'])) $doublons["numero_carte_grise"] = $demande->getNumeroCarteGrise();
+                if($demande->getNumeroVinChassis() === $data['numero_vin_chassis'] && isset($data['numero_vin_chassis'])) $doublons["numero_vin_chassis"] = $demande->getNumeroVinChassis();
+                return $doublons;
+            }
+        }
+
+        if(array_key_exists("numero_carte_grise", $data) && array_key_exists("numero_immatriculation", $data) && array_key_exists("numero_vin_chassis", $data)){
+            $demande = $this->demandeRepository->findOneByNumeroCarteGriseOrNumeroImmatriculationOrNumeroVinChassis(
+                $data['numero_carte_grise'],
+                $data['numero_immatriculation'],
+                $data['numero_vin_chassis']
+            );
+            if($demande){
+                if($demande->getNumeroCarteGrise() === $data['numero_carte_grise'] && isset($data['numero_carte_grise'])) $doublons["numero_carte_grise"] = $demande->getNumeroCarteGrise();
+                if ($demande->getNumeroImmatriculation() === $data['numero_immatriculation'] && !empty($data['numero_immatriculation'])) $doublons["numero_immatriculation"] = $demande->getNumeroImmatriculation();
+                if($demande->getNumeroVinChassis() === $data['numero_vin_chassis'] && isset($data['numero_vin_chassis'])) $doublons["numero_vin_chassis"] = $demande->getNumeroVinChassis();
+                return $doublons;
+            }
+        }
+
+        return null;
+    }
+
 }

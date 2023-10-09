@@ -187,8 +187,8 @@
                                         <div class="col-4">
                                             N° RECU : <strong class="badge badge-pill bg-info font-size-12"> {{ demande.ReceiptNumber ?? 'n/a' }}</strong>
                                         </div>
-                                        <div class="col-2">
-                                            STATUT : <strong class="badge badge-pill bg-success font-size-15">{{ demande.Status ?? 'n/a' }}</strong>
+                                        <div class="col-4">
+                                            STATUT : <strong class="badge badge-pill bg-success">{{ demande.Status ?? 'En attente de paiement' }}</strong>
                                         </div>
                                         <div class="col-4">
                                             DATE DU RENDEZ-VOUS: <strong class="badge badge-pill bg-info font-size-12"> {{ demande.DateRendezVous|date('d/m/Y') }}</strong>
@@ -203,6 +203,7 @@
 
                 <div class="container-fluid d-flex m-auto">
                     <div class="row d-flex m-auto">
+                        {% if demande.status == "SUCCEEDED" or  demande.status == "CLOSED" %}
                         <div class="col-xl-12 col-md-12">
                             <div class="card rounded rounded-3 shadow-sm">
                                 <div class="card-body">
@@ -215,10 +216,12 @@
                                         <div class="col-xl-3 col-md-3">
                                             <a href="javascript: void(0);" id="macaron_qrcode_number" data-url="{{ path("admin_demande_edit_ajax", {id: demande.id}) }}" data-type="text" data-pk="1" data-title="Numéro QRrCode du macaron" class="editable editable-click">{{ demande.MacaronQrcodeNumber }}</a>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
                         <div class="col-xl-12 col-md-12">
                             {% if document == 'carte_grise' %}
                                 <div id="recto" class="card rounded rounded-3 shadow-sm">
@@ -478,9 +481,14 @@
                                                 <button class="ml-3 btn btn-link" id="recepisse_image_btn">uploader</button>
                                             </div>
                                         </div>
+
                                         <div class="row justify-content-center mt-5">
-                                            <button class="btn btn-dark w-50" id="generate_macaron">GENERER LE MACARON</button>
+                                            {% if demande.status == "SUCCEEDED" or  demande.status == "CLOSED" %}
+                                            <button class="btn btn-dark w-25" id="generate_macaron">GENERER LE MACARON</button>
+                                            {% endif %}
+                                            <a href="{{ path('admin_demande_index') }}" class="btn btn-info w-25" id="generate_macaron">FERMER</a>
                                         </div>
+
                                     </div>
                                 </div>
                             {% endif %}

@@ -111,4 +111,28 @@ class DemandeRepository extends ServiceEntityRepository
             ->getSingleScalarResult()
             ;
     }
+
+    public function findOneByNumeroRecepisseOrNumeroVinChassis($numero_recepisse, $numero_vin_chassis){
+        return $this->createQueryBuilder('d')
+            ->where('d.numero_recepisse = :numero_recepisse')
+            ->orWhere('d.numero_vin_chassis = :numero_vin_chassis')
+            ->setParameter("numero_recepisse", $numero_recepisse)
+            ->setParameter("numero_vin_chassis", $numero_vin_chassis)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findOneByNumeroCarteGriseOrNumeroImmatriculationOrNumeroVinChassis($numero_carte_grise, $numero_immatriculation, $numero_vin_chassis){
+        return $this->createQueryBuilder('d')
+            ->where('d.numero_carte_grise = :numero_carte_grise')
+            ->orWhere('d.numero_immatriculation = :numero_immatriculation')
+            ->orWhere('d.numero_vin_chassis = :numero_vin_chassis')
+            ->setParameter("numero_carte_grise", $numero_carte_grise)
+            ->setParameter("numero_immatriculation", $numero_immatriculation)
+            ->setParameter("numero_vin_chassis", $numero_vin_chassis)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }
