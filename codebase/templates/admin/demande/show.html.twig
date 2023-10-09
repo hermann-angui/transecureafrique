@@ -166,7 +166,7 @@
         <div class="main-content">
 
             <div class="page-content">
-                <div class="container-fluid">
+                <div class="">
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
@@ -486,7 +486,7 @@
                                             {% if demande.status == "SUCCEEDED" or  demande.status == "CLOSED" %}
                                             <button class="btn btn-dark w-25" id="generate_macaron">GENERER LE MACARON</button>
                                             {% endif %}
-                                            <a href="{{ path('admin_demande_index') }}" class="btn btn-info w-25" id="generate_macaron">FERMER</a>
+                                            <a href="{{ path('admin_demande_index') }}" class="btn btn-info w-25">FERMER</a>
                                         </div>
 
                                     </div>

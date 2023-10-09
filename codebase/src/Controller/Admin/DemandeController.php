@@ -95,6 +95,27 @@ class DemandeController extends AbstractController
                 'dt' => 'numero_vin_chassis'
             ],
             [
+                'db' => 'date_rendez_vous',
+                'dt' => 'date_rendez_vous'
+            ],
+            [
+                'db' => 'status',
+                'dt' => 'status',
+                'formatter' => function($d, $row) {
+                    switch($d) {
+                        case "PROCESSING":
+                            return "<span class='badge rounded-pill text-bg-info'>EN ATTENTE</span>";
+                        case "PAYE":
+                            return "<span class='badge rounded-pill text-bg-success'>PAYE</span>";
+                        case "CLOSED":
+                            return "<span class='badge rounded-pill text-bg-dark'>TERMINE</span>";
+                        default:
+                            return "<span class='badge rounded-pill text-bg-info'>EN ATTENTE</span>";
+                    }
+
+                }
+            ],
+            [
                 'db' => 'receipt_number',
                 'dt' => 'receipt_number'
             ],
