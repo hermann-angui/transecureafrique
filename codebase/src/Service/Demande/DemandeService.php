@@ -6,6 +6,7 @@ use App\Entity\Demande;
 use App\Helper\FileUploadHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\OtpCodeRepository;
+use App\Repository\PaymentRepository;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -213,7 +214,7 @@ class DemandeService
         return $appointmentDate;
     }
 
-    public function checkDuplicateEntry($data)
+    public function checkDuplicateEntry($data, PaymentRepository $paymentRepository)
     {
         $doublons = [
             "numero_carte_grise" => null,
@@ -221,16 +222,25 @@ class DemandeService
             "numero_recepisse" => null,
             "numero_vin_chassis" => null,
         ];
-        if(array_key_exists("numero_recepisse", $data)){
+        if(array_key_exists("numero_recepisse", $data) && array_key_exists("numero_vin_chassis", $data)){
             $demande = $this->demandeRepository->findOneByNumeroRecepisseOrNumeroVinChassis(
                 $data['numero_recepisse'],
                 $data['numero_vin_chassis'],
             );
-            if($demande) {
-                if ($demande->getNumeroCarteGrise() === $data['numero_carte_grise'] && !empty($data['numero_carte_grise'])) $doublons["numero_carte_grise"] = $demande->getNumeroCarteGrise();
+            if($demande && in_array($demande->getStatus(), ['CLOSED', 'PAYE'])) {
+                if ($demande->getNumeroCarteGrise() === $data['numero_recepisse'] && !empty($data['numero_recepisse'])) $doublons["numero_recepisse"] = $demande->getNumeroCarteGrise();
                 if($demande->getNumeroVinChassis() === $data['numero_vin_chassis'] && isset($data['numero_vin_chassis'])) $doublons["numero_vin_chassis"] = $demande->getNumeroVinChassis();
                 return $doublons;
             }
+            if($demande && !$demande->getGroupe()){
+                $demande->setStatus(null);
+                $this->demandeRepository->add($demande);
+                if($demande->getPayment()) {
+                    $demande->setPayment(null);
+                    $paymentRepository->remove($demande->getPayment(), true);
+                }
+            }
+            return $demande;
         }
 
         if(array_key_exists("numero_carte_grise", $data) && array_key_exists("numero_immatriculation", $data) && array_key_exists("numero_vin_chassis", $data)){
@@ -239,12 +249,21 @@ class DemandeService
                 $data['numero_immatriculation'],
                 $data['numero_vin_chassis']
             );
-            if($demande){
+            if($demande && in_array($demande->getStatus(), ['CLOSED', 'PAYE'])){
                 if($demande->getNumeroCarteGrise() === $data['numero_carte_grise'] && isset($data['numero_carte_grise'])) $doublons["numero_carte_grise"] = $demande->getNumeroCarteGrise();
                 if ($demande->getNumeroImmatriculation() === $data['numero_immatriculation'] && !empty($data['numero_immatriculation'])) $doublons["numero_immatriculation"] = $demande->getNumeroImmatriculation();
                 if($demande->getNumeroVinChassis() === $data['numero_vin_chassis'] && isset($data['numero_vin_chassis'])) $doublons["numero_vin_chassis"] = $demande->getNumeroVinChassis();
                 return $doublons;
             }
+            if($demande && !$demande->getGroupe()){
+                $demande->setStatus(null);
+                $this->demandeRepository->add($demande);
+               if($demande->getPayment()) {
+                   $demande->setPayment(null);
+                   $paymentRepository->remove($demande->getPayment(), true);
+               }
+            }
+            return $demande;
         }
 
         return null;

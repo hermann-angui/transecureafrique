@@ -51,7 +51,6 @@ class PaymentController extends AbstractController
         else return $this->redirectToRoute('home');
     }
 
-
     #[Route(path: '/multiple/do', name: 'do_payment_multiple')]
     public function doPaymentMultiple(Request $request,
                                       WaveService $waveService,

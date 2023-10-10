@@ -9,8 +9,6 @@
             background-color: #f2f3f2
         }
         .liste-etapes {
-            color: var(--text-color);
-            font-family: var(--font-text);
             font-size: .875rem;
             font-weight: 400;
             line-height: 1.25;
@@ -219,6 +217,10 @@
             border: 1px solid #c7c7c7;
             border-radius: 0;
         }
+
+        input.error{
+            border: 2px solid #c20202;
+        }
     </style>
 {% endblock %}
 
@@ -248,11 +250,6 @@
 
         <div id="main" class="container row m-auto">
             <h2 class="card-title mb-4">Informations du véhicule</h2>
-            <div class="alert alert-danger" role="alert" id="duplicate_alert" style="display: none;">
-                <h2>ATTENTION!!!</h2>
-                 Une demande de macaron a déjà été faite pour ce véhicule.
-                <br>Veuillez contactez le propriétaire ou le service client de transecureafrica  pour plus d'informations.
-            </div>
             <form id="demandeFormulaire" method="post" enctype="multipart/form-data">
                 {% if demandeType == 'carte_grise' %}
                      {{ include('frontend/bs/carte_grise_form.html.twig') }}
@@ -273,7 +270,28 @@
                 </div>
             </form>
         </div>
+    </div>
 
+
+    <div class="modal fade" id="messageBox" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">ALERT!!!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert" id="duplicate_alert" style="display: none;">
+                        <h2>ATTENTION!!!</h2>
+                        Une demande de macaron a déjà été faite pour ce véhicule.
+                        <br>Veuillez contactez le propriétaire ou le service client de transecureafrica pour plus d'informations.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block javascript %}
@@ -283,6 +301,15 @@
              $("#duplicate_alert").hide();
              $("#date_d_edition").inputmask();
              $("#date_de_premiere_mise_en_cirulation").inputmask();
+
+             $('#numero_recepisse').on("focus", function(){
+                 $(this).removeClass('error');
+             });
+
+             $('#messageBox').on("hidden.bs.modal",function(){
+                 window.location.replace('{{ path('select_demande_type', {id: otpcode}) }}');
+             });
+
 
              $('#demandeFormulaire').ajaxForm({
                 url: '{{ path('demande_save') }}',

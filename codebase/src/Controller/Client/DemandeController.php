@@ -28,7 +28,7 @@ class DemandeController extends AbstractController
         if($request->getMethod() === "POST") {
             $data = $request->request->all();
             if(empty($data['otpcode'])) return $this->redirectToRoute('auth');
-            if($data['multiple_demande'] === "1") {
+            if(array_key_exists('multiple_demande', $data) && $data['multiple_demande'] === "1") {
                 return $this->render('frontend/bs/multiple-demande.html.twig', [
                         "demande_type" => $data['demande_type'],
                         "otpcode" => $data['otpcode'],
@@ -37,6 +37,7 @@ class DemandeController extends AbstractController
                     ]
                 );
             }else{
+               if(!array_key_exists('demande_type', $data) || !array_key_exists('otpcode', $data)) return $this->redirectToRoute('auth');
                 return $this->render('frontend/bs/formulaire.html.twig', [
                         "demandeType" => $data['demande_type'],
                         "otpcode" => $data['otpcode']
@@ -47,29 +48,29 @@ class DemandeController extends AbstractController
         return $this->redirectToRoute('auth');
     }
     #[Route(path: '/formulaire/save', name: 'demande_save', methods: ['POST', 'GET'])]
-    public function demande(Request $request, DemandeService $demandeService): Response
+    public function demande(Request $request,
+                            PaymentRepository $paymentRepository,
+                            DemandeService $demandeService): Response
     {
         if($request->getMethod() === "POST") {
             $data = $request->request->all();
             if(empty($data['otpcode'])) return $this->redirectToRoute('auth');
-            $res = $demandeService->checkDuplicateEntry($data);
-            if(is_array($res) && !empty($res)) {
+            $duplicateDemande= $demandeService->checkDuplicateEntry($data, $paymentRepository);
+            if(is_array($duplicateDemande) && !empty($res)) {
                 $res["info"] = "duplicate";
                 return $this->json($res);
             }
-            $res = $demandeService->create($data);
-            if($res instanceof Demande) {
-                $data = [
-                    "id" => $res->getId(),
-                    "numero_carte_grise" => $res->getNumeroCarteGrise(),
-                    "numero_immatriculation" => $res->getNumeroImmatriculation(),
-                    "numero_vin_chassis" => $res->getNumeroVinChassis(),
-                    "numero_recepisse" => $res->getNumeroRecepisse(),
-                    "montant" => $res->getMontant(),
-                ];
-                return $this->json(["info" => "success", "demandeid" => $res->getId(), "data" => $data]);
-            }
-            else return $this->json(['info' => 'nodata']);
+            if($duplicateDemande instanceof Demande)  $demande = $demandeService->update($duplicateDemande, $data);
+            else $demande = $demandeService->create($data);
+            $d = [
+                "id" => $demande->getId(),
+                "numero_carte_grise" => $demande->getNumeroCarteGrise(),
+                "numero_immatriculation" => $demande->getNumeroImmatriculation(),
+                "numero_vin_chassis" => $demande->getNumeroVinChassis(),
+                "numero_recepisse" => $demande->getNumeroRecepisse(),
+                "montant" => $demande->getMontant()
+            ];
+            return $this->json(["info" => "success", "demandeid" => $demande->getId(), "data" => $d]);
         }
         return $this->redirectToRoute('auth');
     }
@@ -131,12 +132,16 @@ class DemandeController extends AbstractController
             [
                 'db'        => 'id',
                 'dt'        => '',
-                'formatter' => function($d, $row) {
+                'formatter' => function($d, $row) use($demandeRepository) {
                     $id = $row['id'];
-                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
-                                      <li><a href='/demande/formulaire/edit/$id' class='btn btn-sm btn-dark'><i class='mdi mdi-pen'></i></a></li>
-                                      <li><a href='/demande/receipt-pdf/$id' class='btn btn-sm btn-dark'><i class='mdi mdi-printer'></i></a></li>
-                                </ul>";
+                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>";
+                    if(!in_array($row['status'], ["PAYE", "CLOSED"])) $content .= "<li><a href='/demande/formulaire/edit/$id' class='btn btn-sm btn-info text-white'><i class='mdi mdi-pen'></i> Poursuivre la demande</a></li>";
+                    else {
+                        $demande = $demandeRepository->find($id);
+                        $payment_id = $demande->getPayment()->getId();
+                        $content .= "<li><a href='/demande/receipt-pdf/$payment_id' class='btn btn-sm btn-dark'><i class='mdi mdi-printer'></i> Imprimer le recu</a></li>";
+                    }
+                    $content .= "</ul>";
                     return $content;
                 }
             ]
@@ -149,12 +154,14 @@ class DemandeController extends AbstractController
             'host' => $paramDB['host']
         );
 
-
         $whereResult = '';
         if(!empty($params['optcode'])){
-            $whereResult .= " otp_code_id = '". trim($params['optcode']) . "'";
+            $whereResult .= " otp_code_id = '". trim($params['optcode']) . "' AND ";
         }
 
+    //    $whereResult .= " (status = 'PROCESSING' OR status IS NULL)";
+
+        $whereResult .= trim($whereResult, 'AND ');
 
         $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, trim($whereResult));
 
@@ -173,9 +180,18 @@ class DemandeController extends AbstractController
     }
 
     #[Route(path: '/formulaire/edit/{id}', name: 'demande_edit', methods: ['POST', 'GET'])]
-    public function formulaireEditDemande(?Demande $demande, Request $request, DemandeService $demandeService): Response
+    public function formulaireEditDemande(?Demande $demande, Request $request,
+                                          DemandeService $demandeService,
+                                          PaymentRepository $paymentRepository): Response
     {
         if ($request->getMethod() === "GET") {
+            $payment = $demande->getPayment();
+            if(!$demande->getGroupe() && $payment) {
+                $demande->setPayment(null);
+                $demande->setStatus(null);
+                $demandeService->save($demande);
+                $paymentRepository->remove($payment, true);
+            }
             return $this->render('frontend/bs/formulaire_edit.html.twig', ['demande' => $demande]);
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
@@ -260,5 +276,25 @@ class DemandeController extends AbstractController
         return $this->json('OK');
     }
 
-
+    #[Route('/check_duplicate_entry', name: 'check_duplicate_entry', methods: ['GET','POST'])]
+    public function checkDuplicateEntry(Request $request, DemandeRepository $demandeRepository): Response
+    {
+        if($request->get('numero_recepisse')){
+            $demande = $demandeRepository->findOneBy(['numero_recepisse' => $request->get('numero_recepisse')]);
+            if($demande) return $this->json('duplicate');
+        }
+        if($request->get('numero_carte_grise')){
+            $demande = $demandeRepository->findOneBy(['numero_carte_grise' => $request->get('numero_carte_grise')]);
+            if($demande) return $this->json('duplicate');
+        }
+        if($request->get('numero_vin_chassis')){
+            $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $request->get('numero_vin_chassis')]);
+            if($demande) return $this->json('duplicate');
+        }
+        if($request->get('numero_immatriculation')){
+            $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $request->get('numero_immatriculation')]);
+            if($demande) return $this->json('duplicate');
+        }
+        return $this->json('noduplicate');
+    }
 }

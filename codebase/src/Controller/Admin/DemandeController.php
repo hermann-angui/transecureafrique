@@ -129,7 +129,7 @@ class DemandeController extends AbstractController
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
                                           <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                          <a href='/admin/$id/supprimer' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
+                                          <a href='/admin/demande/$id/supprimer' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -191,15 +191,6 @@ class DemandeController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
-    public function show(Demande $demande): Response
-    {
-       // if(!$demande->getPayment()) return $this->redirectToRoute('admin_index');
-        return $this->render('admin/demande/show.html.twig', [
-            'demande' => $demande,
-            'document' => $demande->getNumeroCarteGrise() ? 'carte_grise': 'recepisse'
-        ]);
-    }
 
     #[Route('/{id}/edit/ajax', name: 'admin_demande_edit_ajax', methods: ['GET', 'POST'])]
     public function editAjax(Request $request, Demande $demande, DemandeService $demandeService): Response
@@ -249,6 +240,16 @@ class DemandeController extends AbstractController
             }
         }
         return $this->redirectToRoute('admin_demande_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}', name: 'admin_demande_show', methods: ['GET'])]
+    public function show(Demande $demande): Response
+    {
+        // if(!$demande->getPayment()) return $this->redirectToRoute('admin_index');
+        return $this->render('admin/demande/show.html.twig', [
+            'demande' => $demande,
+            'document' => $demande->getNumeroCarteGrise() ? 'carte_grise': 'recepisse'
+        ]);
     }
 
 }
