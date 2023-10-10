@@ -74,14 +74,13 @@ class PaymentController extends AbstractController
                 'dt' => 'status',
                 'formatter' => function($d, $row) {
                     switch($d) {
-                        case "COMPLETED":
-                            return "<span class='badge rounded-pill text-bg-info'>FERME</span>";
+                        case "SUCCEEDED":
+                            return "<span class='badge rounded-pill text-bg-success'>PAYE</span>";
                         case "PROCESSING":
-                            return "<span class='badge rounded-pill text-bg-success'>EN ATTENTE</span>";
+                            return "<span class='badge rounded-pill text-bg-info'>EN ATTENTE</span>";
                         default:
-                            return "<span class='badge rounded-pill text-bg-info'>n/a</span>";
+                            return "<span class='badge rounded-pill text-bg-primary'>n/a</span>";
                     }
-
                 }
             ],
             [
