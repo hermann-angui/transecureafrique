@@ -203,8 +203,13 @@
                         </div>
                     </li>#}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin_demande_index') }}" role="button">
-                            <i class="bx bx-file me-2"></i><span key="t-dashboards">Demandes</span>
+                        <a class="nav-link" href="{{ path('admin_demande_index', {demande: 'pending'}) }}" role="button">
+                            <i class="bx bx-file me-2"></i><span key="t-dashboards">Demandes (en attente)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_demande_index', {demande: 'payed'}) }}" role="button">
+                            <i class="bx bx-file me-2"></i><span key="t-pending">Demandes (payés)</span>
                         </a>
                     </li>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -219,7 +224,7 @@
                             <i class="bx bx-area me-2"></i><span key="t-dashboards">Macarons</span>
                         </a>
                     </li>
-                    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DISTRICT') %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_DISTRICT') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('admin_district_index') }}" role="button">
                             <i class="bx bx-building-house me-2"></i><span key="t-dashboards">Espace district</span>

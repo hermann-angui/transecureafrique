@@ -235,7 +235,6 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
-
         var datatable = initDatatable();
 
         $("#numero_carte_grise,#numero_recepisse,#numero_immatriculation,#numero_chassis,#receipt_number,#quicksearch,#numero_telephone_proprietaire").change(function (e) {
@@ -265,6 +264,7 @@
                         d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
                         d.receipt_number = $("#receipt_number").val();
                         d.quicksearch = $("#quicksearch").val();
+                        d.filtre_demande = '{{ filtre_demande }}';
                     }
                 },
                 "columns": [

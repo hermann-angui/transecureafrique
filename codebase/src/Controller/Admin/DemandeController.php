@@ -25,13 +25,15 @@ class DemandeController extends AbstractController
                           PaymentRepository $paymentRepository,
                           MacaronRepository $macaronRepository): Response
     {
+
+        $filtre_demande = $request->get('demande');
         $stats = [
             "macarons" => $macaronRepository->count([]),
             "demandes" => $paymentRepository->count([]),
             "daily" => $paymentRepository->findTotalDaily(),
             "weekly" => $paymentRepository->findTotalWeekly(),
         ];
-        return $this->render('admin/demande/index.html.twig', ["stats"=> $stats]);
+        return $this->render('admin/demande/index.html.twig', ["stats"=> $stats, 'filtre_demande' => $filtre_demande]);
     }
 
     #[Route('/new', name: 'admin_demande_new', methods: ['GET', 'POST'])]
@@ -127,6 +129,7 @@ class DemandeController extends AbstractController
                     $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
                                       <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
                                           <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
+                                          <a href='/admin/$id/supprimer' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
                                       </li>
                                 </ul>";
                     return $content;
@@ -144,8 +147,6 @@ class DemandeController extends AbstractController
         $whereResult = '';
 
         if(!empty($params["quicksearch"])){
-            //  $params["search"]["value"] = $params["quicksearch"];
-            //  $params["search"]["regex"] = "true";
             $fullSearchValue = trim($params['quicksearch']);
             $whereResult .= "( receipt_number LIKE '%" . $fullSearchValue . "%' OR ";
             $whereResult .= " numero_carte_grise LIKE '%" . $fullSearchValue. "%' OR ";
@@ -178,7 +179,10 @@ class DemandeController extends AbstractController
             if(!empty($params['receipt_number'])) {
                 $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%'";
             }
-            $whereResult .= " (status = 'PROCESSING' OR status IS NULL) ";
+
+            if(empty($params['filtre_demande']) || ($params['filtre_demande'] === 'pending')) $whereResult .= " (status = 'PROCESSING' OR status IS NULL) ";
+            elseif($params['filtre_demande'] === 'payed') $whereResult .= " (status = 'PAYE' OR status = 'CLOSED') ";
+
         }
 
        // $whereResult = substr_replace($whereResult,'',-strlen(' AND'));
