@@ -2,6 +2,7 @@
 
 namespace App\Controller\Client;
 
+use App\Entity\ActivityLogs;
 use App\Entity\Demande;
 use App\Entity\OtpCode;
 use App\Entity\Payment;
@@ -25,10 +26,10 @@ class DemandeController extends AbstractController
     #[Route(path: '/formulaire', name: 'demande', methods: ['POST', 'GET'])]
     public function demandeAdv(Request $request): Response
     {
-        if($request->getMethod() === "POST") {
+        if ($request->getMethod() === "POST") {
             $data = $request->request->all();
-            if(empty($data['otpcode'])) return $this->redirectToRoute('auth');
-            if(array_key_exists('multiple_demande', $data) && $data['multiple_demande'] === "1") {
+            if (empty($data['otpcode'])) return $this->redirectToRoute('auth');
+            if (array_key_exists('multiple_demande', $data) && $data['multiple_demande'] === "1") {
                 return $this->render('frontend/bs/multiple-demande.html.twig', [
                         "demande_type" => $data['demande_type'],
                         "otpcode" => $data['otpcode'],
@@ -36,31 +37,33 @@ class DemandeController extends AbstractController
                         "multiple_demande" => $data['multiple_demande']
                     ]
                 );
-            }else{
-               if(!array_key_exists('demande_type', $data) || !array_key_exists('otpcode', $data)) return $this->redirectToRoute('auth');
+            } else {
+                if (!array_key_exists('demande_type', $data) || !array_key_exists('otpcode', $data)) return $this->redirectToRoute('auth');
                 return $this->render('frontend/bs/formulaire.html.twig', [
                         "demandeType" => $data['demande_type'],
-                        "otpcode" => $data['otpcode']
+                        "otpcode" => $data['otpcode'],
+                        'marques' => $this->marques()
                     ]
                 );
             }
         }
         return $this->redirectToRoute('auth');
     }
+
     #[Route(path: '/formulaire/save', name: 'demande_save', methods: ['POST', 'GET'])]
-    public function demande(Request $request,
+    public function demande(Request           $request,
                             PaymentRepository $paymentRepository,
-                            DemandeService $demandeService): Response
+                            DemandeService    $demandeService): Response
     {
-        if($request->getMethod() === "POST") {
+        if ($request->getMethod() === "POST") {
             $data = $request->request->all();
-            if(empty($data['otpcode'])) return $this->redirectToRoute('auth');
-            $duplicateDemande= $demandeService->checkDuplicateEntry($data, $paymentRepository);
-            if(is_array($duplicateDemande) && !empty($res)) {
+            if (empty($data['otpcode'])) return $this->redirectToRoute('auth');
+            $duplicateDemande = $demandeService->checkDuplicateEntry($data, $paymentRepository);
+            if (is_array($duplicateDemande) && !empty($res)) {
                 $res["info"] = "duplicate";
                 return $this->json($res);
             }
-            if($duplicateDemande instanceof Demande)  $demande = $demandeService->update($duplicateDemande, $data);
+            if ($duplicateDemande instanceof Demande) $demande = $demandeService->update($duplicateDemande, $data);
             else $demande = $demandeService->create($data);
             $d = [
                 "id" => $demande->getId(),
@@ -70,18 +73,20 @@ class DemandeController extends AbstractController
                 "numero_recepisse" => $demande->getNumeroRecepisse(),
                 "montant" => $demande->getMontant()
             ];
+
             return $this->json(["info" => "success", "demandeid" => $demande->getId(), "data" => $d]);
         }
         return $this->redirectToRoute('auth');
     }
 
-    #[Route(path:'/select/{id}', name: "select_demande_type")]
-    public  function selectDemandeType(OtpCode $otpCode, Request $request)
+    #[Route(path: '/select/{id}', name: "select_demande_type")]
+    public function selectDemandeType(OtpCode $otpCode, Request $request)
     {
         return $this->render('frontend/bs/select-demande-type.html.twig', [
             "optcode" => $otpCode
         ]);
     }
+
     #[Route('/historique/dt', name: 'demande_history_dt', methods: ['GET'])]
     public function datatable(Request $request, Connection $connection, DemandeRepository $demandeRepository)
     {
@@ -115,8 +120,8 @@ class DemandeController extends AbstractController
             [
                 'db' => 'status',
                 'dt' => 'status',
-                'formatter' => function($d, $row) {
-                    switch($d) {
+                'formatter' => function ($d, $row) {
+                    switch ($d) {
                         case "PROCESSING":
                             return "<span class='badge rounded-pill text-bg-info'>EN ATTENTE</span>";
                         case "PAYE":
@@ -130,12 +135,12 @@ class DemandeController extends AbstractController
                 }
             ],
             [
-                'db'        => 'id',
-                'dt'        => '',
-                'formatter' => function($d, $row) use($demandeRepository) {
+                'db' => 'id',
+                'dt' => '',
+                'formatter' => function ($d, $row) use ($demandeRepository) {
                     $id = $row['id'];
-                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>";
-                    if(!in_array($row['status'], ["PAYE", "CLOSED"])) $content .= "<li><a href='/demande/formulaire/edit/$id' class='btn btn-sm btn-info text-white'><i class='mdi mdi-pen'></i> Poursuivre la demande</a></li>";
+                    $content = "<ul class='list-unstyled hstack gap-1 mb-0'>";
+                    if (!in_array($row['status'], ["PAYE", "CLOSED"])) $content .= "<li><a href='/demande/formulaire/edit/$id' class='btn btn-sm btn-info text-white'><i class='mdi mdi-pen'></i> Poursuivre la demande</a></li>";
                     else {
                         $demande = $demandeRepository->find($id);
                         $payment_id = $demande->getPayment()->getId();
@@ -150,28 +155,28 @@ class DemandeController extends AbstractController
         $sql_details = array(
             'user' => $paramDB['user'],
             'pass' => $paramDB['password'],
-            'db'   => $paramDB['dbname'],
+            'db' => $paramDB['dbname'],
             'host' => $paramDB['host']
         );
 
         $whereResult = '';
-        if(!empty($params['optcode'])){
-            $whereResult .= " otp_code_id = '". trim($params['optcode']) . "' AND ";
+        if (!empty($params['optcode'])) {
+            $whereResult .= " otp_code_id = '" . trim($params['optcode']) . "' AND ";
         }
 
-    //    $whereResult .= " (status = 'PROCESSING' OR status IS NULL)";
+        //    $whereResult .= " (status = 'PROCESSING' OR status IS NULL)";
 
         $whereResult .= trim($whereResult, 'AND ');
 
-        $response = DataTableHelper::complex( $_GET, $sql_details, $table, $primaryKey, $columns, trim($whereResult));
+        $response = DataTableHelper::complex($_GET, $sql_details, $table, $primaryKey, $columns, trim($whereResult));
 
         return new JsonResponse($response);
     }
 
-    #[Route(path:'/historique/{id}', name: "demande_history")]
-    public  function demandeHistory(OtpCode $otpCode, Request $request, OtpService $otpService , DemandeRepository $demandeRepository)
+    #[Route(path: '/historique/{id}', name: "demande_history")]
+    public function demandeHistory(OtpCode $otpCode, Request $request, OtpService $otpService, DemandeRepository $demandeRepository)
     {
-        if($otpCode){
+        if ($otpCode) {
             return $this->render('frontend/bs/user-demande-history.html.twig', [
                 "optCode" => $otpCode
             ]);
@@ -180,13 +185,13 @@ class DemandeController extends AbstractController
     }
 
     #[Route(path: '/formulaire/edit/{id}', name: 'demande_edit', methods: ['POST', 'GET'])]
-    public function formulaireEditDemande(?Demande $demande, Request $request,
-                                          DemandeService $demandeService,
+    public function formulaireEditDemande(?Demande          $demande, Request $request,
+                                          DemandeService    $demandeService,
                                           PaymentRepository $paymentRepository): Response
     {
         if ($request->getMethod() === "GET") {
             $payment = $demande->getPayment();
-            if(!$demande->getGroupe() && $payment) {
+            if (!$demande->getGroupe() && $payment) {
                 $demande->setPayment(null);
                 $demande->setStatus(null);
                 $demandeService->save($demande);
@@ -196,8 +201,8 @@ class DemandeController extends AbstractController
         } elseif ($request->getMethod() === "POST") {
             $data = $request->request->all();
             $res = $demandeService->update($demande, $data);
-            if(is_array($res) && !empty($res)) return $this->json('duplicate');
-            elseif($res instanceof Demande) return $this->json($res->getId());
+            if (is_array($res) && !empty($res)) return $this->json('duplicate');
+            elseif ($res instanceof Demande) return $this->json($res->getId());
             else return $this->json('nodata');
         }
         return $this->redirectToRoute('home');
@@ -209,14 +214,21 @@ class DemandeController extends AbstractController
         return $this->render('frontend/bs/recapitulatif.html.twig', ['demande' => $demande]);
     }
 
+//    #[Route(path: '/receipt/{id}', name: 'demande_display_receipt', methods: ['POST', 'GET'])]
+//    public function demandeShowReceipt(?Payment $payment, PaymentService $paymentService): Response
+//    {
+//        if (in_array($payment->getStatus(), ["SUCCEEDED", "PAYE", "CLOSED"])) {
+//            $paymentService->generateReceipt($payment);
+//            return $this->render('frontend/bs/display-receipt.html.twig', ['payment' => $payment]);
+//        }
+//        return $this->redirectToRoute('auth');
+//    }
+
     #[Route(path: '/receipt/{id}', name: 'demande_display_receipt', methods: ['POST', 'GET'])]
-    public function demandeShowReceipt(?Payment $payment, PaymentService $paymentService): Response
+    public function demandeShowReceipt(?Demande $demande, DemandeService $demandeService): Response
     {
-        if(in_array($payment->getStatus(), ["SUCCEEDED", "PAYE", "CLOSED"])){
-            $paymentService->generateReceipt($payment);
-            return $this->render('frontend/bs/display-receipt.html.twig', ['payment' => $payment]);
-        }
-        return $this->redirectToRoute('auth');
+        $demandeService->generateReceipt($demande);
+        return $this->render('frontend/bs/display-receipt.html.twig', ['demande' => $demande]);
     }
 
     #[Route(path: '/payment/{id}', name: 'demande_paiement', methods: ['POST', 'GET'])]
@@ -230,11 +242,11 @@ class DemandeController extends AbstractController
     #[Route(path: '/payment/multiple/{group_id}', name: 'demande_multiple_paiement', methods: ['POST', 'GET'])]
     public function demandeMultiplePayment($group_id, Request $request, DemandeRepository $demandeRepository): Response
     {
-        $demandes = $demandeRepository->findBy(['groupe' => 1, 'groupeId' => $group_id]);
-        if(!empty($demandes) && !empty($group_id)){
+        $demandes = $demandeRepository->findBy(['groupe' => 1, 'groupe_id' => $group_id]);
+        if (!empty($demandes) && !empty($group_id)) {
             $total = 0;
-            foreach($demandes as $demande){
-                $total+= $demande->getMontant();
+            foreach ($demandes as $demande) {
+                $total += $demande->getMontant();
             }
             return $this->render('frontend/bs/payment-multiple.html.twig', [
                 "montant" => $total,
@@ -245,56 +257,206 @@ class DemandeController extends AbstractController
 
         return $this->redirectToRoute('auth');
     }
+
     #[Route(path: '/search', name: 'demande_search')]
     public function searchDemande(Request $request, DemandeRepository $demandeRepository, PaymentRepository $paymentRepository): Response
     {
         $term = $request->get('search_receipt_term');
         $criteria = $request->get('search_receipt_criteria');
 
-        if($term && $criteria) {
+        if ($term && $criteria) {
             if ($criteria === 'numero_immatriculation') $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $term]);
             if ($criteria === 'numero_chassis') $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $term]);
             if ($criteria === 'numero_recu') $payment = $paymentRepository->findOneBy(['receipt_number' => $term]);
-            if ($payment->getStatus()==="SUCCEEDED") {
+            if ($payment->getStatus() === "SUCCEEDED") {
                 return $this->redirectToRoute('demande_display_receipt', ['id' => $payment->getId()]);
             } else {
                 $warning = "Votre demande est en cours de traitement ....";
                 return $this->render('frontend/bs/search-demande.html.twig', ["warning" => $warning]);
             }
         }
-         return $this->render('frontend/bs/search-demande.html.twig');
+        return $this->render('frontend/bs/search-demande.html.twig');
     }
 
     #[Route('/receipt-pdf/{id}', name: 'download_receipt_pdf', methods: ['GET'])]
-    public function pdfGenerate(Payment $payment, PaymentService $paymentService): Response {
+    public function pdfGenerate(Payment $payment, PaymentService $paymentService): Response
+    {
         return $paymentService->downloadPdfReceipt($payment);
     }
 
-    #[Route('/{id}/delete', name: 'demande_delete', methods: ['GET','POST'])]
+    #[Route('/demande_receipt-pdf/{id}', name: 'download_demande_receipt_pdf', methods: ['GET'])]
+    public function downloadDemandeReceipt(Demande $demande, DemandeService $demandeService): Response
+    {
+        return $demandeService->downloadPdfReceipt($demande);
+    }
+
+    #[Route('/{id}/delete', name: 'demande_delete', methods: ['GET', 'POST'])]
     public function delete(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
         return $this->json('OK');
     }
 
-    #[Route('/check_duplicate_entry', name: 'check_duplicate_entry', methods: ['GET','POST'])]
+    #[Route('/check_duplicate_entry', name: 'check_duplicate_entry', methods: ['GET', 'POST'])]
     public function checkDuplicateEntry(Request $request, DemandeRepository $demandeRepository): Response
     {
-        if($request->get('numero_recepisse')){
+        if ($request->get('numero_recepisse')) {
             $demande = $demandeRepository->findOneBy(['numero_recepisse' => $request->get('numero_recepisse')]);
-            if($demande) return $this->json('duplicate');
+            if ($demande) return $this->json('duplicate');
         }
-        if($request->get('numero_carte_grise')){
+        if ($request->get('numero_carte_grise')) {
             $demande = $demandeRepository->findOneBy(['numero_carte_grise' => $request->get('numero_carte_grise')]);
-            if($demande) return $this->json('duplicate');
+            if ($demande) return $this->json('duplicate');
         }
-        if($request->get('numero_vin_chassis')){
+        if ($request->get('numero_vin_chassis')) {
             $demande = $demandeRepository->findOneBy(['numero_vin_chassis' => $request->get('numero_vin_chassis')]);
-            if($demande) return $this->json('duplicate');
+            if ($demande) return $this->json('duplicate');
         }
-        if($request->get('numero_immatriculation')){
+        if ($request->get('numero_immatriculation')) {
             $demande = $demandeRepository->findOneBy(['numero_immatriculation' => $request->get('numero_immatriculation')]);
-            if($demande) return $this->json('duplicate');
+            if ($demande) return $this->json('duplicate');
         }
         return $this->json('noduplicate');
+    }
+
+    public function marques()
+    {
+        return [
+            "Alfa romeo",
+            "Alpine",
+            "Aston martin",
+            "Audi",
+            "Bentley",
+            "BMW",
+            "Chevrolet",
+            "Citroen",
+            "Dacia",
+            "DS",
+            "Ferrari",
+            "Fiat",
+            "Ford",
+            "Honda",
+            "Hyndai",
+            "Infiniti",
+            "Jaguar",
+            "Jeep",
+            "Kia",
+            "Lamborghini",
+            "Land rover",
+            "Lexus",
+            "Lotus",
+            "Maserati",
+            "Mazda",
+            "MCLaren",
+            "Mercedes",
+            "Mini",
+            "Mitsubishi",
+            "Nissan",
+            "Open",
+            "Peugeot",
+            "Porsche",
+            "Renault",
+            "Rolls-Royce",
+            "Seat",
+            "Skoda",
+            "Smart",
+            "SSangyong",
+            "Subaru",
+            "Suzuki",
+            "Tesla",
+            "Toyota",
+            "Volkwagen",
+            "Volvo",
+            "Abarth",
+            "Aiways",
+            "Alpina",
+            "Ares design",
+            "Ariel",
+            "Byd",
+            "Baw",
+            "Bertone",
+            "Bollore",
+            "Brabus",
+            "Brilliance",
+            "Bugatti",
+            "Cadillac",
+            "Caterham",
+            "Changan",
+            "Chery",
+            "Chrysler",
+            "Corvette",
+            "Cupra",
+            "Daihatsu",
+            "Dallara",
+            "Datsun",
+            "David brown",
+            "De tomaso",
+            "Delorean",
+            "Dodge",
+            "Donkervoort",
+            "Drako",
+            "Fisker",
+            "GTF",
+            "Geely",
+            "Genesis",
+            "Ginetta",
+            "Gordon murray Automotive",
+            "Hennesey",
+            "Heuliez",
+            "Holden",
+            "Hummer",
+            "Ineos",
+            "Isuzu",
+            "Italdesign",
+            "Iveco",
+            "Karma",
+            "Kawasaki",
+            "Koenigsegg",
+            "Lada",
+            "Lancia",
+            "Leapmotor",
+            "Ligier",
+            "Lincoln",
+            "London Taxi",
+            "Lucid",
+            "Lynk & Co",
+            "MG",
+            "Mahindra",
+            "Maybach",
+            "Micro mobility systems",
+            "Mobilize",
+            "Morgan",
+            "Nevs",
+            "Nio",
+            "PGO",
+            "Pagani",
+            "Pal-v",
+            "Pariss",
+            "Perana",
+            "Pininfarina",
+            "Polestar",
+            "Puritalia",
+            "Qoros",
+            "Ruf",
+            "Radical",
+            "Rimac",
+            "Rivian",
+            "Saic",
+            "Scg",
+            "Saab",
+            "Secma",
+            "Spyker",
+            "Tvr",
+            "Tata",
+            "Techrules",
+            "Think",
+            "Touring Superleggera",
+            "Ultima",
+            "Venturi",
+            "Vinfast",
+            "Voge",
+            "Westfield",
+            "Wiesmann",
+            "Yamaha",
+        ];
     }
 }

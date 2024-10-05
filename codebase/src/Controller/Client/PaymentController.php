@@ -58,7 +58,7 @@ class PaymentController extends AbstractController
                                       PaymentRepository $paymentRepository): Response
     {
         $data = $request->request->all();
-        $demandes = $demandeRepository->findBy(['groupe' => 1, 'groupeId' => $data['groupe_id']]);
+        $demandes = $demandeRepository->findBy(['groupe' => 1, 'groupe_id' => $data['group_id']]);
         if(!empty($demandes)) {
             $total = 0;
             foreach ($demandes as $demande) {
@@ -66,7 +66,7 @@ class PaymentController extends AbstractController
                 $total+= $demande->getMontant();
             }
 
-            $response = $waveService->makeMultilePayment($data['groupe_id'], $data['montant']);
+            $response = $waveService->makeMultilePayment($data['groupe_id'], $total);
 
             if ($response && !$demande->getPayment()) {
                 $payment = new Payment();

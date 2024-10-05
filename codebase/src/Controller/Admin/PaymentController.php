@@ -22,7 +22,8 @@ class PaymentController extends AbstractController
     #[Route('', name: 'admin_payment_index', methods: ['GET'])]
     public function index(Request $request, PaymentRepository $paymentRepository): Response
     {
-        return $this->render('admin/payment/index.html.twig');
+        $payments = $paymentRepository->findAll();
+        return $this->render('admin/payment/index.html.twig', ["payments" => $payments]);
     }
 
     #[Route('/new', name: 'admin_payment_new', methods: ['GET', 'POST'])]
@@ -47,6 +48,8 @@ class PaymentController extends AbstractController
     #[Route('/payment/dt', name: 'admin_payment_dt', methods: ['GET'])]
     public function datatable(Request $request, Connection $connection, PaymentRepository $paymentRepository)
     {
+        $user = $this->getUser();
+
         date_default_timezone_set("Africa/Abidjan");
         $params = $request->query->all();
         $paramDB = $connection->getParams();
@@ -98,13 +101,23 @@ class PaymentController extends AbstractController
             [
                 'db'        => 'id',
                 'dt'        => '',
-                'formatter' => function($d, $row) {
+                'formatter' => function($d, $row) use ($user) {
                     $id = $row['id'];
-                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
-                                          <a href='/admin/payment/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                      </li>
-                                </ul>";
+                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>";
+                    $content.=  "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                    <a href='/admin/payment/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
+                                  </li>";
+                    if(in_array('ROLE_SUPER_ADMIN', $user->getRoles())){
+                        $content .= "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                       <a href='/admin/payment/$id/edit' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-pen'></i></a>
+                                     </li>";
+                    }
+                    if(in_array('ROLE_SUPER_ADMIN', $user->getRoles())){
+                        $content .= "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                       <a href='/admin/payment/$id/delete' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
+                                     </li>";
+                    }
+                    $content.= "</ul>";
                     return $content;
                 }
             ]
@@ -165,7 +178,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/supprimer', name: 'admin_payment_delete', methods: ['GET','POST'])]
+    #[Route('/{id}/delete', name: 'admin_payment_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Payment $payment, PaymentRepository $paymentRepository): Response
     {
         if ( true /* $this->isCsrfTokenValid('delete'.$payment->getId(), $request->request->get('_token')) */ ) {

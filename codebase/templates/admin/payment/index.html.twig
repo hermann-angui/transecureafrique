@@ -21,6 +21,29 @@
 
             <div class="page-content">
                 <div class="">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card mini-stats-wid border border-1 border-dark">
+                                <div class="card-body px-3 py-1">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium fs-4">Paiements</p>
+                                            <h3 class="mb-0 fw-bolder">{{ payments|length }}</h3>
+                                        </div>
+
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                <span class="avatar-title">
+                                                    <i class="bx bx-copy-alt font-size-16"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="subtitle py-0">Total des paiements</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -28,7 +51,7 @@
                                 <h4 class="mb-sm-0 font-size-18">PAIEMENTS</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{path('admin_payment_index')}}">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{path('admin_index')}}">Tableau de bord</a></li>
                                         <li class="breadcrumb-item active">Liste des paiements</li>
                                     </ol>
                                 </div>
@@ -38,17 +61,12 @@
                     <!-- end page title -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body border-bottom">
-                                    <div class="d-flex align-items-center">
-                                        <h5 class="mb-0 card-title flex-grow-1"></h5>
-                                        <div class="flex-shrink-0">
-                                            <a href="{{ path('admin_payment_index') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Fermer</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body border-bottom">
+                            <div class="card mini-stats-wid border border-1 border-dark">
+                                <div class="card-header border-bottom">
                                     <div class="row g-3">
+                                        <div class="col-xxl-1 col-md-1 col-lg-1">
+                                            <i class="bx bx-filter-alt"></i>
+                                        </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="reference" placeholder="Référence">
                                         </div>
@@ -60,9 +78,6 @@
                                         </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="operateur" placeholder="Opérateur">
-                                        </div>
-                                        <div class="col-xxl-2 col-lg-6">
-                                            <input type="search" class="form-control" id="status" placeholder="Statut">
                                         </div>
                                     </div>
                                 </div>
@@ -83,9 +98,56 @@
     </div>
     <!-- END layout-wrapper -->
 
-    <!-- Right Sidebar -->
+    <div class="modal fade" id="showPaymentModal" tabindex="-1" aria-labelledby="showPaymentModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modifier les informations de paiement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- /Right-bar -->
+    <div class="modal fade" id="editPaymentModal" tabindex="-1" aria-labelledby="editPaymentModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Informations de paiement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="btnEditPaiement">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newPaymentModal" tabindex="-1" aria-labelledby="newPaymentModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enregistrer un paiement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="btnRegisterPayment">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
@@ -103,6 +165,44 @@
 
         $("#numero_carte_grise,#numero_recepisse,#numero_chassis").change(function (e) {
                 datatable.draw();
+        });
+
+
+        $('#btnRegisterPayment').click(function(){
+            var url = $(this).data('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    $('#newPaymentModal .modal-body').html(response);
+                    $('#newPaymentModal').modal('show');
+                }
+            });
+        });
+
+        $('.btnshow').click(function(){
+            var url = $(this).data('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    $('#showPaymentModal .modal-body').html(response);
+                    $('#showPaymentModal').modal('show');
+                }
+            });
+        });
+
+        $('.btnedit').click(function(){
+            var url = $(this).data('href');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    $('#editPaymentModal .modal-body').html(response);
+
+                    $('#editPaymentModal').modal('show');
+                }
+            });
         });
 
         function initDatatable(){
@@ -145,6 +245,7 @@
             } );
             return dt;
         }
+
     });
 </script>
 {% endblock %}

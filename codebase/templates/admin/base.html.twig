@@ -10,13 +10,39 @@
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     {% endif %}
     {% block stylesheet %}
-        <!-- App favicon -->
-        <!-- Bootstrap Css -->
         <link href="{{ asset('backend/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
         <link href="{{ asset('backend/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <!-- App Css-->
         <link href="{{ asset('backend/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <style>
+            .topnav .navbar-nav .nav-link:focus, .topnav .navbar-nav .nav-link:hover{
+                color:  #028455 !important;
+                border-bottom: 2px solid #028455 !important;
+            }
+            .topnav .navbar-nav .nav-item .nav-link.active {
+                color: #f08207 !important;
+                border-bottom: 2px solid #f08207 !important;
+            }
+            body[data-topbar=dark] #page-topbar {
+                background-color: #028455 !important;
+            }
+            body[data-sidebar=dark] .navbar-brand-box {
+                background: #028455 !important;
+            }
+            .btn-success {
+                color: #fff;
+                background-color: #028455 !important;
+                border-color: #028455 !important;
+            }
+            .btn-warning {
+                color: #fff;
+                background-color: #f08207 !important;
+                border-color: #f08207 !important;
+            }
+            .verti-timeline .event-list {
+                position: relative;
+                padding: 0 0 7px 19px;
+            }
+        </style>
     {% endblock %}
 </head>
 
@@ -24,7 +50,6 @@
 
 {% block body %}
 {% endblock %}
-
 
 {% block javascript %}
 <script src="{{ asset('backend/libs/jquery/jquery.min.js') }}"></script>

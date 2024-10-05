@@ -21,7 +21,7 @@
                         <div class="bg-white bg-soft">
                             <div class="d-flex justify-content-center align-content-center">
                                 <div>
-                                    <img width="200" src="{{ asset('backend/images/logo_v1.jpg') }}" alt="" class="img-fluid">
+                                    <img width="100" src="{{ asset('backend/images/logo_v1.jpg') }}" alt="" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                 {{ form_row(registrationForm.email, {'attr': {'class': 'required'}}) }}
                                 {{ form_row(registrationForm.role) }}
                                 {{ form_widget(registrationForm.password , {'attr': {'class': 'required'}}) }}
-                                {{ form_row(registrationForm.agreeTerms, {'attr': {'class': ' required'}}) }}
+{#                                {{ form_row(registrationForm.agreeTerms, {'attr': {'class': ' required'}}) }}#}
                                 <div class="mt-4 d-flex justify-content-center">
                                     <input type="submit" value="Créer mon compte" class="btn btn-warning" id="btn-register">
                                 </div>

@@ -21,7 +21,29 @@
         <div class="main-content">
 
             <div class="page-content">
-                <div class="">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card mini-stats-wid border border-1 border-dark">
+                                <div class="card-body px-3 py-1">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted fw-medium fs-4">Macarons</p>
+                                            <h1 class="mb-0 fw-bolder">{{ macarons|length }}</h1>
+                                        </div>
+
+                                        <div class="flex-shrink-0 align-self-center">
+                                            <div class="mini-stat-icon avatar-sm rounded-circle bg-primary">
+                                                <span class="avatar-title">
+                                                    <i class="bx bx-copy-alt font-size-24"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="subtitle py-0">Total des macarons livrés</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- start page title -->
                     <div class="row">
                         <div class="col-12">
@@ -29,7 +51,7 @@
                                 <h4 class="mb-sm-0 font-size-18">MACARONS</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{path('admin_macaron_index')}}">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{path('admin_index')}}">Tableau de bord</a></li>
                                         <li class="breadcrumb-item active">Liste des macarons</li>
                                     </ol>
                                 </div>
@@ -39,17 +61,12 @@
                     <!-- end page title -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body border-bottom">
-                                    <div class="d-flex align-items-center">
-                                        <h5 class="mb-0 card-title flex-grow-1"></h5>
-                                        <div class="flex-shrink-0">
-{#                                            <a href="{{ path('admin_macaron_new') }}" class="btn btn-primary btn-sm waves-effect waves-light"><span class="fa fa-plus-circle fa-1x"></span> Télécharger</a>#}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body border-bottom">
+                            <div class="card mini-stats-wid border border-1 border-dark">
+                                <div class="card-header border-bottom">
                                     <div class="row g-3">
+                                        <div class="col-xxl-1 col-md-1 col-lg-1">
+                                            <i class="bx bx-filter-alt"></i> Filtre :
+                                        </div>
                                         <div class="col-xxl-2 col-lg-6">
                                             <input type="search" class="form-control" id="reference" placeholder="Référence">
                                         </div>
@@ -60,14 +77,13 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        {{ include('admin/macaron/_macaron_datatable.html.twig') }}
+                                        {{ include('admin/demande/_demande_datatable.html.twig') }}
                                     </div>
                                     <!--end row-->
                                 </div>
                             </div><!--end card-->
                         </div><!--end col-->
                     </div><!--end row-->
-                </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
             {{ include('admin/_partials/footer.html.twig') }}
         </div>
@@ -97,6 +113,7 @@
                 datatable.draw();
         });
 
+
         function initDatatable(){
             /* DATATABLE INIT */
             var dt = $('#datatable').DataTable( {
@@ -108,10 +125,18 @@
                 },
                 "processing": true,
                 "serverSide": true,
+                "searching": false,
                 "ajax": {
-                    "url": '{{ path('admin_macaron_dt') }}',
+                    "url": '{{ path('admin_macaron_demande_dt') }}',
                     "data": function (d) {
-                        d.numero_chassis = $("#reference").val();
+                        d.numero_carte_grise = $("#numero_carte_grise").val();
+                        d.numero_recepisse = $("#numero_recepisse").val();
+                        d.numero_immatriculation = $("#numero_recepisse").val();
+                        d.identite_proprietaire = $("#identite_proprietaire").val();
+                        d.identite_proprietaire_piece = $("#identite_proprietaire_piece").val();
+                        d.numero_telephone_proprietaire = $("#numero_telephone_proprietaire").val();
+                        d.receipt_number = $("#receipt_number").val();
+                        d.quicksearch = $("#quicksearch").val();
                     }
                 },
                 "columns": [
@@ -121,16 +146,21 @@
                         "data":      "id",
                         "defaultContent": ""
                     },
-                    { "data": "reference" },
-                    { "data": "numero_telephone_proprietaire" },
+                    {"data":  "numero_carte_grise"},
+                    {"data":  "numero_recepisse"},
+                    {"data":  "numero_immatriculation"},
+                    { "data": "identite_proprietaire" },
+                    { "data": "identite_proprietaire_piece" },
+                    { "data": "numero_vin_chassis" },
+                    { "data": "date_rendez_vous" },
+                    { "data": "receipt_number" },
                     { "data": "status" },
-                    { "data": "macaron_qrcode_number" },
-                    { "data": "validity_to" },
-                    { "data": "validity_from" },
-                    { "data": "" }
+                    { "data": "" },
                 ],
                 "order": [[1, 'asc']]
             } );
+
+
             return dt;
         }
     });

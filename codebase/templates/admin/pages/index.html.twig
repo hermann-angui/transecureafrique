@@ -4,6 +4,28 @@
     {{ parent() }}
     <link href="{{ asset('backend/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 {#    <link href="{{ asset('backend/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />#}
+
+    <style>
+        .card-body {
+            padding: 10px 10px;
+        }
+        .row {
+            --bs-gutter-x: 9px;
+        }
+        .card {
+           margin-bottom: 9px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            margin: 0 0 -25px 0;
+            font-weight: 600;
+        }
+        .verti-timeline {
+            border-left: 3px dashed var(--bs-gray-300);
+            margin: 20px 9px 0px 10px;
+        }
+    </style>
 {% endblock %}
 
 
@@ -31,7 +53,7 @@
                                 <h4 class="mb-sm-0 font-size-18">Statistiques</h4>
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Accueil</a></li>
+                                        <li class="breadcrumb-item"><a href="{{path('admin_index')}}">Tableau de bord</a></li>
                                         <li class="breadcrumb-item active">Liste des demandes</li>
                                     </ol>
                                 </div>
@@ -41,198 +63,269 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card mini-stats-wid">
+                                <div class="card-title p-2">
+                                    <p class="text-muted fw-bolder">Top 10 Marques</p>
+                                </div>
                                 <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total vehicules inscrits</p>
-                                            <h4 class="mb-0">{{ total_demandes }}</h4>
-                                        </div>
+                                    <div data-simplebar="init" >
+                                        <div class="table-responsive overflow-y-scroll" style="height:180px;">
+                                            <table class="table mb-0 table-sm">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">Mercedes</th>
+                                                    <td>10</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Toyota</th>
+                                                    <td>5</td>
+                                                </tr>
 
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="mini-stat-icon avatar-sm rounded-circle">
-                                                <span class="avatar-title rounded-circle bg-warning">
-                                                    <i class="bx bx-data font-size-24"></i>
-                                                </span>
-                                            </div>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total Macarons en circulation</p>
-                                            <h4 class="mb-0">{{ total_macarons_en_circulation }}</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="mini-stat-icon avatar-sm rounded-circle">
-                                                <span class="avatar-title rounded-circle bg-success">
-                                                    <i class="bx bx-car font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Total macarons non délivrés</p>
-                                            <h4 class="mb-0">{{ total_macarons_non_delivres }}</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="avatar-sm rounded-circle bg-warning mini-stat-icon">
-                                                <span class="avatar-title rounded-circle bg-gradient">
-                                                    <i class="bx bx-certification font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Demandes journalières</p>
-                                            <h4 class="mb-0">{{ total_demandes_journalieres }}</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="avatar-sm rounded-circle bg-black mini-stat-icon">
-                                                <span class="avatar-title rounded-circle bg-black">
-                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="card mini-stats-wid">
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-muted fw-medium">Demandes hebdomadaires</p>
-                                            <h4 class="mb-0">{{ total_demandes_hebdomadaires }}</h4>
-                                        </div>
-
-                                        <div class="flex-shrink-0 align-self-center">
-                                            <div class="avatar-sm rounded-circle bg-black mini-stat-icon">
-                                                        <span class="avatar-title rounded-circle bg-black">
-                                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
-                                                        </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card">
-                                <div class="card-body">
+                            <div class="card overflow-hidden">
+                                <div class="card-body pt-0">
                                     <h4 class="card-title mb-4">Classement par marques de véhicules</h4>
                                     <div id="pie-chart-marque" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card">
-                                <div class="card-body">
+                            <div class="card  overflow-hidden">
+                                <div class="card-body pt-0">
                                     <h4 class="card-title mb-4">Classement par type d'énergies (essence vs gazoil)</h4>
                                     <div id="pie-chart-energie" data-colors='["--bs-primary","--bs-warning", "--bs-danger","--bs-info", "--bs-success"]' class="e-charts"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-sm-flex flex-wrap">
-                                    <h4 class="card-title mb-4">Stats macarons</h4>
-                                    <div class="ms-auto">
-                                        <ul class="nav nav-pills">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">Mois</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Année</a>
-                                            </li>
-                                        </ul>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card mini-stats-wid">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <h5 class="text-muted fw-bolder">Macarons</h5>
+                                                            <p class="text-muted  fw-medium">(distribués)</p>
+                                                            <h1 class="mb-0 fw-bolder">{{ stats.total_demandes }}</h1>
+                                                        </div>
+                                                        <div class="flex-shrink-0 align-self-center">
+                                                            <div class="mini-stat-icon avatar-sm rounded-circle">
+                                                <span class="avatar-title rounded-circle bg-success">
+                                                    <i class="bx bx-car font-size-24"></i>
+                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card mini-stats-wid">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <h5 class="text-muted fw-bolder">Macarons</h5>
+                                                            <p class="text-muted  fw-medium">(non delivrés)</p>
+                                                            <h1 class="mb-0 fw-bolder">{{ stats.total_demandes }}</h1>
+                                                        </div>
+                                                        <div class="flex-shrink-0 align-self-center">
+                                                            <div class="avatar-sm rounded-circle bg-warning mini-stat-icon">
+                                                <span class="avatar-title rounded-circle bg-gradient">
+                                                    <i class="bx bx-certification font-size-24"></i>
+                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card mini-stats-wid">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <h5 class="text-muted fw-bolder">Demandes</h5>
+                                                            <p class="text-muted  fw-medium">(journalières)</p>
+                                                            <h1 class="mb-0 fw-bolder">{{ stats.total_demandes_journalieres }}</h1>
+                                                        </div>
+                                                        <div class="flex-shrink-0 align-self-center">
+                                                            <div class="avatar-sm rounded-circle bg-black mini-stat-icon">
+                                                <span class="avatar-title rounded-circle bg-black">
+                                                    <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card mini-stats-wid">
+                                                <div class="card-body">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <h5 class="text-muted fw-bolder">Demandes</h5>
+                                                            <p class="text-muted  fw-medium">(hebdomadaires)</p>
+                                                            <h1 class="mb-0 fw-bolder">{{ stats.total_demandes_hebdomadaires }}</h1>
+                                                        </div>
+                                                        <div class="flex-shrink-0 align-self-center">
+                                                            <div class="avatar-sm rounded-circle bg-black mini-stat-icon">
+                                                        <span class="avatar-title rounded-circle bg-black">
+                                                            <i class="bx bx-purchase-tag-alt font-size-24"></i>
+                                                        </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div id="stacked-column-chart" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' style="min-height: 500px; width:100%" dir="ltr"></div>
+                                <div class="col-md-4">
+                                    <div class="card overflow-hidden">
+                                        <div class="card-body">
+                                            <h4 class="card-title mb-1">Activités récentes</h4>
+                                            <ul class="verti-timeline list-unstyled">
+                                                <li class="event-list">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle font-size-12"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <h5 class="font-size-14">22 Nov <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                Modification effectué par ...
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="event-list">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle font-size-18"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <h5 class="font-size-14">3 Oct <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                Remise de macaron par ... <a href="javascript: void(0);">Lire +</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="event-list">
+                                                    <div class="event-timeline-dot">
+                                                        <i class="bx bx-right-arrow-circle font-size-18"></i>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <h5 class="font-size-14">3 Oct <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div>
+                                                                Remise de macaron par ... <a href="javascript: void(0);">Lire +</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="text-center mt-4"><a href="javascript: void(0);" class="btn btn-primary waves-effect waves-light btn-sm">Voir plus <i class="mdi mdi-arrow-right ms-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                    </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body border-bottom">
-                                    <div class="d-flex align-items-center">
-                                        <h5 class="mb-0 card-title flex-grow-1"></h5>
-                                        <div class="flex-shrink-0">
-                                            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" ><span class="fa fa-download fa-1x"></span>Télécharger la liste</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body border-bottom">
-                                    <div class="row  mb-4">
-                                        <div class="row  mb-3">
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="marque_du_vehicule" placeholder="Marque">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="genre_vehicule" placeholder="Genre">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="energie_vehicule" placeholder="Type Energie">
-                                            </div>
-                                        </div>
-
+                            <div class="row">
+                                <div class="card overflow-hidden">
+                                    <div class="card-body pt-0">
                                         <div class="row">
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="identite_proprietaire" placeholder="Nom du propriétaire">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
-                                            </div>
-                                            <div class="col-xxl-2 col-lg-6">
-                                                <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Tel Propriétaire">
+                                            <div id="stacked-column-chart2" class="apex-charts" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-sm-flex flex-wrap">
+                                            <h4 class="card-title mb-4">Stats macarons</h4>
+                                            <div class="ms-auto">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" href="#">Mois</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Année</a>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
 
+                                        <div id="stacked-column-chart" data-colors='["--bs-primary", "--bs-warning", "--bs-success"]' style="min-height: 500px; width:100%" dir="ltr"></div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        {{ include('admin/district/_demande_datatable.html.twig') }}
-                                    </div>
-                                    <!--end row-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body border-bottom">
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0 card-title flex-grow-1"></h5>
+                                <div class="flex-shrink-0">
+                                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" ><span class="fa fa-download fa-1x"></span>Télécharger la liste</button>
                                 </div>
-                            </div><!--end card-->
-                        </div><!--end col-->
-                    </div><!--end row-->
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom">
+                            <div class="row mb-4">
+                                <div class="row mb-3">
+                                    <div class="col-xxl-1 col-md-1 col-lg-1">
+                                        <i class="bx bx-filter-alt"></i> Filtre :
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="numero_carte_grise" placeholder="Carte grise">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="numero_recepisse" placeholder="Numéro recepisse">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="marque_du_vehicule" placeholder="Marque">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="genre_vehicule" placeholder="Genre">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="energie_vehicule" placeholder="Type Energie">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="identite_proprietaire" placeholder="Nom du propriétaire">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="identite_proprietaire_piece" placeholder="Pièce Propriétaire">
+                                    </div>
+                                    <div class="col-xxl-2 col-lg-6">
+                                        <input type="search" class="form-control" id="numero_telephone_proprietaire" placeholder="Tel Propriétaire">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                {{ include('admin/pages/_demande_datatable.html.twig') }}
+                            </div>
+                            <!--end row-->
+                        </div>
+                    </div>
                 </div> <!-- container-fluid -->
             </div><!-- End Page-content -->
             {{ include('admin/_partials/footer.html.twig') }}
@@ -306,7 +399,7 @@
                 "order": [[1, 'asc']]
             } );
             return dt;
-        }
+        };
     });
 </script>
 {% endblock %}

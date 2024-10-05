@@ -57,9 +57,7 @@ class SecurityController extends AbstractController
                 )
             );
 
-
             $roles[] = 'ROLE_USER';
-
             switch($form->get('role')->getData()){
                 case 'ROLE_AGENT':
                     break;
@@ -78,7 +76,6 @@ class SecurityController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-
 
             $photo = $form->get('photo')->getData();
             if($photo){

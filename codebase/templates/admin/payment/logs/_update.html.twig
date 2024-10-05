@@ -1,0 +1,5 @@
+{% if user is defined %}
+<div>L'utilisateur : {{ user.FirstName ~ user.LastName }} a modifié la <span> le paiement pour le véhicule (N° Vin Chassis) : {{ data.NumeroVinChassis }} le {{ date('d/m/Y') }}</span></div>
+{% else %}
+<div>Mise à jour le paiement pour le véhicule (N° Vin Chassis) : {{ data.NumeroVinChassis }} créé le {{ date('d/m/Y') }}</span></div>
+{% endif %}

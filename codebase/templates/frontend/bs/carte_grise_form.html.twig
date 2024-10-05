@@ -35,8 +35,11 @@
                     <div class="col-md-4">
                         <div class="block">
                             <label class="label-sm" for="marque_du_vehicule">Marque</label>
-                            <input type="text" id="marque_du_vehicule" class="input" name="marque_du_vehicule" id="identite_proprietaire_piece"/>
-                        </div>
+                            <select id="marque_du_vehicule" class="form-select input select2" name="marque_du_vehicule">
+                                {% for marque in marques %}
+                                    <option value="{{ marque }}">{{ marque }}</option>
+                                {% endfor %}
+                            </select>                        </div>
                         <div class="block">
                             <label class="label-sm" for="type_commercial">Type commercial</label>
                             <input type="text" name="type_commercial" id="type_commercial" class="input"/>

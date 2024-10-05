@@ -190,18 +190,17 @@
         <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
             <div class="collapse navbar-collapse active" id="topnav-menu-content">
                 <ul class="navbar-nav active">
-                   {# <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button">
-                            <i class="bx bx-home-circle me-2"></i><span key="t-dashboards">Menu</span> <div class="arrow-down"></div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_index') }}" role="button">
+                            <i class="bx bx-chart me-2"></i><span key="t-dashboards">Tableau de bord</span>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
-
-                            <a href="{{ path('admin_demande_index') }}" class="dropdown-item" key="t-default">Demandes</a>
-                            <a href="{{ path('admin_payment_index') }}" class="dropdown-item" key="t-saas">Paiements</a>
-                            <a href="{{ path('admin_macaron_index') }}" class="dropdown-item" key="t-crypto">Macarons</a>
-                            <a href="{{ path('admin_district_index') }}" class="dropdown-item" key="t-Jobs">Espace district</a>
-                        </div>
-                    </li>#}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_demande_index') }}" role="button">
+                            <i class="bx bxs-hand-right me-2"></i><span key="t-dashboards">Demandes</span>
+                        </a>
+                    </li>
+{#
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('admin_demande_index', {demande: 'pending'}) }}" role="button">
                             <i class="bx bx-file me-2"></i><span key="t-dashboards">Demandes (en attente)</span>
@@ -212,6 +211,7 @@
                             <i class="bx bx-file me-2"></i><span key="t-pending">Demandes (payés)</span>
                         </a>
                     </li>
+#}
 
                     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
@@ -225,17 +225,10 @@
                             <i class="bx bx-area me-2"></i><span key="t-dashboards">Macarons</span>
                         </a>
                     </li>
-                    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_DISTRICT') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin_district_index') }}" role="button">
-                            <i class="bx bx-building-house me-2"></i><span key="t-dashboards">Espace district</span>
-                        </a>
-                    </li>
-                    {% endif %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_register') }}" role="button">
-                                <i class="bx bx-building-house me-2"></i><span key="t-dashboards">Enregistrer un utilisateur</span>
+                            <a class="nav-link" href="{{ path('app_user_index') }}" role="button">
+                                <i class="bx bx-user me-2"></i><span key="t-dashboards">Gestion des utilisateurs</span>
                             </a>
                         </li>
                     {% endif %}

@@ -7,6 +7,9 @@ use App\Helper\FileUploadHelper;
 use App\Repository\DemandeRepository;
 use App\Repository\MacaronRepository;
 use App\Repository\PaymentRepository;
+use App\Service\Demande\DemandeService;
+use App\Service\Macaron\MacaronService;
+use App\Service\Payment\PaymentService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -20,14 +23,16 @@ class PageController extends AbstractController
     #[Route(path: '', name: 'admin_index')]
     #[Security()]
     public function index(Request $request,
-                          PaymentRepository $paymentRepository,
-                          MacaronRepository $macaronRepository): Response
+                          PaymentService $paymentService,
+                          DemandeService $demandeService,
+                          MacaronService $macaronService): Response
     {
         $stats = [
-            "macarons" => $macaronRepository->count([]),
-            "demandes" => $paymentRepository->count([]),
-            "daily" => $paymentRepository->findTotalDaily(),
-            "weekly" => $paymentRepository->findTotalWeekly(),
+            "total_demandes" => $paymentService->getTotalDemandes(),
+            "total_macarons_en_circulation" => $macaronService->getMacaronEnCirulation(),
+            "total_macarons_non_delivres" => $demandeService->getTotalPendingPayment(),          // If not payed the macaron is not generated and not delivered
+            "total_demandes_journalieres" => $paymentService->getTotalDailyDemande(),
+            "total_demandes_hebdomadaires" => $paymentService->getTotalWeeklyDemandes(),
         ];
         return $this->render('admin/pages/index.html.twig', ["stats"=> $stats]);
     }

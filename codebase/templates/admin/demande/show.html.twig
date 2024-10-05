@@ -175,7 +175,7 @@
                                         <div class="flex-shrink-0">
                                             <a href="{{ path('admin_demande_index') }}" class="btn-link"><span class="fa fa-long-arrow-alt-left fa-1x"></span> Revenir à la liste des demandes</a>
                                         </div>
-                                        {% if demande.payment.id is defined %}
+                                        {% if demande.payment is defined %}
                                         <div class="flex-shrink-0">
                                             <a href="{{ path('admin_payment_show',{'id': demande.payment.id}) }}" class="btn btn-success btn-sm waves-effect waves-light"><span class="fa fa-money-bill fa-1x"></span> Voir paiement</a>
                                         </div>
@@ -357,20 +357,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-4 border-bottom border-1">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <div class="d-flex">
-                                                    <div class="small px-2">Signature et cachet de l'autorité</div>
-                                                    <div style="border-left: 2px solid #000; padding-left:5px;">Cette carte est strictement personnelle elle doit être présentée<br> à tout controle</div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row border-bottom border-1">
-                                            <div>Scan de la carte grise : </div>
-                                            <div class="mx-2">
+                                            <div class="col-xl-2 col-md-2">Scan de la carte grise : </div>
+                                            <div  class="col-xl-8 col-md-8">
                                                 <img src="{{ demande.carteGriseImage ? asset("frontend/media/") ~ demande.carteGriseImage : '' }}" width="150">
                                             </div>
-                                            <div class="mx-5">
+                                            <div  class="col-xl-2 col-md-2">
                                                 <input type="file" name="carte_grise_image" id="carte_grise_image" class="inputfile" />
                                                 <label for="carte_grise_image">Choisir une image</label>
                                                 <button class="ml-3 btn btn-link" id="carte_grise_image_btn">uploader</button>
@@ -472,11 +464,11 @@
                                             </div>
                                         </div>
                                         <div class="row py-2 border-bottom border-1">
-                                            <div> Scan du récépissé : </div>
-                                            <div class="mx-2">
+                                            <div class="col-xl-2 col-md-2"> Scan du récépissé : </div>
+                                            <div  class="col-xl-8 col-md-8">
                                                 <img src="{{ demande.recepisseImage ? asset("frontend/media/") ~ demande.recepisseImage : '' }}" width="150">
                                             </div>
-                                            <div class="mx-5">
+                                            <div  class="col-xl-2 col-md-2">
                                                 <input type="file" name="recepisse_image" id="recepisse_image" class="inputfile" />
                                                 <label for="recepisse_image">Choisir une image</label>
                                                 <button class="ml-3 btn btn-link" id="recepisse_image_btn">uploader</button>
@@ -484,8 +476,8 @@
                                         </div>
 
                                         <div class="row justify-content-center mt-5">
-                                            {% if demande.status == "PAYE" or  demande.status == "CLOSED" %}
-                                            <button class="btn btn-dark w-auto" id="generate_macaron">GENERER LE MACARON</button>&nbsp;
+                                            {% if demande.status == "PAYE"%}
+                                                <button class="btn btn-dark w-auto" id="generate_macaron">GENERER LE MACARON</button>&nbsp;
                                             {% endif %}
                                             <a href="{{ path('admin_demande_index') }}" class="btn btn-info w-auto">FERMER</a>
                                         </div>

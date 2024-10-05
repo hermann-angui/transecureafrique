@@ -27,10 +27,6 @@ services:
         arguments:
             $container: '@service_container'
 
-    App\Service\Demande\DemandeService:
-        arguments:
-            $container: '@service_container'
-
     App\Service\Macaron\MacaronService:
         arguments:
             $container: '@service_container'

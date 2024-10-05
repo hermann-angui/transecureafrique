@@ -5,7 +5,11 @@
     </div>
     <div class="mb-3">
         <label for="marque_du_vehicule" class="form-label">Marque</label>
-        <input type="text" class="form-control input" name="marque_du_vehicule" id="marque_du_vehicule" placeholder="">
+        <select id="marque_du_vehicule" class="form-select input select2" name="marque_du_vehicule">
+            {% for marque in marques %}
+                <option value="{{ marque }}">{{ marque }}</option>
+            {% endfor %}
+        </select>
     </div>
     <div class="mb-3">
         <label for="genre_vehicule" class="form-label">Genre</label>

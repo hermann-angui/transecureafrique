@@ -171,12 +171,7 @@
                 <div class="etape disabled">
                     <div class="line"></div>
                     <div class="icon">3</div> <!---->
-                    <div class="info">Paiement</div>
-                </div>
-                <div class="etape disabled">
-                    <div class="line"></div>
-                    <div class="icon">4</div> <!---->
-                    <div class="info">Reçu de paiement</div>
+                    <div class="info">Reçu d'inscription</div>
                 </div>
             </div>
             <div class="row">
@@ -319,7 +314,8 @@
                                 <a style="border-radius:10px; border: 0; cursor: pointer;padding:5px 5px 5px 5px; background-color: orange; color: white; font-size: 16px" href="{{ path('demande_edit', {id: demande.Id}) }}" class="btn col-12 w-100">Modifier</a>
                             </div>
                             <div class="mx-3">
-                                <a style="border-radius:10px; border: 0; cursor: pointer;padding:5px 5px 5px 5px; background-color: orange; color: white; font-size: 16px" href="{{ path('demande_paiement', {id: demande.Id}) }}" type="button" class="btn col-12 w-100">Passer au paiement</a>
+{#                                <a style="border-radius:10px; border: 0; cursor: pointer;padding:5px 5px 5px 5px; background-color: orange; color: white; font-size: 16px" href="{{ path('demande_paiement', {id: demande.Id}) }}" type="button" class="btn col-12 w-100">Passer au paiement</a>#}
+                                <a style="border-radius:10px; border: 0; cursor: pointer;padding:5px 5px 5px 5px; background-color: orange; color: white; font-size: 16px" href="{{ path('demande_display_receipt', {id: demande.Id}) }}" type="button" class="btn col-12 w-100">Afficher mon reçu</a>
                             </div>
                         </div>
                         <!-- end card body -->

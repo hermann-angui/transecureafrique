@@ -2,26 +2,16 @@
 
 {% block stylesheet %}
     {{ parent() }}
+    <link href="{{ asset('backend/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}"  rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/libs/select2/css/select2.min.css') }}"  rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
 {% block body %}
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
-    <!-- Begin page -->
     <div id="layout-wrapper">
-
 
         {{ include('admin/_partials/header.html.twig') }}
 
-        <!-- ========== Left Sidebar Start ========== -->
-        {{ include('admin/_partials/left-sidebar.html.twig')}}
-        <!-- Left Sidebar End -->
-
-
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
 
             <div class="page-content">
@@ -31,35 +21,36 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title mb-4">Editer les informations</h4>
-                                    {{ include('admin/demande/_form_edit.html.twig', {'button_label': 'Mettre à jour'}) }}
+                                    {{ include('admin/demande/_form_edit.html.twig') }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> <!-- container-fluid -->
-            </div><!-- End Page-content -->
-
+                </div>
+            </div>
             {{ include('admin/_partials/footer.html.twig') }}
         </div>
-        <!-- end main content-->
-
     </div>
-    <!-- END layout-wrapper -->
 
-    <!-- Right Sidebar -->
-
-    <!-- /Right-bar -->
-
-    <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
 {% endblock %}
 
 {% block javascript %}
 {{ parent() }}
+<script src="{{ asset('backend/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('backend/libs/select2/js/select2.min.js') }}"></script>
   <script>
       $('document').ready(function() {
+          $('.js-datepicker').datepicker({
+             timepicker:false,
+             format: 'dd/mm/yyyy',
+             mask: true, // '9999/19/39 29:59' - digit is the maximum possible for a cell
+          });
 
+        // $(".input-mask").inputmask();
+
+         $(".select2").select2();
       });
   </script>
 {% endblock %}

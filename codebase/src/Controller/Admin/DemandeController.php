@@ -59,6 +59,8 @@ class DemandeController extends AbstractController
     #[Route('/demande/dt', name: 'admin_demande_dt', methods: ['GET'])]
     public function datatable(Request $request, Connection $connection, DemandeRepository $demandeRepository)
     {
+        $user = $this->getUser();
+
         date_default_timezone_set("Africa/Abidjan");
         $params = $request->query->all();
         $paramDB = $connection->getParams();
@@ -125,14 +127,25 @@ class DemandeController extends AbstractController
             [
                 'db'        => 'id',
                 'dt'        => '',
-                'formatter' => function($d, $row) {
+                'formatter' => function($d, $row) use($user) {
                     $id = $row['id'];
-                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>
-                                      <li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
-                                          <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
-                                          <a href='/admin/demande/$id/supprimer' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
-                                      </li>
-                                </ul>";
+                    $content =  "<ul class='list-unstyled hstack gap-1 mb-0'>";
+                    $content.=  "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                    <a href='/admin/demande/$id' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-eye-outline'></i></a>
+                                  </li>";
+
+                    if(in_array('ROLE_SUPER_ADMIN', $user->getRoles())){
+                        $content .= "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                       <a href='/admin/demande/$id/edit' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-pen'></i></a>
+                                     </li>";
+                    }
+
+                    if(in_array('ROLE_SUPER_ADMIN', $user->getRoles())){
+                        $content .= "<li data-bs-toggle='tooltip' data-bs-placement='top' aria-label='View'>
+                                       <a href='/admin/demande/$id/delete' class='btn btn-sm btn-soft-primary'><i class='mdi mdi-trash-can'></i></a>
+                                     </li>";
+                    }
+                    $content.= "</ul>";
                     return $content;
                 }
             ]
@@ -154,7 +167,7 @@ class DemandeController extends AbstractController
             $whereResult .= " numero_recepisse LIKE '%" . $fullSearchValue. "%' OR ";
             $whereResult .= " numero_immatriculation LIKE '%" . $fullSearchValue . "%' OR ";
             $whereResult .= " numero_vin_chassis LIKE '%" . $fullSearchValue . "%' )";
-         //   $whereResult .= " AND (status = 'PAYE') ";
+            $whereResult .= " AND (status = 'PAYE') ";
         }else{
             if(!empty($params['numero_carte_grise'])){
                 $whereResult .= " numero_carte_grise LIKE '%". trim($params['numero_carte_grise']) . "%' AND";
@@ -181,8 +194,7 @@ class DemandeController extends AbstractController
                 $whereResult .= " receipt_number LIKE '%". trim($params['receipt_number']) . "%'";
             }
 
-            if(empty($params['filtre_demande']) || ($params['filtre_demande'] === 'pending')) $whereResult .= " (status = 'PROCESSING' OR status IS NULL) ";
-            elseif($params['filtre_demande'] === 'payed') $whereResult .= " (status = 'PAYE' OR status = 'CLOSED') ";
+           $whereResult .= " (status = 'PAYE') ";
 
         }
 
@@ -207,7 +219,6 @@ class DemandeController extends AbstractController
             }
         }
 
-    //  $demande->setLastEditor($this->getUser());
         $result = $demandeService->update($demande, $data);
         if($result instanceof Demande) return $this->json("ok");
         elseif(is_string($result)) return $this->json($result);
@@ -229,10 +240,10 @@ class DemandeController extends AbstractController
         return $this->renderForm('admin/demande/edit.html.twig', ['demande' => $demande, 'form' => $form]);
     }
 
-    #[Route('/{id}/supprimer', name: 'admin_demande_delete', methods: ['GET','POST'])]
+    #[Route('/{id}/delete', name: 'admin_demande_delete', methods: ['GET','POST'])]
     public function delete(Request $request, Demande $demande, DemandeRepository $demandeRepository): Response
     {
-        if ( true /* $this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token')) */ ) {
+        if ( false /* $this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token')) */ ) {
             $demandeRepository->remove($demande, true);
             $fileName = "/var/www/html/public/demande/" . $demande->getNumeroVinChassis() . "/";
             if(file_exists($fileName)) {

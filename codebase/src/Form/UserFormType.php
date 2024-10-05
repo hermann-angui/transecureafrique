@@ -62,13 +62,13 @@ class UserFormType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'choices' => [
-                    "AGENT" => "ROLE_AGENT",
-                    "DISTRICT" => "ROLE_DISTRICT",
-                    "ADMININISTRATEUR" => "ROLE_ADMIN",
-                    "SUPER ADMINISTRATEUR" => "ROLE_SUPER_ADMIN",
+                    "ROLE_AGENT" => "ROLE_AGENT",
+                    "ROLE_DISTRICT" => "ROLE_DISTRICT",
+                    "ROLE_ADMIN" => "ROLE_ADMIN",
+                    "ROLE_SUPER_ADMIN" => "ROLE_SUPER_ADMIN",
                 ],
-                'empty_data' => null,
-                'data' => null,
+//                'empty_data' => null,
+//                'data' => null,
             ])
             ->add('password', RepeatedType::class, [
                 'label' => 'Mot de passe',
@@ -90,16 +90,16 @@ class UserFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => $this->translator->trans('general_term_gdpr'),
-                'mapped' => false,
-                'required' => true,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => $this->translator->trans('invalid_password'),
-                    ]),
-                ],
-            ])
+//            ->add('agreeTerms', CheckboxType::class, [
+//                'label' => $this->translator->trans('general_term_gdpr'),
+//                'mapped' => false,
+//                'required' => true,
+//                'constraints' => [
+//                    new IsTrue([
+//                        'message' => $this->translator->trans('invalid_password'),
+//                    ]),
+//                ],
+//            ])
         ;
     }
 

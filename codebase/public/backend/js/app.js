@@ -60,7 +60,7 @@
         n(a(this).attr("data-lang"))
     }), a(window).on("load", function () {
         a("#status").fadeOut(), a("#preloader").delay(350).fadeOut("slow")
-    }), Waves.init(), a("#checkAll").on("change", function () {
+    }), a("#checkAll").on("change", function () {
         a(".table-check .form-check-input").prop("checked", a(this).prop("checked"))
     }), a(".table-check .form-check-input").change(function () {
         a(".table-check .form-check-input:checked").length == a(".table-check .form-check-input").length ? a("#checkAll").prop("checked", !0) : a("#checkAll").prop("checked", !1)

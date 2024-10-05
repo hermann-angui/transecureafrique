@@ -1,0 +1,5 @@
+{% if user is defined %}
+    <div class="alert alert-info">L'utilisateur : <span class="fw-bold">{{ user.FirstName ~ ' ' ~ user.LastName }}</span> a créé la <span> demande de macaron pour le véhicule (N° Vin Chassis) : {{ data.NumeroVinChassis }} le {{ data.CreatedAt|date('d/m/Y') }}</span></div>
+{% else %}
+    <div class="alert alert-info">Nouvelle demande de macaron pour le véhicule (N° Vin Chassis) : <span class="fw-bold">{{ data.NumeroVinChassis }}</span> créé le {{ data.CreatedAt|date('d/m/Y') }}</span></div>
+{% endif %}

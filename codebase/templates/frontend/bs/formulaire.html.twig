@@ -4,6 +4,7 @@
 
 {% block stylesheet %}
     {{ parent() }}
+    <link  href="{{ asset('backend/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
     <style>
         body #__next{
             background-color: #f2f3f2
@@ -93,13 +94,19 @@
             font-weight: 700;
         }
 
-        .input, .select select {
+        .input, .select select, .select2-select2-selection {
             width: 100%;
-            height: 48px;
+            height: 32px;
             background-color: #f9f9f9;
             border-radius: 3px;
             border: 1px solid #d7d7d7;
             box-shadow: none;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #f9f9f9;
+            border: 1px solid #d7d7d7;
+            border-radius: 3px;
         }
 
         #card-wrapper{
@@ -239,12 +246,7 @@
             <div class="etape disabled">
                 <div class="line"></div>
                 <div class="icon">3</div> <!---->
-                <div class="info">Paiement</div>
-            </div>
-            <div class="etape disabled">
-                <div class="line"></div>
-                <div class="icon">4</div> <!---->
-                <div class="info">Reçu de paiement</div>
+                <div class="info">Reçu d'inscription</div>
             </div>
         </div>
 
@@ -252,10 +254,10 @@
             <h2 class="card-title mb-4">Informations du véhicule</h2>
             <form id="demandeFormulaire" method="post" enctype="multipart/form-data">
                 {% if demandeType == 'carte_grise' %}
-                     {{ include('frontend/bs/carte_grise_form.html.twig') }}
+                     {{ include('frontend/bs/carte_grise_form.html.twig', {'marques': marques}) }}
                 {% endif %}
                 {% if demandeType == 'recepisse' %}
-                    {{ include('frontend/bs/recepisse_form.html.twig') }}
+                    {{ include('frontend/bs/recepisse_form.html.twig',{'marques': marques }) }}
                     {#
                     <div class="mb-3 form-group">
                         <label for="date_de_premiere_mise_en_cirulation" class="form-label">Date de première mise en circulation</label>
@@ -296,8 +298,16 @@
 {% endblock %}
 {% block javascript %}
     {{ parent() }}
+    <script src="{{ asset('backend/libs/select2/js/select2.min.js') }}"></script>
     <script>
       $(document).ready(function(){
+
+             $(".select2").select2({
+                allowClear: true,
+                width: '100%',
+                height: '34px',
+            });
+
              $("#duplicate_alert").hide();
              $("#date_d_edition").inputmask();
              $("#date_de_premiere_mise_en_cirulation").inputmask();

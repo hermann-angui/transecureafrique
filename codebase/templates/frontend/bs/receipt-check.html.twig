@@ -17,24 +17,24 @@
         </tr>
         <tr>
             <td colspan="2" style="padding: 10px 10px; font-weight: bolder;color:#333232;border-bottom: 1px dashed #fff;">
-                Date du rendez-vous : {{ payment.demande.CreatedAt | date('d-m-Y')}}
+                Date du rendez-vous : {{ payment.demandes[0].CreatedAt | date('d-m-Y')}}
             </td>
         </tr>
         <tr>
             <td style="font-weight: bolder;padding: 10px 10px;color:#333232; border-bottom: 1px dashed #fff;">Num&eacute;ro vin/chassis</td>
-            <td style="padding: 10px 10px; font-weight: bolder; color:#333232; border-bottom: 1px dashed #fff;">{{ payment.demande.NumeroVinChassis }}</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232; border-bottom: 1px dashed #fff;">{{ payment.demandes[0].NumeroVinChassis }}</td>
         </tr>
         <tr>
             <td style="font-weight: bolder;padding: 10px 10px;color:#333232; border-bottom: 1px dashed #fff;">Num&eacute;ro immatriculation</td>
-            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demande.NumeroImmatriculation }}</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demandes[0].NumeroImmatriculation }}</td>
         </tr>
         <tr>
             <td style="font-weight: bolder;padding: 10px 10px; color:#333232; border-bottom: 1px dashed #fff;">Marque du v&eacute;hicule</td>
-            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demande.MarqueDuVehicule }}</td>
+            <td style="padding: 10px 10px; font-weight: bolder; color:#333232;  border-bottom: 1px dashed #fff;">{{ payment.demandes[0].MarqueDuVehicule }}</td>
         </tr>
         <tr>
             <td style="font-weight: bolder;padding: 10px 10px; color:#333232; border-bottom: 1px dashed #fff;">Type commercial</td>
-            <td style="padding: 5px 5px; color:#333232;  font-weight: bolder; border-bottom: 1px dashed #fff;">{{ payment.demande.TypeCommercial }}</td>
+            <td style="padding: 5px 5px; color:#333232;  font-weight: bolder; border-bottom: 1px dashed #fff;">{{ payment.demandes[0].TypeCommercial }}</td>
         </tr>
     </table>
 </div>

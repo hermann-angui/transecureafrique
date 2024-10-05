@@ -3,11 +3,16 @@
 namespace App\Service\Demande;
 
 use App\Entity\Demande;
+use App\Entity\Payment;
 use App\Helper\FileUploadHelper;
+use App\Helper\PdfGenerator;
 use App\Repository\DemandeRepository;
+use App\Repository\MacaronRepository;
 use App\Repository\OtpCodeRepository;
 use App\Repository\PaymentRepository;
+use App\Service\Logger\ActivityLogger;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -17,7 +22,12 @@ class DemandeService
     private const MEDIA_DIR = "/var/www/html/public/frontend/media/";
     private const MONTANT = 10100;
 
-    public function __construct(private ContainerInterface $container, private FileUploadHelper $fileUploadHelper, private DemandeRepository  $demandeRepository, private OtpCodeRepository  $otpCodeRepository){}
+    public function __construct(private FileUploadHelper $fileUploadHelper,
+                                private PdfGenerator     $pdfGenerator,
+                                private ActivityLogger $activityLogger,
+                                private DemandeRepository  $demandeRepository,
+                                private MacaronRepository  $macaronRepository,
+                                private OtpCodeRepository  $otpCodeRepository){}
 
     /**
      * @param Demande $demande
@@ -93,11 +103,13 @@ class DemandeService
                 $demande->setGroupeId($data['group_id']);
             }
 
-
             $otpCode = $this->otpCodeRepository->find($data["otpcode"]);
             $demande->setOtpCode($otpCode);
 
-            $this->demandeRepository->add($demande, true);
+            $this->save($demande);
+
+            $this->activityLogger->create($demande, 'admin/demande/logs/_create.html.twig');
+
             return $demande;
         }catch (UniqueConstraintViolationException $e){
             return ["error" => $e->getMessage() , "type" => "Duplication"];
@@ -152,9 +164,16 @@ class DemandeService
             if(array_key_exists("type_technique", $data))  $demande->setTypeTechnique(strtoupper(trim($data["type_technique"])));
             if(array_key_exists("numero_d_immatriculation_precedent", $data))  $demande->setNumeroDImmatriculationPrecedent(strtoupper(trim($data["numero_d_immatriculation_precedent"])));
 
-            if(array_key_exists("macaron_qrcode_number", $data))  $demande->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
-            if(array_key_exists("numero_telephone_proprietaire", $data))  $demande->setNumeroTelephoneProprietaire(strtoupper(trim($data["numero_telephone_proprietaire"])));
+            if(array_key_exists("macaron_qrcode_number", $data)) {
+                $demande->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
+                $macaron = $demande->getMacaron();
+                if($macaron){
+                    $macaron->setMacaronQrcodeNumber(strtoupper(trim($data["macaron_qrcode_number"])));
+                    $this->macaronRepository->add($macaron, true);
+                }
+            }
 
+            if(array_key_exists("numero_telephone_proprietaire", $data))  $demande->setNumeroTelephoneProprietaire(strtoupper(trim($data["numero_telephone_proprietaire"])));
 
             if(array_key_exists("recepisse_image", $data)) {
                 if(!empty($data["recepisse_image"])){
@@ -162,6 +181,7 @@ class DemandeService
                     if($fileName) $demande->setRecepisseImage($fileName->getFilename());
                 }
             }
+
             if(array_key_exists("carte_grise_image", $data)) {
                 if(!empty($data["carte_grise_image"])){
                     $fileName = $this->fileUploadHelper->upload($data["carte_grise_image"], self::MEDIA_DIR);
@@ -169,7 +189,12 @@ class DemandeService
                 }
             }
 
-            $this->demandeRepository->add($demande, true);
+            $demande->setModifiedAt(new \DateTime('now'));
+
+            $this->save($demande);
+
+            $this->activityLogger->update($demande, 'admin/demande/logs/_update.html.twig');
+
             return $demande;
         }catch (UniqueConstraintViolationException $e){
             $keys = array_keys($data);
@@ -269,4 +294,43 @@ class DemandeService
         return null;
     }
 
+
+    /**
+     * @param Demande|null $demande
+     * @param string $viewTemplate
+     * @return string|null
+     */
+    public function generateReceipt(?Demande $demande)
+    {
+        try {
+            $qrCodeData = self::WEBSITE_URL . "/verify/receipt/" . $demande->getReceiptNumber(); // getReceiptNumber();
+            $content = $this->pdfGenerator->generateBarCode($qrCodeData, 50, 50);
+            $folder = self::MEDIA_DIR . $demande->getReceiptNumber();
+            if(!file_exists(self::MEDIA_DIR)) mkdir(self::MEDIA_DIR, 0777, true);
+            file_put_contents( $folder . "_barcode.png", $content);
+
+            $viewTemplate = 'frontend/bs/receipt-pdf.html.twig';
+            $content = $this->pdfGenerator->generatePdf($viewTemplate, ['demande' => $demande]);
+            file_put_contents($folder . "_receipt.pdf", $content);
+            if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
+            return $content ?? null;
+
+
+        }catch(\Exception $e){
+            if(file_exists($folder . "_barcode.png")) \unlink($folder . "_barcode.png");
+            if(file_exists($folder . "_receipt.pdf")) \unlink($folder . "_receipt.pdf");
+            return null;
+        }
+    }
+
+    /**
+     * @param Demande|null $demande
+     * @param string $viewTemplate
+     * @return PdfResponse
+     */
+    public function downloadPdfReceipt(?Demande $demande){
+        set_time_limit(0);
+        $content = $this->generateReceipt($demande);
+        return new PdfResponse($content, 'recu_macaron.pdf');
+    }
 }
